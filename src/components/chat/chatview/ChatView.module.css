@@ -1,0 +1,31 @@
+.chatBox {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f0f0f0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+.chatMessagePartner {
+    justify-self: left; /* Links ausrichten für Nachrichten des Partners */
+
+}
+
+.chatMessageUser {
+    justify-self: right; /* Rechtsausrichtung für Nachrichten des Benutzers */
+
+}
+
+.chatContainer {
+    display: grid;
+    grid-template-columns: 1fr; /* Eine Spalte für die Chat-Nachrichten */
+    grid-gap: 10px;
+    margin: auto; /* Auto-Margin, um den Container horizontal zu zentrieren */
+    max-width: 1000px; /* Maximalbreite des Containers */
+    padding: 20px; /* Innenabstand für den Container */
+    max-height: calc(100vh - 150px); /* Maximale Höhe des Containers: 100% der Bildschirmhöhe abzüglich Höhe der Input-Box */
+    overflow-y: auto; /* Vertikaler Scrollbalken, wenn Inhalt die maximale Höhe überschreitet */
+}
+

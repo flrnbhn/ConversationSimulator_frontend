@@ -1,0 +1,23 @@
+.messageBoxUser,
+.messageBoxPartner {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px;
+    width: fit-content;
+    max-width: 800px;
+    overflow-wrap: break-word; /* Umbrochen des Textes bei Erreichen der Container-Breite */
+}
+
+.messageBoxUser {
+    background-color: rgba(35, 35, 225, 0.5);
+}
+
+.messageBoxPartner {
+    background-color: rgba(255, 116, 0, 0.5);
+}
+
+.chatMessage {
+    color: black;
+    z-index: 2;
+    text-align: left; /* Text linksbündig ausrichten */
+}
