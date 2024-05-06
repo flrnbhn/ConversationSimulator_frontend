@@ -1,14 +1,11 @@
 import React, {Dispatch, FormEvent, SetStateAction, useState} from 'react';
-import {MessageData} from "../../../types/messagedata/MessageData";
-import {ConversationMember} from "../../../types/conversationmember/ConversationMember";
-import {useLLM} from "../../../hooks/llmhook/useLLM";
 
 interface InputBoxProps {
-    setMessage: Dispatch<SetStateAction<MessageData>>;
-    appendMessage: (mesasage: MessageData) => void;
+    setMessage: Dispatch<SetStateAction<string | null>>;
+    appendMessage: (messageString: string) => void;
 }
 
-export const InputBox : React.FunctionComponent<InputBoxProps> = ({ setMessage, appendMessage }) => {
+export const InputBox: React.FunctionComponent<InputBoxProps> = ({setMessage, appendMessage}) => {
     const [value, setValue] = useState<string>('');
 
     const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,8 +19,8 @@ export const InputBox : React.FunctionComponent<InputBoxProps> = ({ setMessage, 
     }
 
     const sendMessage = () => {
-        setMessage({message: value, conversationMember: ConversationMember.USER});
-        appendMessage({message: value, conversationMember: ConversationMember.USER});
+        setMessage(value);
+        appendMessage(value);
     }
 
     const clearChat = () => {

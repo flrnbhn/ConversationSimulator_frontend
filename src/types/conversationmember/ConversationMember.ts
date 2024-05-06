@@ -1,5 +1,5 @@
 export enum ConversationMember {
-    USER = 'Du',
-    PARTNER = 'Partner',
-    NONE = 'None'
+    USER = 'USER',
+    PARTNER = 'PARTNER',
+    NONE = 'NONE'
 }

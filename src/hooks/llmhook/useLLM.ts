@@ -13,11 +13,13 @@ export const useLLM = () => {
     });
     const [newLlmResponseState, setNewLlmResponseState] = useState<MessageData>({
         message: "",
-        conversationMember: ConversationMember.NONE
+        conversationMember: ConversationMember.NONE,
+        conversationID: 0
     });
     const [newRequestState, setNewRequestState] = useState<MessageData>({
         message: "",
-        conversationMember: ConversationMember.NONE
+        conversationMember: ConversationMember.NONE,
+        conversationID: 0
     });
     const [allMessagesState, setAllMessagesState] = useState<MessageData[]>([]);
     const LLM_MODEL = "gpt-3.5-turbo-0125";
@@ -30,14 +32,15 @@ export const useLLM = () => {
     function sendMessageToLLM(message: string | null) {
         const updatedMessagesState = updateMessagesState(message);
         const messages = createMessages(updatedMessagesState);
-        setNewRequestState({message: message, conversationMember: ConversationMember.USER})
+        setNewRequestState({message: message, conversationMember: ConversationMember.USER, conversationID: 0})
         callLlmApi(messages, updatedMessagesState);
     }
 
     function updateMessagesState(message: string | null): MessageData[] {
         const updatedMessagesState = [...allMessagesState, {
             message: message,
-            conversationMember: ConversationMember.USER
+            conversationMember: ConversationMember.USER,
+            conversationID: 0
         }];
         setAllMessagesState(updatedMessagesState);
         return updatedMessagesState;
@@ -64,12 +67,15 @@ export const useLLM = () => {
             // Aktualisieren des States mit der Antwort des LLM
             const updatedMessagesWithResponse = [...updatedMessagesState, {
                 message: completion.choices[0].message.content,
-                conversationMember: ConversationMember.PARTNER
+                conversationMember: ConversationMember.PARTNER,
+                conversationID: 0
+
             }];
             setAllMessagesState(updatedMessagesWithResponse);
             setNewLlmResponseState({
                 message: completion.choices[0].message.content,
-                conversationMember: ConversationMember.PARTNER
+                conversationMember: ConversationMember.PARTNER,
+                conversationID: 0
             });
         }).catch(error => {
             console.log(error);

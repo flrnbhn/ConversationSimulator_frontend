@@ -4,13 +4,24 @@ import css from "./ChatView.module.css"
 import {ChatMessage} from "../chatmessage/ChatMessage";
 import {MessageData} from "../../../types/messagedata/MessageData";
 import {ConversationMember} from "../../../types/conversationmember/ConversationMember";
-import {useLLM} from "../../../hooks/llmhook/useLLM";
+import {useConversation} from "../../../hooks/conversationhook/useConversation";
 
 export const ChatView = () => {
-    const [message, setMessage] = useState<MessageData>({message: "", conversationMember: ConversationMember.NONE});
+    const [message, setMessage] = useState<MessageData>({
+        message: "",
+        conversationMember: ConversationMember.NONE,
+        conversationID: null
+    });
+    const [messageString, setMessageString] = useState<string | null>(null);
     const [messages, setMessages] = useState<MessageData[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const {sendMessageToLLM, newLlmResponseState} = useLLM();
+    const {
+        sendNewMessage,
+        newConversationResponseState,
+        postNewConversation,
+        currentConversationId
+    } = useConversation();
+    const [conversationCreated, setConversationCreated] = useState(false);
 
 
     const scrollToBottom = () => {
@@ -21,22 +32,35 @@ export const ChatView = () => {
         scrollToBottom();
     }, [messages]);
 
+    //at initialization 
     useEffect(() => {
-        if (newLlmResponseState.message !== "" && newLlmResponseState.conversationMember !== ConversationMember.NONE) {
+        if (!conversationCreated) {
+            postNewConversation();
+            setConversationCreated(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (newConversationResponseState.message !== "" && newConversationResponseState.conversationMember !== ConversationMember.NONE) {
             setMessages(prevMessages => [...prevMessages, {
-                message: newLlmResponseState.message,
-                conversationMember: newLlmResponseState.conversationMember
+                message: newConversationResponseState.message,
+                conversationMember: newConversationResponseState.conversationMember,
+                conversationID: currentConversationId
             }]);
         }
-    }, [newLlmResponseState]);
+    }, [newConversationResponseState]);
 
 
-    const appendMessage = (messageData: MessageData) => {
-        setMessages(prevMessages => [...prevMessages, messageData]);
-        sendMessageToLLM(messageData.message);
+    const appendMessage = (messageString: string) => {
+        const newMessageData: MessageData = {
+            message: messageString,
+            conversationMember: ConversationMember.USER,
+            conversationID: currentConversationId
+        }
+        setMessage(newMessageData);
+        setMessages(prevMessages => [...prevMessages, newMessageData]);
+        sendNewMessage(newMessageData.message);
     }
-
-    // next steps: fallunterscheidung machen wer schreibt, chat css, chat zeilenumbruch ermöglichen, verhindern nachrichten spam,  chatgpt
 
     return (
         <>
@@ -52,7 +76,7 @@ export const ChatView = () => {
                     <div ref={messagesEndRef}/>
                 </div>
                 <div className={css.chatBox}>
-                    <InputBox setMessage={setMessage} appendMessage={appendMessage}/>
+                    <InputBox setMessage={setMessageString} appendMessage={appendMessage}/>
                 </div>
             </div>
         </>
