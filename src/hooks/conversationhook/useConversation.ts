@@ -1,8 +1,9 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {MessageData} from "../../types/messagedata/MessageData";
 import {ConversationMember} from "../../types/conversationmember/ConversationMember";
 import axios from "axios";
 import {ConversationData} from "../../types/conversationdata/ConversationData";
+import {ConversationContext} from "../../context/conversationcontext/ConversationContext";
 
 
 export const useConversation = () => {
@@ -17,12 +18,26 @@ export const useConversation = () => {
         conversationMember: ConversationMember.NONE,
         conversationID: null
     });
+    let currentConversationIdNumber: number | null = null;
+
     const [allMessagesState, setAllMessagesState] = useState<MessageData[]>([]);
-    const [currentConversationId, setCurrentConversationId] = useState<number | null>(null)
+    //const [currentConversationId, setCurrentConversationId] = useState<number | null>(currentConversationIdNumber);
+    const {currentConversationId, setCurrentConversationId} = useContext(ConversationContext)!;
+
+
+
 
     useEffect(() => {
         console.log(allMessagesState);
+        console.log("currentConversationId: ", currentConversationId);
+        console.log("currentConversationIdNumber: ", currentConversationIdNumber);
     }, [allMessagesState]);
+
+    useEffect(() => {
+        console.log("currentConversationId: ", currentConversationId);
+        console.log("currentConversationIdNumber: ", currentConversationIdNumber);
+
+    }, [currentConversationId]);
 
     function sendNewMessage(message: string | null) {
         const newConversationRequestMessage = {
@@ -56,20 +71,37 @@ export const useConversation = () => {
             });
     }
 
-    function postNewConversation() {
-        const newConversation: ConversationData = {conversationStartDate: new Date()};
+    function receiveFirstMessage() {
+        axios.get<MessageData>('conversation/init/' + currentConversationId)
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                const updatedMessagesWithResponse = [data];
+                setAllMessagesState(updatedMessagesWithResponse);
+                setNewConversationResponseState(data);
 
+            })
+            .catch(error => {
+                console.error('Error fetching data: ', error);
+            })
+    }
+
+    function postNewConversation(exerciseId: number) {
+        const newConversation: ConversationData = {conversationStartDate: new Date(), exerciseId: exerciseId};
         axios.post<number>("/conversation", newConversation)
             .then(response => {
                 return response.data;
             })
             .then(data => {
                 console.log('Conversation creation successful, conversationID:', data);
+                currentConversationIdNumber = data;
                 setCurrentConversationId(data)
             })
             .catch(error => {
                 console.error('Error fetching data: ', error);
             })
+
     }
 
     return {
@@ -77,6 +109,7 @@ export const useConversation = () => {
         sendNewMessage,
         setNewConversationRequestState,
         postNewConversation,
-        currentConversationId
+        currentConversationId,
+        receiveFirstMessage
     }
 }

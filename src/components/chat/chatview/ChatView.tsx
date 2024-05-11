@@ -19,7 +19,8 @@ export const ChatView = () => {
         sendNewMessage,
         newConversationResponseState,
         postNewConversation,
-        currentConversationId
+        currentConversationId,
+        receiveFirstMessage
     } = useConversation();
     const [conversationCreated, setConversationCreated] = useState(false);
 
@@ -34,11 +35,11 @@ export const ChatView = () => {
 
     //at initialization 
     useEffect(() => {
-        if (!conversationCreated) {
-            postNewConversation();
+        if (!conversationCreated && currentConversationId != null) {
             setConversationCreated(true);
+            receiveFirstMessage();
         }
-    }, []);
+    }, [currentConversationId]);
 
     useEffect(() => {
         if (newConversationResponseState.message !== "" && newConversationResponseState.conversationMember !== ConversationMember.NONE) {
@@ -59,7 +60,7 @@ export const ChatView = () => {
         }
         setMessage(newMessageData);
         setMessages(prevMessages => [...prevMessages, newMessageData]);
-        sendNewMessage(newMessageData.message);
+        sendNewMessage(messageString);
     }
 
     return (
