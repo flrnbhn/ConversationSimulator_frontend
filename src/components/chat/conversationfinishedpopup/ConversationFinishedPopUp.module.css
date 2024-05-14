@@ -1,0 +1,23 @@
+
+.popUpGreen, .popUpRed {
+    width: 400px;
+    height: 200px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white; /* Textfarbe des Popups */
+    border: none; /* Rand des Popups entfernen */
+    border-radius: 10px; /* Abrunden der Ecken des Popups */
+    text-align: center;
+}
+
+
+.popUpGreen {
+    background-color: darkgreen; /* Hintergrundfarbe des Popups */
+}
+
+.popUpRed {
+    background-color: darkred; /* Hintergrundfarbe des Popups */
+}
+

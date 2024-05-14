@@ -10,11 +10,19 @@ interface ExerciseTileProps {
 
 export const ExerciseTile: React.FunctionComponent<ExerciseTileProps> = ({exerciseData, buttonFunction}) => {
 
+    if (!exerciseData || !exerciseData.taskResponseDTO) {
+        return <div>No exercise data available</div>;
+    }
     return (
         <>
             <div className={css.exerciseTileContainer}>
                 <h3>{exerciseData.title}</h3>
                 <p>{exerciseData.szenario}</p>
+                <p>Aufgaben:</p>
+                {exerciseData.taskResponseDTO.map((taskDescription, index) => (
+                    <div key={index}>{taskDescription.description}</div>
+                ))}
+
                 <PrimaryButton buttonFunction={buttonFunction} title={"Übung starten"}/>
             </div>
         </>

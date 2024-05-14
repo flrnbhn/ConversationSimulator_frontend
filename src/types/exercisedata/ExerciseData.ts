@@ -3,15 +3,11 @@ export interface ExerciseData {
     title: string;
     szenario: string;
     furtherInformation: string;
-    //taskResponseDTO: TaskResponseData[];
+    numberOfMessagesTillFailure: number;
+    taskResponseDTO: TaskResponseDTO[];
 }
 
-/*
-export interface TaskResponseData {
-    // Definiere hier die Eigenschaften deiner TaskResponseDTO
-    // basierend auf den Eigenschaften in deinem TaskResponseDTO Java-Record
-    // Beispiel:
-    taskId: number;
-    taskTitle: string;
-    // Weitere Eigenschaften hinzufügen, falls nötig
-}*/
+
+export interface TaskResponseDTO {
+    description: string;
+}

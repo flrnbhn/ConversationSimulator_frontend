@@ -5,6 +5,12 @@ import {ChatMessage} from "../chatmessage/ChatMessage";
 import {MessageData} from "../../../types/messagedata/MessageData";
 import {ConversationMember} from "../../../types/conversationmember/ConversationMember";
 import {useConversation} from "../../../hooks/conversationhook/useConversation";
+import {TaskBox} from "../taskbox/TaskBox";
+import {useExercise} from "../../../hooks/exercisehook/useExercise";
+import Modal from 'react-modal';
+import {ConversationFinishedPopUp} from "../conversationfinishedpopup/ConversationFinishedPopUp";
+
+Modal.setAppElement('#root'); // Dies stellt sicher, dass React Modal Zugriff auf das Wurzelelement deiner Anwendung hat.
 
 export const ChatView = () => {
     const [message, setMessage] = useState<MessageData>({
@@ -20,9 +26,12 @@ export const ChatView = () => {
         newConversationResponseState,
         postNewConversation,
         currentConversationId,
-        receiveFirstMessage
+        receiveFirstMessage,
+        completedTaskDescriptions,
+        conversationStatus,
     } = useConversation();
     const [conversationCreated, setConversationCreated] = useState(false);
+    const {fetchAllTasksForExercise, allTasksForExercise, fetchExerciseById} = useExercise();
 
 
     const scrollToBottom = () => {
@@ -40,6 +49,11 @@ export const ChatView = () => {
             receiveFirstMessage();
         }
     }, [currentConversationId]);
+
+    useEffect(() => {
+        fetchAllTasksForExercise();
+        fetchExerciseById();
+    }, []);
 
     useEffect(() => {
         if (newConversationResponseState.message !== "" && newConversationResponseState.conversationMember !== ConversationMember.NONE) {
@@ -76,8 +90,15 @@ export const ChatView = () => {
                     ))}
                     <div ref={messagesEndRef}/>
                 </div>
+                <div className={css.taskBox}>
+                    <TaskBox completedTaskDescriptions={completedTaskDescriptions}
+                             allTaskDescriptions={allTasksForExercise}/>
+                </div>
                 <div className={css.chatBox}>
                     <InputBox setMessage={setMessageString} appendMessage={appendMessage}/>
+                </div>
+                <div>
+                    <ConversationFinishedPopUp conversationStatus={conversationStatus}/>
                 </div>
             </div>
         </>

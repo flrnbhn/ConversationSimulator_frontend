@@ -1,0 +1,31 @@
+.taskBoxContainer {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    width: 10%;
+    height: 18vh;
+    overflow-y: auto;
+    display: flex; /* Flex-Layout verwenden */
+    flex-direction: column; /* Setze die Anordnung der Elemente auf vertikal */
+}
+
+.taskDescription {
+    margin-bottom: 5px;
+    color: white;
+    display: flex;
+
+}
+
+.checkIcon, .hiddenIcon {
+    color: green;
+    padding-right: 5px;
+}
+
+.hiddenIcon {
+    visibility: hidden;
+}
+
+
+.taskTable {
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -6,7 +6,7 @@ import {useNavigate} from "react-router";
 
 
 export const ExerciseOverviewView = () => {
-    const {fetchAllExercises, allExercisesState} = useExercise();
+    const {fetchAllExercises, allExercisesState, setCurrentExerciseId} = useExercise();
     const {postNewConversation, currentConversationId} = useConversation();
     const navigate = useNavigate();
 
@@ -22,6 +22,7 @@ export const ExerciseOverviewView = () => {
 
     const enterConversation = (exerciseId: number) => {
         postNewConversation(exerciseId);
+        setCurrentExerciseId(exerciseId);
         navigate('/chat');
     }
 

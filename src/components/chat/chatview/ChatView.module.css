@@ -20,12 +20,19 @@
 
 .chatContainer {
     display: grid;
-    grid-template-columns: 1fr; /* Eine Spalte für die Chat-Nachrichten */
+    grid-template-columns: 1fr;
     grid-gap: 10px;
-    margin: auto; /* Auto-Margin, um den Container horizontal zu zentrieren */
-    max-width: 1000px; /* Maximalbreite des Containers */
-    padding: 20px; /* Innenabstand für den Container */
-    max-height: calc(100vh - 150px); /* Maximale Höhe des Containers: 100% der Bildschirmhöhe abzüglich Höhe der Input-Box */
-    overflow-y: auto; /* Vertikaler Scrollbalken, wenn Inhalt die maximale Höhe überschreitet */
+    margin: auto;
+    max-width: 1000px;
+    padding: 20px;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+.taskBox {
+    position: fixed;
+    bottom: 55px;
+    left: 10px;
+    width: 100%;
 }
 

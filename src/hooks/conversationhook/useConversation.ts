@@ -4,6 +4,10 @@ import {ConversationMember} from "../../types/conversationmember/ConversationMem
 import axios from "axios";
 import {ConversationData} from "../../types/conversationdata/ConversationData";
 import {ConversationContext} from "../../context/conversationcontext/ConversationContext";
+import {TaskDescriptionData} from "../../types/taskdescriptionData/TaskDescriptionData";
+import {ExerciseContext} from "../../context/exercisecontext/ExerciseContext";
+import {ConversationStatus} from "../../types/conersationstatus/ConversationStatus";
+import {ConversationStatusDTO} from "../../types/conersationstatus/ConversationStatusDTO";
 
 
 export const useConversation = () => {
@@ -24,7 +28,15 @@ export const useConversation = () => {
     //const [currentConversationId, setCurrentConversationId] = useState<number | null>(currentConversationIdNumber);
     const {currentConversationId, setCurrentConversationId} = useContext(ConversationContext)!;
 
+    const [completedTaskDescriptions, setCompletedTaskDescriptions] = useState<TaskDescriptionData[]>([]);
 
+    const {allTasksForExercise} = useContext(ExerciseContext)!;
+
+    const {currentExercise} = useContext(ExerciseContext)!;
+    ;
+
+
+    const [conversationStatus, setConversationStatus] = useState<ConversationStatus>(ConversationStatus.NOT_STARTED);
 
 
     useEffect(() => {
@@ -48,6 +60,7 @@ export const useConversation = () => {
         const updatedMessagesState = updateMessagesState(newConversationRequestMessage);
         setNewConversationRequestState(newConversationRequestMessage)
         postMessageResponse(newConversationRequestMessage, updatedMessagesState);
+        getEvaluatedTasks();
     }
 
     function updateMessagesState(messageData: MessageData): MessageData[] {
@@ -97,11 +110,53 @@ export const useConversation = () => {
                 console.log('Conversation creation successful, conversationID:', data);
                 currentConversationIdNumber = data;
                 setCurrentConversationId(data)
+                setConversationStatus(ConversationStatus.IN_PROCESS);
+                postNewConversationStatus(ConversationStatus.IN_PROCESS, data);
             })
             .catch(error => {
                 console.error('Error fetching data: ', error);
             })
+    }
 
+    function getEvaluatedTasks() {
+        axios.get<TaskDescriptionData[]>('conversation/finishedTasks/' + currentConversationId)
+            .then(response => response.data)
+            .then(data => {
+                console.log(data);
+                setCompletedTaskDescriptions(data);
+                checkIfAllTasksCompleted(data);
+            })
+            .catch(error => {
+                console.error('Error fetching data: ', error);
+            })
+    }
+
+    function checkIfAllTasksCompleted(completedDescriptions: TaskDescriptionData[]) {
+        console.log("in methode drin")
+        if (currentExercise != null) {
+            if (allMessagesState.length >= currentExercise.numberOfMessagesTillFailure) {
+                setConversationStatus(ConversationStatus.FAILED);
+                postNewConversationStatus(ConversationStatus.FAILED, currentConversationId);
+            }
+        }
+
+        if (allTasksForExercise.length !== completedDescriptions.length) {
+            return;
+        }
+        if (allTasksForExercise.every((element, index) => element.description === completedDescriptions[index].description)) {
+            setConversationStatus(ConversationStatus.PASSED);
+            postNewConversationStatus(ConversationStatus.PASSED, currentConversationId);
+            console.log("Tasks sind hiermit fertiggestellt!!!");
+            return;
+        }
+    }
+
+    function postNewConversationStatus(conversationStatus: ConversationStatus, conversationId: number | null) {
+        const conversationStatusDTO: ConversationStatusDTO = {conversationStatus: conversationStatus};
+        axios.post('/conversation/conversationStatus/' + conversationId, conversationStatusDTO)
+            .catch(error => {
+                console.error('Error fetching data: ', error);
+            });
     }
 
     return {
@@ -110,6 +165,8 @@ export const useConversation = () => {
         setNewConversationRequestState,
         postNewConversation,
         currentConversationId,
-        receiveFirstMessage
+        receiveFirstMessage,
+        completedTaskDescriptions,
+        conversationStatus,
     }
 }

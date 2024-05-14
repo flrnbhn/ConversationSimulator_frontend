@@ -6,10 +6,10 @@ interface ConversationContextProps {
     setCurrentConversationId: (id: number | null) => void;
 }
 
-const ConversationContext = createContext<ConversationContextProps | null>(null); // Initialize the context with type
+const ConversationContext = createContext<ConversationContextProps | null>(null);
 
 const ConversationProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
-    const [currentConversationId, setCurrentConversationId] = useState<number | null>(null); // Initial state for currentConversationId with type
+    const [currentConversationId, setCurrentConversationId] = useState<number | null>(null);
 
     return (
         <ConversationContext.Provider value={{currentConversationId, setCurrentConversationId}}>

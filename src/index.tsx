@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {ConversationProvider} from "./context/conversationcontext/ConversationContext";
+import {ExerciseProvider} from "./context/exercisecontext/ExerciseContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -11,9 +12,11 @@ const root = ReactDOM.createRoot(
 root.render(
     // <React.StrictMode>
     <>
-        <ConversationProvider>
-            <App/>
-        </ConversationProvider>
+        <ExerciseProvider>
+            <ConversationProvider>
+                <App/>
+            </ConversationProvider>
+        </ExerciseProvider>
     </>
     // </React.StrictMode>
 );
