@@ -1,6 +1,6 @@
 import axios from "axios";
-import {ExerciseData} from "../../types/exercisedata/ExerciseData";
-import {useContext} from "react";
+import {ExerciseData, ExerciseRequestDTO, TaskRequestDTO} from "../../types/exercisedata/ExerciseData";
+import {useContext, useState} from "react";
 import {ExerciseContext} from "../../context/exercisecontext/ExerciseContext";
 import {TaskDescriptionData} from "../../types/taskdescriptionData/TaskDescriptionData";
 
@@ -12,10 +12,9 @@ export const useExercise = () => {
 
     const {allTasksForExercise, setAllTasksForExercise} = useContext(ExerciseContext)!;
 
+    const [newCreatedExerciseId, setNewCreatedExerciseId] = useState<number>(-1);
+
     const {setCurrentExercise} = useContext(ExerciseContext)!;
-    ;
-
-
 
     function fetchAllExercises() {
         axios.get<ExerciseData[]>('/exercise')
@@ -52,6 +51,57 @@ export const useExercise = () => {
             });
     }
 
+    function postNewExercise(title: string,
+                             szenario: string,
+                             furtherInformation: string,
+                             roleUser: string,
+                             roleSystem: string,
+                             numberOfMessagesTillFailure: number,
+                             taskDescriptions: string []) {
+        const exerciseRequestData: ExerciseRequestDTO = createExerciseData(title, szenario, furtherInformation, roleUser, roleSystem, numberOfMessagesTillFailure, taskDescriptions);
+        axios.post<number>("/exercise", exerciseRequestData)
+            .then(res => res.data)
+            .then((data: number) => {
+                console.log("id der neu angelegten Übung: " + data)
+                setNewCreatedExerciseId(data);
+            })
+            .catch((error) => {
+                console.error('Fehler beim erstellen der Übungen:', error);
+            });
+    }
+
+
+    function createExerciseData(title: string,
+                                szenario: string,
+                                furtherInformation: string,
+                                roleUser: string,
+                                roleSystem: string,
+                                numberOfMessagesTillFailure: number,
+                                taskDescriptions: string []) {
+        const taskRequestDTO: TaskRequestDTO[] = taskDescriptions
+            .map(taskDescription => {
+                const taskRequestDTO: TaskRequestDTO = {
+                    description: taskDescription
+                };
+                return taskRequestDTO;
+            })
+
+        const exerciseRequestData: ExerciseRequestDTO = {
+            title: title,
+            szenario: szenario,
+            furtherInformation: furtherInformation,
+            roleUser: roleUser,
+            roleSystem: roleSystem,
+            numberOfMessagesTillFailure: numberOfMessagesTillFailure,
+            taskRequestDTO: taskRequestDTO
+        }
+        // console.log("exerciseRequestData1: " + exerciseRequestData.taskRequestDTO[1].description);
+        // console.log("exerciseRequestData0: " + exerciseRequestData.taskRequestDTO[0].description);
+
+
+        return exerciseRequestData;
+    }
+
 
     return {
         fetchAllExercises,
@@ -60,6 +110,8 @@ export const useExercise = () => {
         currentExerciseId,
         allTasksForExercise,
         fetchAllTasksForExercise,
-        fetchExerciseById
+        fetchExerciseById,
+        postNewExercise,
+        newCreatedExerciseId
     }
 }

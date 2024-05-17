@@ -8,6 +8,7 @@ import {TaskDescriptionData} from "../../types/taskdescriptionData/TaskDescripti
 import {ExerciseContext} from "../../context/exercisecontext/ExerciseContext";
 import {ConversationStatus} from "../../types/conersationstatus/ConversationStatus";
 import {ConversationStatusDTO} from "../../types/conersationstatus/ConversationStatusDTO";
+import {useLocation} from "react-router";
 
 
 export const useConversation = () => {
@@ -24,6 +25,10 @@ export const useConversation = () => {
     });
     let currentConversationIdNumber: number | null = null;
 
+    const location = useLocation();
+
+
+
     const [allMessagesState, setAllMessagesState] = useState<MessageData[]>([]);
     //const [currentConversationId, setCurrentConversationId] = useState<number | null>(currentConversationIdNumber);
     const {currentConversationId, setCurrentConversationId} = useContext(ConversationContext)!;
@@ -33,10 +38,34 @@ export const useConversation = () => {
     const {allTasksForExercise} = useContext(ExerciseContext)!;
 
     const {currentExercise} = useContext(ExerciseContext)!;
-    ;
+
 
 
     const [conversationStatus, setConversationStatus] = useState<ConversationStatus>(ConversationStatus.NOT_STARTED);
+
+    /* useEffect(() => {
+         if (conversationStatus === ConversationStatus.PASSED || conversationStatus === ConversationStatus.FAILED) {
+             setAllMessagesState([]);
+             setNewConversationResponseState({
+                 message: "",
+                 conversationMember: ConversationMember.NONE,
+                 conversationID: null
+             });
+         }
+     }, [conversationStatus]); */
+
+    useEffect(() => {
+        if (location.pathname === "/exercises") {
+            setAllMessagesState([]);
+            setNewConversationResponseState({
+                message: "",
+                conversationMember: ConversationMember.NONE,
+                conversationID: null
+            });
+            console.log(location.pathname)
+            setCurrentConversationId(null);
+        }
+    }, [location]);
 
 
     useEffect(() => {
@@ -168,5 +197,6 @@ export const useConversation = () => {
         receiveFirstMessage,
         completedTaskDescriptions,
         conversationStatus,
+        currentExercise
     }
 }

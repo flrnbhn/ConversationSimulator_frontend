@@ -29,14 +29,16 @@ export const ChatView = () => {
         receiveFirstMessage,
         completedTaskDescriptions,
         conversationStatus,
+        currentExercise
     } = useConversation();
     const [conversationCreated, setConversationCreated] = useState(false);
-    const {fetchAllTasksForExercise, allTasksForExercise, fetchExerciseById} = useExercise();
+    const {fetchAllTasksForExercise, allTasksForExercise, fetchExerciseById,} = useExercise();
 
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({behavior: 'smooth'});
     };
+
 
     useEffect(() => {
         scrollToBottom();
@@ -44,6 +46,7 @@ export const ChatView = () => {
 
     //at initialization 
     useEffect(() => {
+        console.log("!!!!!!!!!!!!!!!CurrentConversationId:" + currentConversationId);
         if (!conversationCreated && currentConversationId != null) {
             setConversationCreated(true);
             receiveFirstMessage();
@@ -85,7 +88,8 @@ export const ChatView = () => {
                     {messages.map((messageData, index) => (
                         [<div
                             className={messageData.conversationMember === ConversationMember.PARTNER ? css.chatMessagePartner : css.chatMessageUser}>
-                            <ChatMessage key={index} messageData={messageData}/>
+                            <ChatMessage key={index} messageData={messageData}
+                                         role={messageData.conversationMember === ConversationMember.PARTNER ? currentExercise?.roleSystem : currentExercise?.roleUser}/>
                         </div>]
                     ))}
                     <div ref={messagesEndRef}/>

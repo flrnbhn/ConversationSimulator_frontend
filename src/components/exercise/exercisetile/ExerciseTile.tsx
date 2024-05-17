@@ -23,7 +23,7 @@ export const ExerciseTile: React.FunctionComponent<ExerciseTileProps> = ({exerci
                     <div key={index}>{taskDescription.description}</div>
                 ))}
 
-                <PrimaryButton buttonFunction={buttonFunction} title={"Übung starten"}/>
+                <PrimaryButton buttonFunction={buttonFunction} title={"Übung starten"} disabled={false}/>
             </div>
         </>
     );

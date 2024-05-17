@@ -3,6 +3,8 @@ export interface ExerciseData {
     title: string;
     szenario: string;
     furtherInformation: string;
+    roleUser: string;
+    roleSystem: string;
     numberOfMessagesTillFailure: number;
     taskResponseDTO: TaskResponseDTO[];
 }
@@ -10,4 +12,18 @@ export interface ExerciseData {
 
 export interface TaskResponseDTO {
     description: string;
+}
+
+export interface TaskRequestDTO {
+    description: string;
+}
+
+export interface ExerciseRequestDTO {
+    title: string;
+    szenario: string;
+    furtherInformation: string;
+    roleUser: string;
+    roleSystem: string;
+    numberOfMessagesTillFailure: number;
+    taskRequestDTO: TaskRequestDTO[];
 }

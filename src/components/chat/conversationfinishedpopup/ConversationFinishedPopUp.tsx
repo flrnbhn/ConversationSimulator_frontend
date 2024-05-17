@@ -53,7 +53,7 @@ export const ConversationFinishedPopUp: React.FunctionComponent<ConversationFini
                     </div>
                 }
 
-                <PrimaryButton buttonFunction={redirectToEvaluation} title={"Zur Übungsübersicht"}/>
+                <PrimaryButton buttonFunction={redirectToEvaluation} title={"Zur Übungsübersicht"} disabled={false}/>
             </Modal>
         </div>
     )
