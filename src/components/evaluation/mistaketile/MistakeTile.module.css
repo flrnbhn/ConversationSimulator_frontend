@@ -1,0 +1,20 @@
+.mistakeTileContainer {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0 auto 20px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.errorHighlight {
+    text-decoration: underline;
+    text-decoration-color: red;
+    text-decoration-thickness: 3px;
+}
+
+.subheading {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin: 0;
+}
