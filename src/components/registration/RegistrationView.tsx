@@ -6,7 +6,7 @@ import {useNavigate} from "react-router";
 
 export const RegistrationView = () => {
     const navigate = useNavigate();
-    const {postRegistration, learnerId} = useLearner();
+    const {postRegistration, learnerId, setLearnerId} = useLearner();
     const [nameState, setNameState] = useState<string>("");
     const [learningLanguageState, setLearningLanguageState] = useState<string>("");
     const [errorString, setErrorString] = useState<string>("");
@@ -18,7 +18,17 @@ export const RegistrationView = () => {
         if (learnerId !== -1 && learnerId !== null) {
             navigate('/exercises');
         }
+        if (learnerId === null) {
+            setErrorString("");
+        }
+
     }, [learnerId]);
+
+    useEffect(() => {
+        if (learnerId === -1) {
+            setLearnerId(null);
+        }
+    }, []);
 
     const nameStateChanged = (event: ChangeEvent<HTMLInputElement>) => {
         setNameState(event.target.value);

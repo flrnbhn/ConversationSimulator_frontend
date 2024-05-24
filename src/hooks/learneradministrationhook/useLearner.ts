@@ -42,6 +42,7 @@ export const useLearner = () => {
     return {
         learnerId,
         postRegistration,
-        postLogin
+        postLogin,
+        setLearnerId
     }
 }
