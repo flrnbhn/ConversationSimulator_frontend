@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {ConversationProvider} from "./context/conversationcontext/ConversationContext";
 import {ExerciseProvider} from "./context/exercisecontext/ExerciseContext";
+import {LearnerProvider} from "./context/learnercontext/LearnerContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -12,11 +13,13 @@ const root = ReactDOM.createRoot(
 root.render(
     // <React.StrictMode>
     <>
-        <ExerciseProvider>
-            <ConversationProvider>
-                <App/>
-            </ConversationProvider>
-        </ExerciseProvider>
+        <LearnerProvider>
+            <ExerciseProvider>
+                <ConversationProvider>
+                    <App/>
+                </ConversationProvider>
+            </ExerciseProvider>
+        </LearnerProvider>
     </>
     // </React.StrictMode>
 );

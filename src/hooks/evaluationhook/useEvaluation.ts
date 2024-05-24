@@ -1,19 +1,19 @@
 import {useContext, useState} from "react";
 import {ConversationContext} from "../../context/conversationcontext/ConversationContext";
 import axios from "axios";
-import {MistakeResponseDTO} from "../../types/evaluationdata/mistakedata/MistakeResponseDTO";
+import {EvaluationResponseDTO} from "../../types/evaluationdata/EvaluationResponseDTO";
 
 export const useEvaluation = () => {
 
     const {currentConversationId} = useContext(ConversationContext)!;
-    const [mistakeResponseDTOs, setMistakeResponseDTOs] = useState<MistakeResponseDTO[]>([]);
+    const [evaluationResponseDTO, setEvaluationResponseDTO] = useState<EvaluationResponseDTO>();
 
     function postConversationIdToGetLanguageCheck() {
-        axios.post<MistakeResponseDTO[]>("/evaluation/" + currentConversationId)
+        axios.post<EvaluationResponseDTO>("/evaluation/" + currentConversationId)
             .then(res => res.data)
             .then(data => {
                 console.log(data);
-                setMistakeResponseDTOs(data);
+                setEvaluationResponseDTO(data);
             })
             .catch(error => {
                 console.error('Error fetching data: ', error);
@@ -22,7 +22,7 @@ export const useEvaluation = () => {
 
     return {
         postConversationIdToGetLanguageCheck,
-        mistakeResponseDTOs
+        evaluationResponseDTO
     };
 
 }

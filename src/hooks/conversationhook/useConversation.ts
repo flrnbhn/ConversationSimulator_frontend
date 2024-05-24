@@ -9,6 +9,7 @@ import {ExerciseContext} from "../../context/exercisecontext/ExerciseContext";
 import {ConversationStatus} from "../../types/conersationstatus/ConversationStatus";
 import {ConversationStatusDTO} from "../../types/conersationstatus/ConversationStatusDTO";
 import {useLocation} from "react-router";
+import {LearnerContext} from "../../context/learnercontext/LearnerContext";
 
 
 export const useConversation = () => {
@@ -24,24 +25,16 @@ export const useConversation = () => {
         conversationID: null
     });
     let currentConversationIdNumber: number | null = null;
-
     const location = useLocation();
-
-
-
     const [allMessagesState, setAllMessagesState] = useState<MessageData[]>([]);
     //const [currentConversationId, setCurrentConversationId] = useState<number | null>(currentConversationIdNumber);
     const {currentConversationId, setCurrentConversationId} = useContext(ConversationContext)!;
-
     const [completedTaskDescriptions, setCompletedTaskDescriptions] = useState<TaskDescriptionData[]>([]);
-
     const {allTasksForExercise} = useContext(ExerciseContext)!;
-
     const {currentExercise} = useContext(ExerciseContext)!;
-
-
-
     const [conversationStatus, setConversationStatus] = useState<ConversationStatus>(ConversationStatus.NOT_STARTED);
+    const {learnerId} = useContext(LearnerContext)!;
+
 
     /* useEffect(() => {
          if (conversationStatus === ConversationStatus.PASSED || conversationStatus === ConversationStatus.FAILED) {
@@ -130,7 +123,11 @@ export const useConversation = () => {
     }
 
     function postNewConversation(exerciseId: number) {
-        const newConversation: ConversationData = {conversationStartDate: new Date(), exerciseId: exerciseId};
+        const newConversation: ConversationData = {
+            conversationStartDate: new Date(),
+            exerciseId: exerciseId,
+            learnerId: learnerId
+        };
         axios.post<number>("/conversation", newConversation)
             .then(response => {
                 return response.data;
