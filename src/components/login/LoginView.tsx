@@ -15,7 +15,7 @@ export const LoginView = () => {
             setErrorString("Der angegebene User existiert nicht")
         }
         if (learnerId !== -1 && learnerId !== null) {
-            navigate('/exercises');
+            navigate('/home');
         }
     }, [learnerId]);
 

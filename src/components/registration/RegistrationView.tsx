@@ -16,7 +16,7 @@ export const RegistrationView = () => {
             setErrorString("Username existiert bereits")
         }
         if (learnerId !== -1 && learnerId !== null) {
-            navigate('/exercises');
+            navigate('/home');
         }
         if (learnerId === null) {
             setErrorString("");

@@ -8,6 +8,7 @@ import {CreateNewExercisePopUp} from "../createnewexercisepopup/CreateNewExercis
 import Modal from "react-modal";
 import css from "./ExerciseOverviewView.module.css";
 
+Modal.setAppElement('#root');
 
 export const ExerciseOverviewView: React.FC = () => {
     const {

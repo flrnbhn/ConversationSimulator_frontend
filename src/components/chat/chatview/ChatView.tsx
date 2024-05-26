@@ -10,7 +10,7 @@ import {useExercise} from "../../../hooks/exercisehook/useExercise";
 import Modal from 'react-modal';
 import {ConversationFinishedPopUp} from "../conversationfinishedpopup/ConversationFinishedPopUp";
 
-Modal.setAppElement('#root'); // Dies stellt sicher, dass React Modal Zugriff auf das Wurzelelement deiner Anwendung hat.
+Modal.setAppElement('#root');
 
 export const ChatView = () => {
     const [message, setMessage] = useState<MessageData>({

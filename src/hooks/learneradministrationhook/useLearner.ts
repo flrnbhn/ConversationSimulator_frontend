@@ -1,12 +1,17 @@
 import axios from "axios";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {LearnerContext} from "../../context/learnercontext/LearnerContext";
 import {LearnerRegistrateRequestDTO} from "../../types/learnerdata/LearnerRegistrateRequestDTO";
 import {LearnerLoginRequestDTO} from "../../types/learnerdata/LearnerLoginRequestDTO";
+import {LearnerResponseDTO} from "../../types/learnerdata/LearnerResponseDTO";
+import {ConversationResponseDTO} from "../../types/conversationdata/ConversationResponseDTO";
 
 export const useLearner = () => {
 
     const {learnerId, setLearnerId} = useContext(LearnerContext)!;
+    const [learner, setLearner] = useState<LearnerResponseDTO>();
+    const [learnerConversations, setLearnerConversations] = useState<ConversationResponseDTO[]>([]);
+    const [allLearners, setAllLearners] = useState<LearnerResponseDTO[]>([]);
 
     function postRegistration(name: string, learningLanguage: string) {
         const learnerRegistrateRequestDTO: LearnerRegistrateRequestDTO = {
@@ -39,10 +44,50 @@ export const useLearner = () => {
             })
     }
 
+    function getLearnerById() {
+        axios.get<LearnerResponseDTO>("/learner/" + learnerId)
+            .then(res => res.data)
+            .then(data => {
+                setLearner(data);
+            })
+            .catch(error => {
+                console.log("Fetch hat nicht funktioniert: " + error);
+            })
+    }
+
+    function getAllLearnersSortedByTotalPoints() {
+        axios.get<LearnerResponseDTO[]>("/learner")
+            .then(res => res.data)
+            .then(data => {
+                setAllLearners(data);
+            })
+            .catch(error => {
+                console.log("Fetch hat nicht funktioniert: " + error);
+            })
+    }
+
+    function getConversationsFromLearner() {
+        axios.get<ConversationResponseDTO[]>("/learner/conversations/" + learnerId)
+            .then(res => res.data)
+            .then(data => {
+                console.log(data);
+                setLearnerConversations(data);
+            })
+            .catch(error => {
+                console.log("Fetch hat nicht funktioniert: " + error);
+            })
+    }
+
     return {
         learnerId,
         postRegistration,
         postLogin,
-        setLearnerId
+        setLearnerId,
+        getLearnerById,
+        learner,
+        getConversationsFromLearner,
+        learnerConversations,
+        getAllLearnersSortedByTotalPoints,
+        allLearners
     }
 }

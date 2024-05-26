@@ -7,6 +7,9 @@ import {Evaluation} from "../../pages/evaluation/Evaluation";
 import {Login} from "../../pages/login/Login";
 import {Registration} from "../../pages/registration/Registration";
 import ProtectedRoute from "../../routing/routingprotection/ProtectedRoute";
+import {LearnProgress} from "../../pages/learnprogress/LearnProgress";
+import {Home} from "../../pages/home/Home";
+import {Achievement} from "../../pages/achievement/Achievement";
 
 export const Main: React.FC = () => {
     return (
@@ -42,6 +45,30 @@ export const Main: React.FC = () => {
                 element={
                     <ProtectedRoute>
                         <Evaluation/>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/learnProgress"
+                element={
+                    <ProtectedRoute>
+                        <LearnProgress/>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/achievement"
+                element={
+                    <ProtectedRoute>
+                        <Achievement/>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/home"
+                element={
+                    <ProtectedRoute>
+                        <Home/>
                     </ProtectedRoute>
                 }
             />
