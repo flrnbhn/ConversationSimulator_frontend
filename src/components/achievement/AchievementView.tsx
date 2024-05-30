@@ -10,21 +10,31 @@ export const AchievementView = () => {
         allLearners,
         learner,
         getLearnerById,
-        learnerId
+        learnerId,
+        getAllHighscoresFromAllLearners,
+        learnerHighscores
     } = useLearner();
 
     useEffect(() => {
         if (learnerId !== null && learnerId !== -1) {
             getLearnerById();
             getAllLearnersSortedByTotalPoints();
+            getAllHighscoresFromAllLearners();
         }
     }, []);
 
-    const tableData = allLearners.map((learner, index) => {
+    const tableDataPoints = allLearners.map((learner, index) => {
         return {
             Spieler: learner.name,
             Punkte: learner.totalPoints,
             Rang: ""
+        };
+    });
+
+    const tableDataHighScore = learnerHighscores.map((highscore, index) => {
+        return {
+            Spieler: highscore.name,
+            Anzahl: highscore.anz
         };
     });
 
@@ -38,10 +48,17 @@ export const AchievementView = () => {
             </div>
             <div>
                 <div className={css.gradeTable}>
-                    {allLearners.length !== 0 ? <Table header={"Rangliste"} data={tableData}
+                    {allLearners.length !== 0 ? <Table header={"Rangliste"} data={tableDataPoints}
                                                        marker={learner?.name !== undefined ? learner?.name : ""}
                                                        markedColumn={"Spieler"}/> :
                         <h3>Keine Spieler vorhanden</h3>}
+                </div>
+                <div className={css.gradeTable}>
+                    {learnerHighscores.length !== 0 ?
+                        <Table header={"Die höchsten Highscores"} data={tableDataHighScore}
+                               marker={learner?.name !== undefined ? learner?.name : ""}
+                               markedColumn={"Spieler"}/> :
+                        <h3>Keine Scores vorhanden</h3>}
                 </div>
             </div>
         </div>

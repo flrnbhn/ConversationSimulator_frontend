@@ -95,9 +95,6 @@ export const useExercise = () => {
             numberOfMessagesTillFailure: numberOfMessagesTillFailure,
             taskRequestDTO: taskRequestDTO
         }
-        // console.log("exerciseRequestData1: " + exerciseRequestData.taskRequestDTO[1].description);
-        // console.log("exerciseRequestData0: " + exerciseRequestData.taskRequestDTO[0].description);
-
 
         return exerciseRequestData;
     }

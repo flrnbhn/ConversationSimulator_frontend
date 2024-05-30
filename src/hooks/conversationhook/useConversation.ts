@@ -10,6 +10,7 @@ import {ConversationStatus} from "../../types/conersationstatus/ConversationStat
 import {ConversationStatusDTO} from "../../types/conersationstatus/ConversationStatusDTO";
 import {useLocation} from "react-router";
 import {LearnerContext} from "../../context/learnercontext/LearnerContext";
+import {HighScoreConversationResponseDTO} from "../../types/conversationdata/HighScoreConversationResponseDTO";
 
 
 export const useConversation = () => {
@@ -28,7 +29,14 @@ export const useConversation = () => {
     const location = useLocation();
     const [allMessagesState, setAllMessagesState] = useState<MessageData[]>([]);
     //const [currentConversationId, setCurrentConversationId] = useState<number | null>(currentConversationIdNumber);
-    const {currentConversationId, setCurrentConversationId} = useContext(ConversationContext)!;
+    const {
+        currentConversationId,
+        setCurrentConversationId,
+        isHighscore,
+        setIsHighscore,
+        highScoreConversation,
+        setHighScoreConversation
+    } = useContext(ConversationContext)!;
     const [completedTaskDescriptions, setCompletedTaskDescriptions] = useState<TaskDescriptionData[]>([]);
     const {allTasksForExercise} = useContext(ExerciseContext)!;
     const {currentExercise} = useContext(ExerciseContext)!;
@@ -36,19 +44,8 @@ export const useConversation = () => {
     const {learnerId} = useContext(LearnerContext)!;
 
 
-    /* useEffect(() => {
-         if (conversationStatus === ConversationStatus.PASSED || conversationStatus === ConversationStatus.FAILED) {
-             setAllMessagesState([]);
-             setNewConversationResponseState({
-                 message: "",
-                 conversationMember: ConversationMember.NONE,
-                 conversationID: null
-             });
-         }
-     }, [conversationStatus]); */
-
     useEffect(() => {
-        if (location.pathname === "/exercises") {
+        if (location.pathname === "/exercises" || location.pathname === "/highscore") {
             setAllMessagesState([]);
             setNewConversationResponseState({
                 message: "",
@@ -57,6 +54,9 @@ export const useConversation = () => {
             });
             console.log(location.pathname)
             setCurrentConversationId(null);
+        }
+        if (location.pathname === "/home") {
+            deleteConversation();
         }
     }, [location]);
 
@@ -82,7 +82,9 @@ export const useConversation = () => {
         const updatedMessagesState = updateMessagesState(newConversationRequestMessage);
         setNewConversationRequestState(newConversationRequestMessage)
         postMessageResponse(newConversationRequestMessage, updatedMessagesState);
-        getEvaluatedTasks();
+        if (!isHighscore) {
+            getEvaluatedTasks();
+        }
     }
 
     function updateMessagesState(messageData: MessageData): MessageData[] {
@@ -185,6 +187,39 @@ export const useConversation = () => {
             });
     }
 
+    function postHighscoreConversation() {
+        const newConversation: ConversationData = {
+            conversationStartDate: new Date(),
+            exerciseId: -1,
+            learnerId: learnerId
+        };
+        axios.post<HighScoreConversationResponseDTO>("/conversation/highscore", newConversation)
+            .then(response => {
+                return response.data;
+            })
+            .then(data => {
+                setCurrentConversationId(data.conversationId)
+                setConversationStatus(ConversationStatus.IN_PROCESS);
+                postNewConversationStatus(ConversationStatus.IN_PROCESS, data.conversationId);
+                setHighScoreConversation(data);
+            })
+            .catch(error => {
+                console.error('Error fetching data: ', error);
+            })
+    }
+
+    function deleteConversation() {
+        axios.delete("conversation/" + currentConversationId)
+            .then(response => response.data)
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.error('Error deleting data: ', error);
+            })
+    }
+
+
     return {
         newConversationResponseState,
         sendNewMessage,
@@ -194,6 +229,14 @@ export const useConversation = () => {
         receiveFirstMessage,
         completedTaskDescriptions,
         conversationStatus,
-        currentExercise
+        currentExercise,
+        postHighscoreConversation,
+        highScoreConversation,
+        setIsHighscore,
+        isHighscore,
+        setConversationStatus,
+        postNewConversationStatus,
+        allMessagesState,
+        deleteConversation
     }
 }

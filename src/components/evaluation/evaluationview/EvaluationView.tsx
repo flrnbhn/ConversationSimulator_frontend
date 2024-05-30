@@ -31,6 +31,9 @@ export const EvaluationView = () => {
                 ))}
             </div>
             <div>
+                Ai Bewertung: {evaluationResponseDTO?.evaluation}
+            </div>
+            <div>
                 <div>Note: {parseFloat(getGradeValue(evaluationResponseDTO?.grade) || '0.0')}</div>
                 <div>Punkte: {evaluationResponseDTO?.points}</div>
 

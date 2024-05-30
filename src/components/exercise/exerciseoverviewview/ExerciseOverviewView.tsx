@@ -18,7 +18,7 @@ export const ExerciseOverviewView: React.FC = () => {
         postNewExercise,
         newCreatedExerciseId
     } = useExercise();
-    const {postNewConversation, currentConversationId} = useConversation();
+    const {postNewConversation, currentConversationId, setIsHighscore} = useConversation();
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -40,6 +40,7 @@ export const ExerciseOverviewView: React.FC = () => {
     const enterConversation = (exerciseId: number) => {
         postNewConversation(exerciseId);
         setCurrentExerciseId(exerciseId);
+        setIsHighscore(false);
         navigate('/chat');
     }
 

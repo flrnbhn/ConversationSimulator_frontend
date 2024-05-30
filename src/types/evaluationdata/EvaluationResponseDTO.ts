@@ -5,4 +5,5 @@ export interface EvaluationResponseDTO {
     mistakeResponseDTOS: MistakeResponseDTO[];
     grade: Grade;
     points: number;
+    evaluation: string;
 }

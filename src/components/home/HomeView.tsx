@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useNavigate} from "react-router";
 
 export const HomeView = () => {
@@ -9,6 +9,10 @@ export const HomeView = () => {
         navigate(path);
     };
 
+    useEffect(() => {
+
+    }, []);
+
     return (
         <div>
             <h2>Home</h2>
@@ -17,6 +21,7 @@ export const HomeView = () => {
                 Lernfortschritt</a></div>
             <div><a href="/achievement" onClick={(event) => navToView(event, "/achievement")}> Zu deinen
                 Erfolgen</a></div>
+            <div><a href="/highscore" onClick={(event) => navToView(event, "/highscore")}> Zum Highscore Spiel</a></div>
         </div>
     )
 }

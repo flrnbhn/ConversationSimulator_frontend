@@ -10,6 +10,7 @@ import ProtectedRoute from "../../routing/routingprotection/ProtectedRoute";
 import {LearnProgress} from "../../pages/learnprogress/LearnProgress";
 import {Home} from "../../pages/home/Home";
 import {Achievement} from "../../pages/achievement/Achievement";
+import {HighScoreGame} from "../../pages/highscoregame/HighScoreGame";
 
 export const Main: React.FC = () => {
     return (
@@ -69,6 +70,14 @@ export const Main: React.FC = () => {
                 element={
                     <ProtectedRoute>
                         <Home/>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/highscore"
+                element={
+                    <ProtectedRoute>
+                        <HighScoreGame/>
                     </ProtectedRoute>
                 }
             />

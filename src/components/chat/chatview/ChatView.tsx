@@ -9,6 +9,8 @@ import {TaskBox} from "../taskbox/TaskBox";
 import {useExercise} from "../../../hooks/exercisehook/useExercise";
 import Modal from 'react-modal';
 import {ConversationFinishedPopUp} from "../conversationfinishedpopup/ConversationFinishedPopUp";
+import {useEvaluation} from "../../../hooks/evaluationhook/useEvaluation";
+import {ConversationStatus} from "../../../types/conersationstatus/ConversationStatus";
 
 Modal.setAppElement('#root');
 
@@ -29,15 +31,30 @@ export const ChatView = () => {
         receiveFirstMessage,
         completedTaskDescriptions,
         conversationStatus,
-        currentExercise
+        currentExercise,
+        isHighscore,
+        setIsHighscore,
+        highScoreConversation,
+        setConversationStatus,
+        postNewConversationStatus,
+        allMessagesState
     } = useConversation();
     const [conversationCreated, setConversationCreated] = useState(false);
     const {fetchAllTasksForExercise, allTasksForExercise, fetchExerciseById,} = useExercise();
+    const {postConversationIdToGetLanguageCheckForHighscoreGame, mistakeHighscoreDTOs} = useEvaluation();
 
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({behavior: 'smooth'});
     };
+
+    useEffect(() => {
+        if (mistakeHighscoreDTOs.length !== 0 && isHighscore) {
+            setConversationStatus(ConversationStatus.FAILED);
+            postNewConversationStatus(ConversationStatus.FAILED, currentConversationId);
+            setIsHighscore(false);
+        }
+    }, [mistakeHighscoreDTOs]);
 
 
     useEffect(() => {
@@ -46,7 +63,6 @@ export const ChatView = () => {
 
     //at initialization 
     useEffect(() => {
-        console.log("!!!!!!!!!!!!!!!CurrentConversationId:" + currentConversationId);
         if (!conversationCreated && currentConversationId != null) {
             setConversationCreated(true);
             receiveFirstMessage();
@@ -54,12 +70,17 @@ export const ChatView = () => {
     }, [currentConversationId]);
 
     useEffect(() => {
-        fetchAllTasksForExercise();
-        fetchExerciseById();
+        if (!isHighscore) {
+            fetchAllTasksForExercise();
+            fetchExerciseById();
+        }
     }, []);
 
     useEffect(() => {
         if (newConversationResponseState.message !== "" && newConversationResponseState.conversationMember !== ConversationMember.NONE) {
+            if (isHighscore && allMessagesState.length > 2) {
+                postConversationIdToGetLanguageCheckForHighscoreGame();
+            }
             setMessages(prevMessages => [...prevMessages, {
                 message: newConversationResponseState.message,
                 conversationMember: newConversationResponseState.conversationMember,
@@ -86,18 +107,32 @@ export const ChatView = () => {
                 Chat
                 <div className={css.chatContainer}>
                     {messages.map((messageData, index) => (
-                        [<div
+                        <div
+                            key={index}
                             className={messageData.conversationMember === ConversationMember.PARTNER ? css.chatMessagePartner : css.chatMessageUser}>
-                            <ChatMessage key={index} messageData={messageData}
-                                         role={messageData.conversationMember === ConversationMember.PARTNER ? currentExercise?.roleSystem : currentExercise?.roleUser}/>
-                        </div>]
+                            {isHighscore ? (
+                                <ChatMessage
+                                    messageData={messageData}
+                                    role={messageData.conversationMember === ConversationMember.PARTNER ? highScoreConversation?.roleSystem : highScoreConversation?.roleUser}
+                                />
+                            ) : (
+                                <ChatMessage
+                                    messageData={messageData}
+                                    role={messageData.conversationMember === ConversationMember.PARTNER ? currentExercise?.roleSystem : currentExercise?.roleUser}
+                                />
+                            )}
+                        </div>
                     ))}
                     <div ref={messagesEndRef}/>
                 </div>
+
                 <div className={css.taskBox}>
-                    <TaskBox completedTaskDescriptions={completedTaskDescriptions}
-                             allTaskDescriptions={allTasksForExercise}/>
+                    {!isHighscore &&
+                        <TaskBox completedTaskDescriptions={completedTaskDescriptions}
+                                 allTaskDescriptions={allTasksForExercise}/>
+                    }
                 </div>
+
                 <div className={css.chatBox}>
                     <InputBox setMessage={setMessageString} appendMessage={appendMessage}/>
                 </div>

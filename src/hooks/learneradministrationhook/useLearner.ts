@@ -5,6 +5,7 @@ import {LearnerRegistrateRequestDTO} from "../../types/learnerdata/LearnerRegist
 import {LearnerLoginRequestDTO} from "../../types/learnerdata/LearnerLoginRequestDTO";
 import {LearnerResponseDTO} from "../../types/learnerdata/LearnerResponseDTO";
 import {ConversationResponseDTO} from "../../types/conversationdata/ConversationResponseDTO";
+import {HighScoreLearnersResponseDTO} from "../../types/learnerdata/HighScoreLearnersResponseDTO";
 
 export const useLearner = () => {
 
@@ -12,6 +13,7 @@ export const useLearner = () => {
     const [learner, setLearner] = useState<LearnerResponseDTO>();
     const [learnerConversations, setLearnerConversations] = useState<ConversationResponseDTO[]>([]);
     const [allLearners, setAllLearners] = useState<LearnerResponseDTO[]>([]);
+    const [learnerHighscores, setLearnerHighscores] = useState<HighScoreLearnersResponseDTO[]>([]);
 
     function postRegistration(name: string, learningLanguage: string) {
         const learnerRegistrateRequestDTO: LearnerRegistrateRequestDTO = {
@@ -78,6 +80,18 @@ export const useLearner = () => {
             })
     }
 
+    function getAllHighscoresFromAllLearners() {
+        axios.get<HighScoreLearnersResponseDTO[]>("/learner/highscore")
+            .then(res => res.data)
+            .then(data => {
+                setLearnerHighscores(data);
+
+            })
+            .catch(error => {
+                console.log("Fetch hat nicht funktioniert: " + error);
+            })
+    }
+
     return {
         learnerId,
         postRegistration,
@@ -88,6 +102,8 @@ export const useLearner = () => {
         getConversationsFromLearner,
         learnerConversations,
         getAllLearnersSortedByTotalPoints,
-        allLearners
+        allLearners,
+        getAllHighscoresFromAllLearners,
+        learnerHighscores
     }
 }
