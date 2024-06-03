@@ -6,6 +6,7 @@ import {LearnerLoginRequestDTO} from "../../types/learnerdata/LearnerLoginReques
 import {LearnerResponseDTO} from "../../types/learnerdata/LearnerResponseDTO";
 import {ConversationResponseDTO} from "../../types/conversationdata/ConversationResponseDTO";
 import {HighScoreLearnersResponseDTO} from "../../types/learnerdata/HighScoreLearnersResponseDTO";
+import {LearningLanguage} from "../../types/learnerdata/LearningLanguage";
 
 export const useLearner = () => {
 
@@ -15,7 +16,7 @@ export const useLearner = () => {
     const [allLearners, setAllLearners] = useState<LearnerResponseDTO[]>([]);
     const [learnerHighscores, setLearnerHighscores] = useState<HighScoreLearnersResponseDTO[]>([]);
 
-    function postRegistration(name: string, learningLanguage: string) {
+    function postRegistration(name: string, learningLanguage: LearningLanguage) {
         const learnerRegistrateRequestDTO: LearnerRegistrateRequestDTO = {
             name: name,
             learningLanguage: learningLanguage

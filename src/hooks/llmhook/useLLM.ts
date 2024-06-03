@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import {useEffect, useState} from "react";
-import {MessageData} from "../../types/messagedata/MessageData";
+import {MessageData, MessageRequestDTO, MessageResponseDTO} from "../../types/messagedata/MessageData";
 import {ConversationMember} from "../../types/conversationmember/ConversationMember";
 import {ChatCompletionCreateParamsBase} from "openai/resources/chat/completions";
 
@@ -11,15 +11,16 @@ export const useLLM = () => {
         apiKey: "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",
         dangerouslyAllowBrowser: true
     });
-    const [newLlmResponseState, setNewLlmResponseState] = useState<MessageData>({
+    const [newLlmResponseState, setNewLlmResponseState] = useState<MessageResponseDTO>({
         message: "",
         conversationMember: ConversationMember.NONE,
-        conversationID: 0
+        conversationID: 0,
+        synthesizedMessage: null,
     });
-    const [newRequestState, setNewRequestState] = useState<MessageData>({
+    const [newRequestState, setNewRequestState] = useState<MessageRequestDTO>({
         message: "",
         conversationMember: ConversationMember.NONE,
-        conversationID: 0
+        conversationID: 0,
     });
     const [allMessagesState, setAllMessagesState] = useState<MessageData[]>([]);
     const LLM_MODEL = "gpt-3.5-turbo-0125";
@@ -40,7 +41,9 @@ export const useLLM = () => {
         const updatedMessagesState = [...allMessagesState, {
             message: message,
             conversationMember: ConversationMember.USER,
-            conversationID: 0
+            conversationID: 0,
+            synthesizedMessage: null,
+            translation: null
         }];
         setAllMessagesState(updatedMessagesState);
         return updatedMessagesState;
@@ -68,14 +71,16 @@ export const useLLM = () => {
             const updatedMessagesWithResponse = [...updatedMessagesState, {
                 message: completion.choices[0].message.content,
                 conversationMember: ConversationMember.PARTNER,
-                conversationID: 0
-
+                conversationID: 0,
+                synthesizedMessage: null,
+                translation: null
             }];
             setAllMessagesState(updatedMessagesWithResponse);
             setNewLlmResponseState({
                 message: completion.choices[0].message.content,
                 conversationMember: ConversationMember.PARTNER,
-                conversationID: 0
+                conversationID: 0,
+                synthesizedMessage: null,
             });
         }).catch(error => {
             console.log(error);

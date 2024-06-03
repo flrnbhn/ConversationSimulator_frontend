@@ -18,6 +18,7 @@ export const ConversationFinishedPopUp: React.FunctionComponent<ConversationFini
         if (conversationCompleted) {
             openModal();
         }
+        console.log("ConversationStatus -> " + conversationStatus)
     }, [conversationStatus]);
 
     const openModal = () => {

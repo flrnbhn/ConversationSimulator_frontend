@@ -18,7 +18,8 @@ export const ChatView = () => {
     const [message, setMessage] = useState<MessageData>({
         message: "",
         conversationMember: ConversationMember.NONE,
-        conversationID: null
+        conversationID: null,
+        translation: null
     });
     const [messageString, setMessageString] = useState<string | null>(null);
     const [messages, setMessages] = useState<MessageData[]>([]);
@@ -37,16 +38,35 @@ export const ChatView = () => {
         highScoreConversation,
         setConversationStatus,
         postNewConversationStatus,
-        allMessagesState
+        allMessagesState,
+        audioPlayed,
+        setIsMuted,
+        isMuted,
+        transcribeAndSendSpeechInput,
+        translateMessage
     } = useConversation();
     const [conversationCreated, setConversationCreated] = useState(false);
     const {fetchAllTasksForExercise, allTasksForExercise, fetchExerciseById,} = useExercise();
     const {postConversationIdToGetLanguageCheckForHighscoreGame, mistakeHighscoreDTOs} = useEvaluation();
 
-
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({behavior: 'smooth'});
     };
+
+    /* useEffect(() => {
+         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+             event.preventDefault();
+             console.log("isTriggered")
+             if (audioState !== null && audioState.played) {
+                 audioState.pause();
+             }
+         };
+         window.addEventListener('beforeunload', handleBeforeUnload);
+
+         return () => {
+             window.removeEventListener('beforeunload', handleBeforeUnload);
+         };
+     }, []);*/
 
     useEffect(() => {
         if (mistakeHighscoreDTOs.length !== 0 && isHighscore) {
@@ -59,7 +79,7 @@ export const ChatView = () => {
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages]);
+    }, [allMessagesState]);
 
     //at initialization 
     useEffect(() => {
@@ -84,7 +104,9 @@ export const ChatView = () => {
             setMessages(prevMessages => [...prevMessages, {
                 message: newConversationResponseState.message,
                 conversationMember: newConversationResponseState.conversationMember,
-                conversationID: currentConversationId
+                conversationID: currentConversationId,
+                synthesizedMessage: newConversationResponseState.synthesizedMessage,
+                translation: null
             }]);
         }
     }, [newConversationResponseState]);
@@ -94,7 +116,8 @@ export const ChatView = () => {
         const newMessageData: MessageData = {
             message: messageString,
             conversationMember: ConversationMember.USER,
-            conversationID: currentConversationId
+            conversationID: currentConversationId,
+            translation: null
         }
         setMessage(newMessageData);
         setMessages(prevMessages => [...prevMessages, newMessageData]);
@@ -106,7 +129,7 @@ export const ChatView = () => {
             <div>
                 Chat
                 <div className={css.chatContainer}>
-                    {messages.map((messageData, index) => (
+                    {allMessagesState.map((messageData, index) => (
                         <div
                             key={index}
                             className={messageData.conversationMember === ConversationMember.PARTNER ? css.chatMessagePartner : css.chatMessageUser}>
@@ -114,11 +137,15 @@ export const ChatView = () => {
                                 <ChatMessage
                                     messageData={messageData}
                                     role={messageData.conversationMember === ConversationMember.PARTNER ? highScoreConversation?.roleSystem : highScoreConversation?.roleUser}
+                                    translateMessage={translateMessage}
+                                    index={index}
                                 />
                             ) : (
                                 <ChatMessage
                                     messageData={messageData}
                                     role={messageData.conversationMember === ConversationMember.PARTNER ? currentExercise?.roleSystem : currentExercise?.roleUser}
+                                    translateMessage={translateMessage}
+                                    index={index}
                                 />
                             )}
                         </div>
@@ -134,7 +161,9 @@ export const ChatView = () => {
                 </div>
 
                 <div className={css.chatBox}>
-                    <InputBox setMessage={setMessageString} appendMessage={appendMessage}/>
+                    <InputBox setMessage={setMessageString} appendMessage={appendMessage} isDisabled={audioPlayed}
+                              isMuted={isMuted} setIsMuted={setIsMuted}
+                              transcribeAndSendSpeechInput={transcribeAndSendSpeechInput}/>
                 </div>
                 <div>
                     <ConversationFinishedPopUp conversationStatus={conversationStatus}/>
