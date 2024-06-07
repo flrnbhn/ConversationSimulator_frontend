@@ -50,21 +50,24 @@ export const ChatMessage: React.FunctionComponent<ChatMessageProps> = ({
                 className={conversationMember === ConversationMember.PARTNER ? css.messageBoxUser : css.messageBoxPartner}>
                 <p
                     className={css.chatMessage}><strong>{role}:</strong> {message}
-                    {(messageData.conversationMember === ConversationMember.PARTNER && messageData.translation === null)
-                        ?
-                        <>
-                            <button onClick={handleTranslate}
-                                    data-tooltip-id="translation_tooltip"
-                                    data-tooltip-content="Übersetzen: Beachte, dass dies sich auf die Note auswirkt.">
-                                <FontAwesomeIcon icon={faQuestion}/>
-                            </button>
-                            <Tooltip id="translation_tooltip"/>
+                    <span className={css.translateButtonContainer}>
+                        {(messageData.conversationMember === ConversationMember.PARTNER && messageData.translation === null)
+                            ?
+                            <>
+                                <button onClick={handleTranslate}
+                                        className={css.translateButton}
+                                        data-tooltip-id="translation_tooltip"
+                                        data-tooltip-content="Übersetzen: Beachte, dass dies sich auf die Note auswirkt.">
+                                    <FontAwesomeIcon icon={faQuestion}/>
+                                </button>
+                                <Tooltip id="translation_tooltip"/>
 
-                        </>
+                            </>
 
-                        :
-                        null
-                    }
+                            :
+                            null
+                        }
+                    </span>
                 </p>
                 {messageData.translation !== null && (
                     <>

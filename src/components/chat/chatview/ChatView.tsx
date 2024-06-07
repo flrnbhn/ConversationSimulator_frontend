@@ -1,5 +1,5 @@
 import {InputBox} from "../inputbox/InputBox";
-import React, {useEffect, useRef, useState} from "react";
+import React, {MouseEvent, useEffect, useRef, useState} from "react";
 import css from "./ChatView.module.css"
 import {ChatMessage} from "../chatmessage/ChatMessage";
 import {MessageData} from "../../../types/messagedata/MessageData";
@@ -11,6 +11,10 @@ import Modal from 'react-modal';
 import {ConversationFinishedPopUp} from "../conversationfinishedpopup/ConversationFinishedPopUp";
 import {useEvaluation} from "../../../hooks/evaluationhook/useEvaluation";
 import {ConversationStatus} from "../../../types/conersationstatus/ConversationStatus";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faVolumeUp, faVolumeXmark, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {ToggleButton} from "../../util/togglebutton/ToggleButton";
+import {Tooltip} from "react-tooltip";
 
 Modal.setAppElement('#root');
 
@@ -70,8 +74,7 @@ export const ChatView = () => {
 
     useEffect(() => {
         if (mistakeHighscoreDTOs.length !== 0 && isHighscore) {
-            setConversationStatus(ConversationStatus.FAILED);
-            postNewConversationStatus(ConversationStatus.FAILED, currentConversationId);
+            finishConversation();
             setIsHighscore(false);
         }
     }, [mistakeHighscoreDTOs]);
@@ -111,6 +114,11 @@ export const ChatView = () => {
         }
     }, [newConversationResponseState]);
 
+    const finishConversation = () => {
+        setConversationStatus(ConversationStatus.FAILED);
+        postNewConversationStatus(ConversationStatus.FAILED, currentConversationId);
+    }
+
 
     const appendMessage = (messageString: string) => {
         const newMessageData: MessageData = {
@@ -124,10 +132,37 @@ export const ChatView = () => {
         sendNewMessage(messageString);
     }
 
+    const handleFinishConversation = (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        finishConversation();
+    }
+
+    const handleMute = (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        if (!isMuted) {
+            setIsMuted(true);
+
+        }
+        if (isMuted) {
+            setIsMuted(false);
+        }
+    }
+
     return (
         <>
             <div>
-                Chat
+                <div className={css.chatHeaderContainer}>
+                    <ToggleButton/>
+                    <div className={css.chatHeader}>
+                        <span>{currentExercise?.roleSystem}</span>
+                        <button className={css.muteButton} onClick={handleMute}><FontAwesomeIcon
+                            icon={isMuted ? faVolumeXmark : faVolumeUp}/></button>
+                    </div>
+                    <button className={css.cancelButton} onClick={handleFinishConversation}><FontAwesomeIcon
+                        icon={faXmark} data-tooltip-id="cancel_tooltip"
+                        data-tooltip-content="Übung vorzeitig beenden"/></button>
+                </div>
+                <Tooltip id="cancel_tooltip"/>
                 <div className={css.chatContainer}>
                     {allMessagesState.map((messageData, index) => (
                         <div
@@ -161,9 +196,11 @@ export const ChatView = () => {
                 </div>
 
                 <div className={css.chatBox}>
-                    <InputBox setMessage={setMessageString} appendMessage={appendMessage} isDisabled={audioPlayed}
+                    <InputBox setMessage={setMessageString} appendMessage={appendMessage}
+                              isDisabled={audioPlayed}
                               isMuted={isMuted} setIsMuted={setIsMuted}
-                              transcribeAndSendSpeechInput={transcribeAndSendSpeechInput}/>
+                              transcribeAndSendSpeechInput={transcribeAndSendSpeechInput}
+                              finishConversation={finishConversation}/>
                 </div>
                 <div>
                     <ConversationFinishedPopUp conversationStatus={conversationStatus}/>

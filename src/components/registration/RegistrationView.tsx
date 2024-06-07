@@ -8,10 +8,11 @@ import {
     getLearningLanguageValue,
     LearningLanguage
 } from "../../types/learnerdata/LearningLanguage";
+import {Title} from "../util/title/Title";
 
 export const RegistrationView = () => {
     const navigate = useNavigate();
-    const {postRegistration, learnerId, setLearnerId} = useLearner();
+    const {postRegistration, learnerId, setLearnerId, getLearnerById} = useLearner();
     const [nameState, setNameState] = useState<string>("");
     const [learningLanguageState, setLearningLanguageState] = useState<string>("Englisch");
     const [errorString, setErrorString] = useState<string>("");
@@ -47,18 +48,28 @@ export const RegistrationView = () => {
 
     const registrate = () => {
         postRegistration(nameState, getLearningLanguageEnum(learningLanguageState));
+        getLearnerById();
     }
+
+    const navToLogin = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        event.preventDefault();
+        navigate('/login');
+    }
+
     return (
-        <div>
-            <h2>Registrieren</h2>
-            <div>
+        <div className={css.formContainer}>
+            <Title title={"Registrieren"}/>
+            <div className={css.formContent}>
                 <form>
                     <div>
-                        <div><label>Gebe deinen Benutzernamen ein:</label></div>
-                        <div><input value={nameState} onChange={(event) => nameStateChanged(event)}/></div>
-                        <div><label>Welche Sprache möchtest du lernen?</label></div>
+                        <div className={css.formGroup}>
+                            <div><label className={css.formLabel}>Gebe deinen Benutzernamen ein:</label></div>
+                            <div><input className={css.formInput} value={nameState}
+                                        onChange={(event) => nameStateChanged(event)}/></div>
+                        </div>
+                        <div><label className={css.formLabel}>Welche Sprache möchtest du lernen?</label></div>
                         <div>
-                            <select value={learningLanguageState}
+                            <select className={css.select} value={learningLanguageState}
                                     onChange={(event) => learningLanguageStateChanged(event)}>
                                 <option value="">Bitte wählen</option>
                                 <option
@@ -71,7 +82,12 @@ export const RegistrationView = () => {
                                     value={getLearningLanguageValue(LearningLanguage.SPANISH)}>{getLearningLanguageValue(LearningLanguage.SPANISH)}</option>
                             </select>
                         </div>
-                        <div><PrimaryButton buttonFunction={registrate} title={"Registrieren"} disabled={false}/></div>
+                        <div><PrimaryButton buttonFunction={registrate} title={"Registrieren"} disabled={false}/>
+                        </div>
+                        <div className={css.formGroup}>
+                            <a className={css.formLink} href="/login"
+                               onClick={navToLogin}>Anmeldung</a>
+                        </div>
                         <div className={css.errorMessage}>{errorString}</div>
                     </div>
                 </form>

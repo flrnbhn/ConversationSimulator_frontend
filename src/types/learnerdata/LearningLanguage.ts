@@ -1,3 +1,5 @@
+import {Grade} from "../evaluationdata/Grade";
+
 export enum LearningLanguage {
     GERMAN = 'GERMAN',
     ENGLISH = 'ENGLISH',
@@ -34,3 +36,39 @@ export const getLearningLanguageEnum = (learningLanguage: string | undefined): L
             return LearningLanguage.ENGLISH;
     }
 };
+
+export const getLearningLanguageEnumByStringValue = (learningLanguage: string | undefined): LearningLanguage => {
+    switch (learningLanguage) {
+        case "GERMAN":
+            return LearningLanguage.GERMAN;
+        case "ENGLISH" :
+            return LearningLanguage.ENGLISH;
+        case "FRENCH":
+            return LearningLanguage.FRENCH;
+        case "SPANISH":
+            return LearningLanguage.SPANISH;
+        default:
+            return LearningLanguage.ENGLISH;
+    }
+};
+
+export const getLearningLanguageStringValueByEnum = (learningLanguage: LearningLanguage | undefined): string => {
+    switch (learningLanguage) {
+        case LearningLanguage.GERMAN:
+            return "GERMAN";
+        case LearningLanguage.ENGLISH :
+            return "ENGLISH";
+        case LearningLanguage.FRENCH:
+            return "FRENCH";
+        case LearningLanguage.SPANISH:
+            return "SPANISH";
+        default:
+            return "ENGLISH";
+
+    }
+};
+
+
+export interface LearningLanguageDTO {
+    learningLanguage: LearningLanguage
+}

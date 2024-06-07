@@ -1,0 +1,71 @@
+.szenarioHeader {
+    text-align: left;
+    color: #777777;
+}
+
+.szenarioContainer_white, .szenarioContainer_black {
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.szenarioContainer_black, .systemRoleContainer_black, .yourRoleContainer_black {
+    background-color: #343434;
+}
+
+.szenarioContainer_white, .systemRoleContainer_white, .yourRoleContainer_white {
+    background-color: #a2a2a2;
+}
+
+.explanationContainer_white, .explanationContainer_black {
+    width: 1000px;
+    margin: 25px auto 20px;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+.explanationContainer_white {
+    background-color: #c2c1c1;
+}
+
+.explanationContainer_black {
+    background-color: #282828;
+}
+
+.roles {
+    display: flex;
+}
+
+.yourRoleContainer_white,
+.yourRoleContainer_black,
+.systemRoleContainer_white,
+.systemRoleContainer_black {
+    flex: 1;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+
+.yourRoleContainer_white, .yourRoleContainer_black {
+    margin-right: 5px;
+}
+
+.systemRoleContainer_white, .systemRoleContainer_black {
+    margin-left: 5px;
+}
+
+.yourRoleHeader {
+    text-align: left;
+    color: #777777;
+
+}
+
+.systemRoleHeader {
+    text-align: left;
+    color: #777777;
+
+}
+
+.startButton {
+    margin-bottom: 4px;
+}

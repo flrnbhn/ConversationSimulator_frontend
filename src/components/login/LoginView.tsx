@@ -2,17 +2,18 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import {PrimaryButton} from "../util/primarybutton/PrimaryButton";
 import {useNavigate} from "react-router";
 import {useLearner} from "../../hooks/learneradministrationhook/useLearner";
-import css from "../registration/RegistrationView.module.css";
+import css from "./LoginView.module.css";
+import {Title} from "../util/title/Title";
 
 export const LoginView = () => {
-    const {postLogin, learnerId} = useLearner();
+    const {postLogin, learnerId, getLearnerById} = useLearner();
     const navigate = useNavigate();
     const [nameState, setNameState] = useState<string>("");
     const [errorString, setErrorString] = useState<string>("");
 
     useEffect(() => {
         if (learnerId === -1) {
-            setErrorString("Der angegebene User existiert nicht")
+            setErrorString("Der angegebene User existiert nicht.")
         }
         if (learnerId !== -1 && learnerId !== null) {
             navigate('/home');
@@ -30,21 +31,35 @@ export const LoginView = () => {
 
     const login = () => {
         postLogin(nameState);
+        getLearnerById();
+
     }
     return (
-        <div>
-            <h2>Anmeldung</h2>
-            <div>
+        <div className={css.formContainer}>
+            <Title title={"Anmeldung"}/>
+            <div className={css.formContent}>
                 <form>
-                    <div>
-                        <div><label>Gebe deinen Benutzernamen ein:</label></div>
-                        <div><input value={nameState} onChange={(event) => nameStateChanged(event)}/></div>
-                        <div><PrimaryButton buttonFunction={login} title={"Anmelden"} disabled={false}/></div>
-                        <a href="/registration" onClick={navToRegistration}>Registrieren</a>
-                        <div className={css.errorMessage}>{errorString}</div>
+                    <div className={css.formGroup}>
+                        <label className={css.formLabel}>Gebe deinen Benutzernamen ein:</label>
+                        <input
+                            className={css.formInput}
+                            value={nameState}
+                            onChange={(event) => nameStateChanged(event)}
+                        />
                     </div>
+                    <div className={css.formGroup}>
+                        <PrimaryButton
+                            buttonFunction={login}
+                            title={"Anmelden"}
+                            disabled={false}
+                        />
+                    </div>
+                    <div className={css.formGroup}>
+                        <a className={css.formLink} href="/registration" onClick={navToRegistration}>Registrieren</a>
+                    </div>
+                    {errorString && <div className={css.errorMessage}>{errorString}</div>}
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};

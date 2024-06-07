@@ -1,4 +1,34 @@
-.gradeTable {
+
+.gradeTable_white, .gradeTable_black {
     display: flex;
     justify-content: center;
+    max-width: 300px;
+    margin: 25px auto 20px;
+    border-radius: 10px;
+    padding: 0px 0px 20px;
 }
+
+.gradeTable_black {
+    background-color: #282828;
+
+
+}
+
+.gradeTable_white {
+    background-color: #a4a4a4;
+    color: white;
+
+}
+
+.chartContainer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gradeAverage {
+    margin: 30px;
+    font-size: x-large;
+}
+

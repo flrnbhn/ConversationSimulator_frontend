@@ -1,5 +1,5 @@
 import {useExercise} from "../../../hooks/exercisehook/useExercise";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {ExerciseTile} from "../exercisetile/ExerciseTile";
 import {useConversation} from "../../../hooks/conversationhook/useConversation";
 import {useNavigate} from "react-router";
@@ -7,6 +7,8 @@ import {PrimaryButton} from "../../util/primarybutton/PrimaryButton";
 import {CreateNewExercisePopUp} from "../createnewexercisepopup/CreateNewExercisePopUp";
 import Modal from "react-modal";
 import css from "./ExerciseOverviewView.module.css";
+import {Title} from "../../util/title/Title";
+import {StylingContext} from "../../../context/stylingcontext/StylingContext";
 
 Modal.setAppElement('#root');
 
@@ -22,7 +24,10 @@ export const ExerciseOverviewView: React.FC = () => {
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
+    const {setCurrentHeadline} = useContext(StylingContext)!
+
     useEffect(() => {
+        setCurrentHeadline("Übungsübersicht")
         fetchAllExercises();
     }, []);
 
@@ -60,9 +65,6 @@ export const ExerciseOverviewView: React.FC = () => {
     return (
         <>
             <div>
-                Übungsübersicht
-            </div>
-            <div>
                 {allExercisesState.map((exercise) => (
                     <div key={exercise.exerciseId}>
                         <ExerciseTile exerciseData={exercise}
@@ -79,6 +81,7 @@ export const ExerciseOverviewView: React.FC = () => {
                 onRequestClose={closeModal}
                 contentLabel="Aufgabe abgeschlossen"
                 className={css.popUp}
+                overlayClassName={css.overlay}
             >
                 <CreateNewExercisePopUp closeModal={closeModal} postNewExercise={postNewExercise}/>
             </Modal>

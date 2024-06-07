@@ -5,8 +5,28 @@
     height: 18vh;
     overflow-y: auto;
     display: flex; /* Flex-Layout verwenden */
-    flex-direction: column; /* Setze die Anordnung der Elemente auf vertikal */
+    flex-direction: column;
 }
+
+.taskBoxContainer::-webkit-scrollbar {
+    width: 12px;
+}
+
+
+.taskBoxContainer::-webkit-scrollbar-track {
+    background: #414141;
+    border-radius: 10px;
+}
+
+.taskBoxContainer::-webkit-scrollbar-thumb {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+
+.taskBoxContainer::-webkit-scrollbar-thumb:hover {
+    background: #5e5e5e;
+}
+
 
 .taskDescription {
     margin-bottom: 5px;

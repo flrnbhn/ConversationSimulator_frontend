@@ -1,7 +1,6 @@
 import React, {createContext, useState} from "react";
 import {HighScoreConversationResponseDTO} from "../../types/conversationdata/HighScoreConversationResponseDTO";
 
-// Interface for the context value
 interface ConversationContextProps {
     currentConversationId: number | null;
     setCurrentConversationId: (id: number | null) => void;
@@ -9,6 +8,7 @@ interface ConversationContextProps {
     setIsHighscore: (isHighscore: boolean) => void;
     highScoreConversation: HighScoreConversationResponseDTO | undefined;
     setHighScoreConversation: (highScoreConversation: HighScoreConversationResponseDTO) => void;
+    resetConversationContext: () => void;
 }
 
 const ConversationContext = createContext<ConversationContextProps | null>(null);
@@ -18,6 +18,17 @@ const ConversationProvider: React.FC<{ children: React.ReactNode }> = ({children
     const [isHighscore, setIsHighscore] = useState<boolean>(false);
     const [highScoreConversation, setHighScoreConversation] = useState<HighScoreConversationResponseDTO>();
 
+    const resetConversationContext = () => {
+        setCurrentConversationId(null);
+        setIsHighscore(false);
+        const initialHighScoreConversation: HighScoreConversationResponseDTO = {
+            conversationId: -1,
+            roleSystem: "",
+            roleUser: "",
+            szenario: ""
+        }
+        setHighScoreConversation(initialHighScoreConversation);
+    }
 
     return (
         <ConversationContext.Provider value={{
@@ -26,7 +37,8 @@ const ConversationProvider: React.FC<{ children: React.ReactNode }> = ({children
             isHighscore,
             setIsHighscore,
             highScoreConversation,
-            setHighScoreConversation
+            setHighScoreConversation,
+            resetConversationContext
         }}>
             {children}
         </ConversationContext.Provider>

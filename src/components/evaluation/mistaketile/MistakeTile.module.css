@@ -1,5 +1,4 @@
-.mistakeTileContainer {
-    border: 1px solid #ccc;
+.mistakeTileContainer_white, .mistakeTileContainer_black {
     border-radius: 5px;
     padding: 10px;
     margin: 0 auto 20px;
@@ -7,14 +6,38 @@
     width: 100%;
 }
 
+.mistakeTileContainer_black {
+    background-color: #282828;
+}
+
+.mistakeTileContainer_white {
+    background-color: #a9a9a9;
+}
+
 .errorHighlight {
     text-decoration: underline;
-    text-decoration-color: red;
+    text-decoration-color: #b71414;
     text-decoration-thickness: 3px;
 }
 
 .subheading {
     font-size: 0.875rem;
-    color: #6c757d;
+    color: rgba(204, 204, 204, 0.81);
     margin: 0;
+    text-align: left;
+    margin-left: 5px;
+}
+
+.mistakePart {
+    background-color: #525252;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.mistakeExplanation {
+    background-color: #525252;
+    border-radius: 10px;
+    padding-bottom: 5px;
+
 }

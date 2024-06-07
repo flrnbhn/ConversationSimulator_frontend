@@ -1,18 +1,26 @@
 import React, {createContext, useState} from "react";
+import {LearnerResponseDTO} from "../../types/learnerdata/LearnerResponseDTO";
 
-// Interface for the context value
 interface LearnerContextProps {
     learnerId: number | null;
     setLearnerId: (id: number | null) => void;
+    resetLearnerContext: () => void;
+    learner: LearnerResponseDTO | undefined;
+    setLearner: (learner: LearnerResponseDTO) => void;
 }
 
 const LearnerContext = createContext<LearnerContextProps | null>(null);
 
 const LearnerProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [learnerId, setLearnerId] = useState<number | null>(null);
+    const [learner, setLearner] = useState<LearnerResponseDTO>();
+
+    const resetLearnerContext = () => {
+        setLearnerId(null);
+    };
 
     return (
-        <LearnerContext.Provider value={{learnerId, setLearnerId}}>
+        <LearnerContext.Provider value={{learnerId, setLearnerId, resetLearnerContext, learner, setLearner}}>
             {children}
         </LearnerContext.Provider>
     );

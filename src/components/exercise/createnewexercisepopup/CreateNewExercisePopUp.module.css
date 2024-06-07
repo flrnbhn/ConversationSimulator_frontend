@@ -1,12 +1,198 @@
-.createNewExercisePopUp {
-    width: 80%;
-    height: 80%;
+.createNewExercisePopUp_white, .createNewExercisePopUp_black {
+    width: 100%;
+    height: 85%;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border: none;
-    border-radius: 10px; /* Abrunden der Ecken des Popups */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.createNewExercisePopUp_white {
+    background-color: #9f9f9f;
+}
+
+.createNewExercisePopUp_black {
+    background-color: #444444;
+
+}
+
+
+.popUpWapper_white, .popUpWapper_black {
+    width: 80%;
+    height: 90%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+}
+
+.popUpWapper_black {
+    background-color: #444444;
+
+}
+
+.popUpWapper_white {
+    background-color: #9f9f9f;
+
+}
+
+.closeButton {
+    background-color: #a60505;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute; /* Damit right funktioniert */
+    top: 10px; /* Anpassen je nach gewünschtem Abstand von oben */
+    right: 10px; /* Anpassen je nach gewünschtem Abstand von rechts */
+}
+
+.closeButton:hover {
+    background-color: #730303;
+}
+
+
+.createNewExercisePopUp_black::-webkit-scrollbar, .createNewExercisePopUp_white::-webkit-scrollbar {
+    width: 12px;
+}
+
+
+.createNewExercisePopUp_black::-webkit-scrollbar-track, .createNewExercisePopUp_white::-webkit-scrollbar-track {
+    background: #414141;
+    border-radius: 10px;
+}
+
+.createNewExercisePopUp_black::-webkit-scrollbar-thumb, .createNewExercisePopUp_white::-webkit-scrollbar-thumb {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+
+.createNewExercisePopUp_black::-webkit-scrollbar-thumb:hover, .createNewExercisePopUp_white::-webkit-scrollbar-thumb:hover {
+    background: #5e5e5e;
+}
+
+
+.titleContainer {
     text-align: center;
-    background-color: darkgray; /* Hintergrundfarbe des Popups */
+    margin-bottom: 20px;
+}
+
+.sendButton {
+    text-align: center;
+    margin-bottom: 20px;
+
+}
+
+.newTaskButton {
+    background-color: #0B2A65;
+    border: none;
+    color: white;
+    padding: 7px 14px;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.deleteButton {
+    background-color: #940202;
+    border: none;
+    color: white;
+    padding: 7px 14px;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.newTaskButton:hover {
+    background-color: #0F3A7A;
+
+}
+
+.newTaskButtonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+.formContainer {
+    align-items: center;
+}
+
+.taskInputField {
+    margin-right: 5px;
+    max-width: 300px;
+}
+
+.inputContainer {
+    width: 100%;
+    max-width: 380px;
+    padding: 10px;
+
+}
+
+.taskInputFieldContainer {
+    max-width: 400px;
+    margin-bottom: 8px;
+}
+
+.inputContainer label {
+    font-weight: lighter;
+    color: #ffffff;
+    text-align: left;
+}
+
+.inputContainer input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #a6a6a6;
+    border-radius: 0.25rem;
+    background-color: #565656;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    color: white;
+
+}
+
+.inputSzenario {
+    width: 100%;
+    max-width: 380px;
+    padding: 10px;
+    color: #ffffff;
+
+}
+
+.inputSzenario textarea {
+    background-color: #565656;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #a6a6a6;
+    border-radius: 0.25rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    color: white;
+}
+
+.inputSzenario label {
+    font-weight: lighter;
+    color: #ffffff;
+    text-align: left;
+}
+
+.inputContainer input:focus, .inputSzenario textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: none;
+    background-color: #424242;
+    color: white;
 }

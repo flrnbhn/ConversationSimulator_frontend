@@ -1,0 +1,78 @@
+.gradeAndPointBox_white, .gradeAndPointBox_black {
+    border-radius: 10px;
+    padding: 10px;
+    margin: 25px auto 20px;
+    max-width: 200px;
+    width: 100%;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.gradeAndPointBox_white {
+    background-color: #a9a9a9;
+
+}
+
+.gradeAndPointBox_black {
+    background-color: #282828;
+
+}
+
+.points {
+    color: #029602;
+}
+
+.seperator {
+    border-color: rgba(10, 10, 10, 0.65);
+}
+
+.evaluationContainer {
+    margin-top: 20px;
+}
+
+.aiEvaluationContainer_black, .aiEvaluationContainer_white {
+    width: 800px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+
+.aiEvaluationContainer_black {
+    background-color: #282828;
+
+}
+
+.aiEvaluationContainer_white {
+    background-color: #a9a9a9;
+
+}
+
+.aiDescription {
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.aiHeader {
+    text-align: left;
+    font-weight: bold;
+}
+
+.aiEvaluationHeadline_white, .aiEvaluationHeadline_black {
+    text-align: left;
+    font-weight: lighter;
+}
+
+.aiEvaluationHeadline_black {
+
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.aiEvaluationHeadline_white {
+
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.backToExerciseButton {
+    margin-bottom: 20px;
+}

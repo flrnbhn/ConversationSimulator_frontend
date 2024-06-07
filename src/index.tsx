@@ -6,6 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import {ConversationProvider} from "./context/conversationcontext/ConversationContext";
 import {ExerciseProvider} from "./context/exercisecontext/ExerciseContext";
 import {LearnerProvider} from "./context/learnercontext/LearnerContext";
+import './Global.css';
+import {StylingProvider} from "./context/stylingcontext/StylingContext";
+
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -13,13 +16,15 @@ const root = ReactDOM.createRoot(
 root.render(
     // <React.StrictMode>
     <>
-        <LearnerProvider>
-            <ExerciseProvider>
-                <ConversationProvider>
-                    <App/>
-                </ConversationProvider>
-            </ExerciseProvider>
-        </LearnerProvider>
+        <StylingProvider>
+            <LearnerProvider>
+                <ExerciseProvider>
+                    <ConversationProvider>
+                        <App/>
+                    </ConversationProvider>
+                </ExerciseProvider>
+            </LearnerProvider>
+        </StylingProvider>
     </>
     // </React.StrictMode>
 );

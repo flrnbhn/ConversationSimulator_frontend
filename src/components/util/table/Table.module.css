@@ -1,0 +1,30 @@
+.container {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    margin-bottom: 10px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.th, .td {
+    border: 1px solid #2d2d2d;
+    padding: 8px;
+    text-align: left;
+}
+
+.th {
+    background-color: #0B2A65;
+    font-weight: bold;
+}
+
+
+.markedRow {
+    background-color: green !important;
+    color: white;
+}

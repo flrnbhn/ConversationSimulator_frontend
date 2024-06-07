@@ -1,9 +1,12 @@
 import {useLearner} from "../../hooks/learneradministrationhook/useLearner";
-import {useEffect} from "react";
-import css from "../learnprogress/LearnProgressView.module.css";
+import {useContext, useEffect} from "react";
+import css from "./AchievementView.module.css";
 import {Table} from "../util/table/Table";
+import {StylingContext} from "../../context/stylingcontext/StylingContext";
 
 export const AchievementView = () => {
+
+    const {setCurrentHeadline, isLighMode} = useContext(StylingContext)!
 
     const {
         getAllLearnersSortedByTotalPoints,
@@ -16,6 +19,7 @@ export const AchievementView = () => {
     } = useLearner();
 
     useEffect(() => {
+        setCurrentHeadline("Erfolge");
         if (learnerId !== null && learnerId !== -1) {
             getLearnerById();
             getAllLearnersSortedByTotalPoints();
@@ -34,26 +38,23 @@ export const AchievementView = () => {
     const tableDataHighScore = learnerHighscores.map((highscore, index) => {
         return {
             Spieler: highscore.name,
-            Anzahl: highscore.anz
+            Score: highscore.anz
         };
     });
 
     return (
         <div>
-            <div>
-                <h2>Erfolge</h2>
+            <div className={css.pointNumber}>
+                Deine Gesamtpunktzahl: {learner?.totalPoints}
             </div>
             <div>
-                Deine Punktzahl: {learner?.totalPoints}
-            </div>
-            <div>
-                <div className={css.gradeTable}>
-                    {allLearners.length !== 0 ? <Table header={"Rangliste"} data={tableDataPoints}
+                <div className={isLighMode ? css.rankTable_white : css.rankTable_black}>
+                    {allLearners.length !== 0 ? <Table header={"Rangliste"} data={tableDataPoints.reverse()}
                                                        marker={learner?.name !== undefined ? learner?.name : ""}
                                                        markedColumn={"Spieler"}/> :
                         <h3>Keine Spieler vorhanden</h3>}
                 </div>
-                <div className={css.gradeTable}>
+                <div className={isLighMode ? css.rankTable_white : css.rankTable_black}>
                     {learnerHighscores.length !== 0 ?
                         <Table header={"Die höchsten Highscores"} data={tableDataHighScore}
                                marker={learner?.name !== undefined ? learner?.name : ""}

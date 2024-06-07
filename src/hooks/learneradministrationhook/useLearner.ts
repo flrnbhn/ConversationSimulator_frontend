@@ -1,20 +1,26 @@
 import axios from "axios";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {LearnerContext} from "../../context/learnercontext/LearnerContext";
 import {LearnerRegistrateRequestDTO} from "../../types/learnerdata/LearnerRegistrateRequestDTO";
 import {LearnerLoginRequestDTO} from "../../types/learnerdata/LearnerLoginRequestDTO";
 import {LearnerResponseDTO} from "../../types/learnerdata/LearnerResponseDTO";
 import {ConversationResponseDTO} from "../../types/conversationdata/ConversationResponseDTO";
 import {HighScoreLearnersResponseDTO} from "../../types/learnerdata/HighScoreLearnersResponseDTO";
-import {LearningLanguage} from "../../types/learnerdata/LearningLanguage";
+import {LearningLanguage, LearningLanguageDTO} from "../../types/learnerdata/LearningLanguage";
 
 export const useLearner = () => {
 
-    const {learnerId, setLearnerId} = useContext(LearnerContext)!;
-    const [learner, setLearner] = useState<LearnerResponseDTO>();
+    const {learnerId, setLearnerId, learner, setLearner} = useContext(LearnerContext)!;
     const [learnerConversations, setLearnerConversations] = useState<ConversationResponseDTO[]>([]);
     const [allLearners, setAllLearners] = useState<LearnerResponseDTO[]>([]);
     const [learnerHighscores, setLearnerHighscores] = useState<HighScoreLearnersResponseDTO[]>([]);
+
+
+    useEffect(() => {
+        if (learnerId !== null) {
+            getLearnerById();
+        }
+    }, [learnerId]);
 
     function postRegistration(name: string, learningLanguage: LearningLanguage) {
         const learnerRegistrateRequestDTO: LearnerRegistrateRequestDTO = {
@@ -93,6 +99,14 @@ export const useLearner = () => {
             })
     }
 
+    function changeLearningLanguage(learningLanguage: LearningLanguage) {
+        const learningLanguageDTO: LearningLanguageDTO = {learningLanguage: learningLanguage};
+        axios.post("learner/language/" + learnerId, learningLanguageDTO)
+            .catch(error => {
+                console.log("Post hat nicht funktioniert " + error);
+            })
+    }
+
     return {
         learnerId,
         postRegistration,
@@ -105,6 +119,8 @@ export const useLearner = () => {
         getAllLearnersSortedByTotalPoints,
         allLearners,
         getAllHighscoresFromAllLearners,
-        learnerHighscores
+        learnerHighscores,
+        setLearner,
+        changeLearningLanguage
     }
 }

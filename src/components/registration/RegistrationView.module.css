@@ -1,3 +1,51 @@
 .errorMessage {
     color: red;
 }
+
+.formContainer {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.formContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.formLabel {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: lighter;
+    color: #ffffff;
+}
+
+.formLink {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.formInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 20px;
+}

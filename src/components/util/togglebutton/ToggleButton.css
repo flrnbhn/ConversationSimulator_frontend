@@ -1,0 +1,30 @@
+.toggle-switch {
+    width: 50px;
+    height: 25px;
+    background-color: #636465;
+    border-radius: 25px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.toggle-switch.toggled {
+    background-color: #ccc;
+}
+
+.toggle-thumb {
+    width: 23px;
+    height: 23px;
+    background-color: #0e0e0e;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    transition: left 0.3s;
+}
+
+.toggle-switch.toggled .toggle-thumb {
+    left: 26px;
+    background-color: white;
+
+}

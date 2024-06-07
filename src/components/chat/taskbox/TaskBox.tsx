@@ -26,7 +26,7 @@ export const TaskBox: React.FunctionComponent<TaskBoxProps> = ({completedTaskDes
                         </td>
                         <td>
                             <div key={index} className={css.taskDescription}>
-                                {taskDescription.description}
+                                {index + 1}. {taskDescription.description}
                             </div>
                         </td>
                     </tr>

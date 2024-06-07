@@ -11,6 +11,7 @@ import {LearnProgress} from "../../pages/learnprogress/LearnProgress";
 import {Home} from "../../pages/home/Home";
 import {Achievement} from "../../pages/achievement/Achievement";
 import {HighScoreGame} from "../../pages/highscoregame/HighScoreGame";
+import {Profile} from "../../pages/profile/Profile";
 
 export const Main: React.FC = () => {
     return (
@@ -81,6 +82,15 @@ export const Main: React.FC = () => {
                     </ProtectedRoute>
                 }
             />
+            <Route
+                path="/profile"
+                element={
+                    <ProtectedRoute>
+                        <Profile/>
+                    </ProtectedRoute>
+                }
+            />
+
             <Route path="/" element={<Navigate to="/login" replace/>}/> {}
         </Routes>
     );

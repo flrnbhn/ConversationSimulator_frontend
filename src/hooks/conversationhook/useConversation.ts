@@ -16,7 +16,6 @@ import {ConversationStatusDTO} from "../../types/conersationstatus/ConversationS
 import {useLocation} from "react-router";
 import {LearnerContext} from "../../context/learnercontext/LearnerContext";
 import {HighScoreConversationResponseDTO} from "../../types/conversationdata/HighScoreConversationResponseDTO";
-import {Simulate} from "react-dom/test-utils";
 
 
 export const useConversation = () => {
@@ -99,6 +98,17 @@ export const useConversation = () => {
             }
         }
     }, [newConversationResponseState]);
+
+    useEffect(() => {
+        if (conversationStatus === ConversationStatus.PASSED || conversationStatus === ConversationStatus.FAILED) {
+            if (audioPlayed) {
+                setAudioPlayed(false);
+                if (audioState !== null) {
+                    audioState.pause();
+                }
+            }
+        }
+    }, [conversationStatus]);
 
 
     function sendNewMessage(message: string | null) {

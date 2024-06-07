@@ -1,10 +1,14 @@
 import {useLearner} from "../../hooks/learneradministrationhook/useLearner";
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
 import {Table} from "../util/table/Table";
 import css from "./LearnProgressView.module.css"
 import {getGradeValue} from "../../types/evaluationdata/Grade";
+import {Chart} from "../util/chart/Chart";
+import {StylingContext} from "../../context/stylingcontext/StylingContext";
 
 export const LearnProgressView = () => {
+
+    const {setCurrentHeadline, isLighMode} = useContext(StylingContext)!
 
     const {
         getLearnerById,
@@ -17,6 +21,7 @@ export const LearnProgressView = () => {
     //const exampleData = null ;
 
     useEffect(() => {
+        setCurrentHeadline("Lernfortschritt");
         if (learnerId !== null && learnerId !== -1) {
             getLearnerById();
             getConversationsFromLearner();
@@ -48,16 +53,20 @@ export const LearnProgressView = () => {
 
     return (
         <div>
-            <h2>Lernfortschritt</h2>
-            <div>
+            <div className={css.chartContainer}>
+                <Chart header={"Notenentwicklung"} dataset={tableData.map(dataSet => dataSet.Note).reverse()}
+                       labels={tableData.map(dataset => dataset.Datum)}/>
+            </div>
+            <div className={css.gradeAverage}>
                 Aktueller Notendurchschnitt: {learner?.gradeAverage}
             </div>
             <div>
-                <div className={css.gradeTable}>
+                <div className={isLighMode ? css.gradeTable_white : css.gradeTable_black}>
                     {learnerConversations.length !== 0 ? <Table header={"Vergangene Übungen"} data={tableData}/> :
                         <h3>Keine Noten vorhanden</h3>}
                 </div>
             </div>
+
         </div>
     )
 }

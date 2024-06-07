@@ -4,6 +4,7 @@ import css from "./ConversationFinishedPopUp.module.css";
 import {PrimaryButton} from "../../util/primarybutton/PrimaryButton";
 import {ConversationStatus} from "../../../types/conersationstatus/ConversationStatus";
 import {useNavigate} from "react-router";
+import {Title} from "../../util/title/Title";
 
 interface ConversationFinishedPopUpProps {
     conversationStatus: ConversationStatus;
@@ -44,17 +45,17 @@ export const ConversationFinishedPopUp: React.FunctionComponent<ConversationFini
             >
                 {conversationStatus === ConversationStatus.PASSED ?
                     <div>
-                        <h2>Aufgabe bestanden</h2>
+                        <Title title={"Aufgabe bestanden"}/>
                         <p>Du hast die Aufgabe bestanden!</p>
                     </div>
                     :
                     <div>
-                        <h2>Aufgabe nicht bestanden</h2>
+                        <Title title={"Aufgabe nicht bestanden"}/>
                         <p>Du hast die Aufgabe nicht bestanden!</p>
                     </div>
                 }
 
-                <PrimaryButton buttonFunction={redirectToEvaluation} title={"Zur Übungsübersicht"} disabled={false}/>
+                <PrimaryButton buttonFunction={redirectToEvaluation} title={"Zur Übungsauswertung"} disabled={false}/>
             </Modal>
         </div>
     )

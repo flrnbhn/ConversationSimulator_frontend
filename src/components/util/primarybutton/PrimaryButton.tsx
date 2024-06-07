@@ -1,4 +1,5 @@
 import React, {MouseEvent} from 'react';
+import './PrimaryButton.css'
 
 interface PrimaryButtonProps {
     buttonFunction: (param?: any) => void;

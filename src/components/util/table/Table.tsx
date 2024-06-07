@@ -1,4 +1,5 @@
 import React from "react";
+import css from "./Table.module.css"
 
 interface TableProps {
     header: string,
@@ -12,16 +13,16 @@ export const Table: React.FunctionComponent<TableProps> = ({header, data, marker
     const headers = Object.keys(data[0]);
 
     return (
-        <div>
-            <div>
+        <div className={css.container}>
+            <div className={css.header}>
                 <h3>{header}</h3>
             </div>
             <div>
-                <table>
+                <table className={css.table}>
                     <thead>
                     <tr>
                         {headers.map((header, index) => (
-                            <th key={index}>{header}</th>
+                            <th key={index} className={css.th}>{header}</th>
                         ))}
                     </tr>
                     </thead>
@@ -29,12 +30,12 @@ export const Table: React.FunctionComponent<TableProps> = ({header, data, marker
                     {data.map((row, rowIndex) => {
                         const isMarked = markedColumn && marker && row[markedColumn] === marker;
                         return (
-                            <tr key={rowIndex} style={{backgroundColor: isMarked ? 'green' : 'transparent'}}>
+                            <tr key={rowIndex} className={`${css.tr} ${isMarked ? css.markedRow : ''}`}>
                                 {headers.map((header, colIndex) => (
-                                    <td key={colIndex}>{row[header]}</td>
+                                    <td key={colIndex} className={css.td}>{row[header]}</td>
                                 ))}
                             </tr>
-                        )
+                        );
                     })}
                     </tbody>
                 </table>

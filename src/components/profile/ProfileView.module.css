@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 600px;
+    margin: 40px auto 20px;
+}
+
+.section {
+    display: flex;
+    align-items: center;
+}
+
+.label {
+    flex-basis: 120px;
+}
+
+.input,
+.select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.select {
+    cursor: pointer;
+}
