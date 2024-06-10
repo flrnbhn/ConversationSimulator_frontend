@@ -52,30 +52,18 @@ export const ChatView = () => {
     const [conversationCreated, setConversationCreated] = useState(false);
     const {fetchAllTasksForExercise, allTasksForExercise, fetchExerciseById,} = useExercise();
     const {postConversationIdToGetLanguageCheckForHighscoreGame, mistakeHighscoreDTOs} = useEvaluation();
+    const [hideChat, setHideChat] = useState<boolean>(false);
+
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({behavior: 'smooth'});
     };
 
-    /* useEffect(() => {
-         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-             event.preventDefault();
-             console.log("isTriggered")
-             if (audioState !== null && audioState.played) {
-                 audioState.pause();
-             }
-         };
-         window.addEventListener('beforeunload', handleBeforeUnload);
-
-         return () => {
-             window.removeEventListener('beforeunload', handleBeforeUnload);
-         };
-     }, []);*/
 
     useEffect(() => {
         if (mistakeHighscoreDTOs.length !== 0 && isHighscore) {
             finishConversation();
-            setIsHighscore(false);
+            //setIsHighscore(false);
         }
     }, [mistakeHighscoreDTOs]);
 
@@ -129,7 +117,7 @@ export const ChatView = () => {
         }
         setMessage(newMessageData);
         setMessages(prevMessages => [...prevMessages, newMessageData]);
-        sendNewMessage(messageString);
+        sendNewMessage(messageString, false);
     }
 
     const handleFinishConversation = (event: MouseEvent<HTMLButtonElement>) => {
@@ -154,39 +142,42 @@ export const ChatView = () => {
                 <div className={css.chatHeaderContainer}>
                     <ToggleButton/>
                     <div className={css.chatHeader}>
-                        <span>{currentExercise?.roleSystem}</span>
-                        <button className={css.muteButton} onClick={handleMute}><FontAwesomeIcon
-                            icon={isMuted ? faVolumeXmark : faVolumeUp}/></button>
+                        <span>{isHighscore ? highScoreConversation?.roleSystem : currentExercise?.roleSystem}</span>
+                        <button className={audioPlayed ? css.muteButton_played : css.muteButton} onClick={handleMute}>
+                            <FontAwesomeIcon
+                                icon={isMuted ? faVolumeXmark : faVolumeUp}/></button>
                     </div>
                     <button className={css.cancelButton} onClick={handleFinishConversation}><FontAwesomeIcon
                         icon={faXmark} data-tooltip-id="cancel_tooltip"
                         data-tooltip-content="Übung vorzeitig beenden"/></button>
                 </div>
                 <Tooltip id="cancel_tooltip"/>
-                <div className={css.chatContainer}>
-                    {allMessagesState.map((messageData, index) => (
-                        <div
-                            key={index}
-                            className={messageData.conversationMember === ConversationMember.PARTNER ? css.chatMessagePartner : css.chatMessageUser}>
-                            {isHighscore ? (
-                                <ChatMessage
-                                    messageData={messageData}
-                                    role={messageData.conversationMember === ConversationMember.PARTNER ? highScoreConversation?.roleSystem : highScoreConversation?.roleUser}
-                                    translateMessage={translateMessage}
-                                    index={index}
-                                />
-                            ) : (
-                                <ChatMessage
-                                    messageData={messageData}
-                                    role={messageData.conversationMember === ConversationMember.PARTNER ? currentExercise?.roleSystem : currentExercise?.roleUser}
-                                    translateMessage={translateMessage}
-                                    index={index}
-                                />
-                            )}
-                        </div>
-                    ))}
-                    <div ref={messagesEndRef}/>
-                </div>
+                {hideChat ? <div className={css.chatHided}>Chat ausgeblendet</div> :
+                    <div className={css.chatContainer}>
+                        {allMessagesState.map((messageData, index) => (
+                            <div
+                                key={index}
+                                className={messageData.conversationMember === ConversationMember.PARTNER ? css.chatMessagePartner : css.chatMessageUser}>
+                                {isHighscore ? (
+                                    <ChatMessage
+                                        messageData={messageData}
+                                        role={messageData.conversationMember === ConversationMember.PARTNER ? highScoreConversation?.roleSystem : highScoreConversation?.roleUser}
+                                        translateMessage={translateMessage}
+                                        index={index}
+                                    />
+                                ) : (
+                                    <ChatMessage
+                                        messageData={messageData}
+                                        role={messageData.conversationMember === ConversationMember.PARTNER ? currentExercise?.roleSystem : currentExercise?.roleUser}
+                                        translateMessage={translateMessage}
+                                        index={index}
+                                    />
+                                )}
+                            </div>
+                        ))}
+                        <div ref={messagesEndRef}/>
+                    </div>
+                }
 
                 <div className={css.taskBox}>
                     {!isHighscore &&
@@ -200,7 +191,9 @@ export const ChatView = () => {
                               isDisabled={audioPlayed}
                               isMuted={isMuted} setIsMuted={setIsMuted}
                               transcribeAndSendSpeechInput={transcribeAndSendSpeechInput}
-                              finishConversation={finishConversation}/>
+                              finishConversation={finishConversation}
+                              hideChat={hideChat}
+                              setHideChat={setHideChat}/>
                 </div>
                 <div>
                     <ConversationFinishedPopUp conversationStatus={conversationStatus}/>

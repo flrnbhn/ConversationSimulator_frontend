@@ -4,6 +4,7 @@ import {PrimaryButton} from "../util/primarybutton/PrimaryButton";
 import {useNavigate} from "react-router";
 import {StylingContext} from "../../context/stylingcontext/StylingContext";
 import css from "./HighScoreGameView.module.css"
+import {LoadingBar} from "../util/loadingbar/LoadingBar";
 
 export const HighScoreGameView = () => {
     const navigate = useNavigate();
@@ -15,11 +16,11 @@ export const HighScoreGameView = () => {
         postHighscoreConversation,
         postNewConversation,
         setIsHighscore,
-        deleteConversation
+        deleteConversation,
+        setHighScoreConversation
     } = useConversation();
 
     const enterConversation = (exerciseId: number) => {
-        setIsHighscore(true);
         navigate('/chat');
     }
 
@@ -31,39 +32,49 @@ export const HighScoreGameView = () => {
     useEffect(() => {
         setCurrentHeadline("Highscore Spiel")
         postHighscoreConversation();
+        setIsHighscore(true);
+
+
+        return () => {
+            setIsHighscore(false);
+            setHighScoreConversation(undefined);
+        };
     }, []);
 
     return (
-        <div>
-            <div className={isLighMode ? css.explanationContainer_white : css.explanationContainer_black}>
-                <div className={isLighMode ? css.szenarioContainer_white : css.szenarioContainer_black}>
-                    <div className={css.szenarioHeader}>
-                        Szenario
-                    </div>
-                    <div>{highScoreConversation?.szenario} </div>
-                </div>
-                <div className={css.roles}>
-                    <div className={isLighMode ? css.yourRoleContainer_white : css.systemRoleContainer_black}>
-                        <div className={css.yourRoleHeader}>
-                            Du bist
-                        </div>
-                        <div className={css.yourRole}>{highScoreConversation?.roleUser}</div>
-                    </div>
-                    <div className={isLighMode ? css.systemRoleContainer_white : css.systemRoleContainer_black}>
-                        <div className={css.systemRoleHeader}>
-                            Das System ist
-                        </div>
-                        <div className={css.systemRole}>{highScoreConversation?.roleSystem}</div>
-
-                    </div>
-                </div>
-            </div>
-            <div className={css.startButton}>
-                <PrimaryButton buttonFunction={enterConversation} title={"Starten"} disabled={false}/>
-            </div>
+        highScoreConversation === undefined ?
+            <LoadingBar/>
+            :
             <div>
-                <PrimaryButton buttonFunction={goBack} title={"Zurück"} disabled={false}/>
+                <div className={isLighMode ? css.explanationContainer_white : css.explanationContainer_black}>
+                    <div className={isLighMode ? css.szenarioContainer_white : css.szenarioContainer_black}>
+                        <div className={css.szenarioHeader}>
+                            Szenario
+                        </div>
+                        <div>{highScoreConversation?.szenario} </div>
+                    </div>
+                    <div className={css.roles}>
+                        <div className={isLighMode ? css.yourRoleContainer_white : css.systemRoleContainer_black}>
+                            <div className={css.yourRoleHeader}>
+                                Du bist
+                            </div>
+                            <div className={css.yourRole}>{highScoreConversation?.roleUser}</div>
+                        </div>
+                        <div className={isLighMode ? css.systemRoleContainer_white : css.systemRoleContainer_black}>
+                            <div className={css.systemRoleHeader}>
+                                Das System ist
+                            </div>
+                            <div className={css.systemRole}>{highScoreConversation?.roleSystem}</div>
+
+                        </div>
+                    </div>
+                </div>
+                <div className={css.startButton}>
+                    <PrimaryButton buttonFunction={enterConversation} title={"Starten"} disabled={false}/>
+                </div>
+                <div>
+                    <PrimaryButton buttonFunction={goBack} title={"Zurück"} disabled={false}/>
+                </div>
             </div>
-        </div>
     )
 }

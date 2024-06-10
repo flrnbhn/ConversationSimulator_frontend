@@ -6,6 +6,8 @@ import {useNavigate} from "react-router";
 import {getGradeValue} from "../../../types/evaluationdata/Grade";
 import {StylingContext} from "../../../context/stylingcontext/StylingContext";
 import css from "./EvaluationView.module.css";
+import {LoadingBar} from "../../util/loadingbar/LoadingBar";
+import {useConversation} from "../../../hooks/conversationhook/useConversation";
 
 
 export const EvaluationView = () => {
@@ -13,10 +15,15 @@ export const EvaluationView = () => {
     const {postConversationIdToGetLanguageCheck, evaluationResponseDTO} = useEvaluation();
     const navigate = useNavigate();
     const {setCurrentHeadline, isLighMode} = useContext(StylingContext)!
+    const {isHighscore} = useConversation();
 
 
     const goBackToExerciseOverview = () => {
         navigate('/exercises');
+    }
+
+    const goBackToHome = () => {
+        navigate('/home');
     }
 
     useEffect(() => {
@@ -41,32 +48,47 @@ export const EvaluationView = () => {
 
 
     return (
-        <div className={css.evaluationContainer}>
-            <div>
-                {evaluationResponseDTO?.mistakeResponseDTOS.map((mistake, index) => (
-                    <div key={index}>
-                        <MistakeTile mistake={mistake}/>
-                    </div>
-                ))}
-            </div>
-            <div className={isLighMode ? css.aiEvaluationContainer_white : css.aiEvaluationContainer_black}>
-                <div className={isLighMode ? css.aiEvaluationHeadline_white : css.aiEvaluationHeadline_black}>
-                    Verbesserungsvorschläge
+        evaluationResponseDTO === undefined || evaluationResponseDTO === null
+            ?
+            <LoadingBar/>
+            :
+            <div className={css.evaluationContainer}>
+                <div>
+                    {evaluationResponseDTO?.mistakeResponseDTOS.map((mistake, index) => (
+                        <div key={index}>
+                            <MistakeTile mistake={mistake}/>
+                        </div>
+                    ))}
                 </div>
-                {evaluationResponseDTO !== undefined ? textWithHeader(evaluationResponseDTO.evaluation) : ""}
+                <div className={isLighMode ? css.aiEvaluationContainer_white : css.aiEvaluationContainer_black}>
+                    <div className={isLighMode ? css.aiEvaluationHeadline_white : css.aiEvaluationHeadline_black}>
+                        Verbesserungsvorschläge
+                    </div>
+                    {evaluationResponseDTO !== undefined ? textWithHeader(evaluationResponseDTO.evaluation) : ""}
 
-            </div>
-            <div className={isLighMode ? css.gradeAndPointBox_white : css.gradeAndPointBox_black}>
-                <div>Note: {parseFloat(getGradeValue(evaluationResponseDTO?.grade) || '0.0')}</div>
-                <hr className={css.seperator}/>
+                </div>
+                {!isHighscore
+                    ?
+                    <div className={css.evaluationCountExplanation}>{evaluationResponseDTO.translationCount > 0
+                        ?
+                        "Du hast die Übersetzungsfunktion " + evaluationResponseDTO.translationCount + "x genutzt. Um fair zu bleiben wirkt sich dies leicht auf deine Note und deine Punkte aus"
+                        : ""}</div>
+                    :
+                    ""}
+                {!isHighscore
+                    ?
+                    <div className={isLighMode ? css.gradeAndPointBox_white : css.gradeAndPointBox_black}>
+                        <div>Note: {parseFloat(getGradeValue(evaluationResponseDTO?.grade) || '0.0')}</div>
+                        <hr className={css.seperator}/>
 
-                <div className={css.points}>Punkte: {evaluationResponseDTO?.points}</div>
-
+                        <div className={css.points}>Punkte: {evaluationResponseDTO?.points}</div>
+                    </div>
+                    : ""}
+                <div className={css.backToExerciseButton}>
+                    <PrimaryButton buttonFunction={!isHighscore ? goBackToExerciseOverview : goBackToHome}
+                                   title={!isHighscore ? "Zurück zu den Übungen" : "Zurück zur Startseite"}
+                                   disabled={false}/>
+                </div>
             </div>
-            <div className={css.backToExerciseButton}>
-                <PrimaryButton buttonFunction={goBackToExerciseOverview} title={"Zurück zu den Übungen"}
-                               disabled={false}/>
-            </div>
-        </div>
     )
 }

@@ -30,6 +30,7 @@ export const useConversation = () => {
         message: "",
         conversationMember: ConversationMember.NONE,
         conversationID: null,
+        isAudioMessage: false
     });
     let currentConversationIdNumber: number | null = null;
     const location = useLocation();
@@ -111,15 +112,22 @@ export const useConversation = () => {
     }, [conversationStatus]);
 
 
-    function sendNewMessage(message: string | null) {
+    function sendNewMessage(message: string | null, isAudioMessage: boolean) {
         setAudioPlayed(true);
-        const newConversationRequestMessage = {
+        const newConversationRequestMessage: MessageRequestDTO = {
             message: message,
             conversationMember: ConversationMember.USER,
             conversationID: currentConversationId,
-            translation: null,
+            isAudioMessage: isAudioMessage
         }
-        const updatedMessagesState = updateMessagesState(newConversationRequestMessage);
+        const newStateMessage: MessageData = {
+            message: message,
+            conversationMember: ConversationMember.USER,
+            conversationID: currentConversationId,
+            translation: null
+        }
+
+        const updatedMessagesState = updateMessagesState(newStateMessage);
         setNewConversationRequestState(newConversationRequestMessage)
         postMessageResponse(newConversationRequestMessage, updatedMessagesState);
     }
@@ -130,7 +138,7 @@ export const useConversation = () => {
         return updatedMessagesState;
     }
 
-    function postMessageResponse(newConversationRequestMessage: MessageData, updatedMessagesState: MessageData[]) {
+    function postMessageResponse(newConversationRequestMessage: MessageRequestDTO, updatedMessagesState: MessageData[]) {
         axios.post<MessageResponseDTO>('/conversation/newMessage', newConversationRequestMessage)
             .then(response => {
                 return response.data;
@@ -282,10 +290,12 @@ export const useConversation = () => {
                 return response.data;
             })
             .then(data => {
-                setCurrentConversationId(data.conversationId)
-                setConversationStatus(ConversationStatus.IN_PROCESS);
-                postNewConversationStatus(ConversationStatus.IN_PROCESS, data.conversationId);
-                setHighScoreConversation(data);
+                if (isHighscore) {
+                    setCurrentConversationId(data.conversationId)
+                    setConversationStatus(ConversationStatus.IN_PROCESS);
+                    postNewConversationStatus(ConversationStatus.IN_PROCESS, data.conversationId);
+                    setHighScoreConversation(data);
+                }
             })
             .catch(error => {
                 console.error('Error fetching data: ', error);
@@ -310,7 +320,7 @@ export const useConversation = () => {
         axios.post<string>("/conversation/transcribe", transcriptionData)
             .then(response => response.data)
             .then(data => {
-                sendNewMessage(data);
+                sendNewMessage(data, true);
             })
             .catch(error => {
                 console.error('Error fetching data: ', error);
@@ -356,6 +366,7 @@ export const useConversation = () => {
         setIsMuted,
         isMuted,
         transcribeAndSendSpeechInput,
-        translateMessage
+        translateMessage,
+        setHighScoreConversation
     }
 }

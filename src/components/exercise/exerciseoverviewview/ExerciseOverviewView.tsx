@@ -7,7 +7,6 @@ import {PrimaryButton} from "../../util/primarybutton/PrimaryButton";
 import {CreateNewExercisePopUp} from "../createnewexercisepopup/CreateNewExercisePopUp";
 import Modal from "react-modal";
 import css from "./ExerciseOverviewView.module.css";
-import {Title} from "../../util/title/Title";
 import {StylingContext} from "../../../context/stylingcontext/StylingContext";
 
 Modal.setAppElement('#root');
@@ -18,9 +17,10 @@ export const ExerciseOverviewView: React.FC = () => {
         allExercisesState,
         setCurrentExerciseId,
         postNewExercise,
-        newCreatedExerciseId
+        newCreatedExerciseId,
+        deleteExerciseById
     } = useExercise();
-    const {postNewConversation, currentConversationId, setIsHighscore} = useConversation();
+    const {postNewConversation, currentConversationId, setIsHighscore, setHighScoreConversation} = useConversation();
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -29,6 +29,8 @@ export const ExerciseOverviewView: React.FC = () => {
     useEffect(() => {
         setCurrentHeadline("Übungsübersicht")
         fetchAllExercises();
+        setIsHighscore(false);
+        setHighScoreConversation(undefined);
     }, []);
 
     useEffect(() => {
@@ -68,7 +70,9 @@ export const ExerciseOverviewView: React.FC = () => {
                 {allExercisesState.map((exercise) => (
                     <div key={exercise.exerciseId}>
                         <ExerciseTile exerciseData={exercise}
-                                      buttonFunction={() => enterConversation(exercise.exerciseId)}/>
+                                      buttonFunction={() => enterConversation(exercise.exerciseId)}
+                                      deleteExerciseById={deleteExerciseById}
+                        />
                     </div>
                 ))}
             </div>

@@ -7,6 +7,7 @@ export interface ExerciseData {
     roleSystem: string;
     numberOfMessagesTillFailure: number;
     taskResponseDTO: TaskResponseDTO[];
+    createdByUser: boolean;
 }
 
 

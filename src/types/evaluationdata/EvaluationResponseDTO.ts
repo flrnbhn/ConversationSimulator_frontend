@@ -6,4 +6,5 @@ export interface EvaluationResponseDTO {
     grade: Grade;
     points: number;
     evaluation: string;
+    translationCount: number;
 }

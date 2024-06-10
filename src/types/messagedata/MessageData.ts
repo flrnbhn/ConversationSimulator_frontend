@@ -11,6 +11,7 @@ export interface MessageRequestDTO {
     conversationID: number | null;
     message: string | null;
     conversationMember: ConversationMember;
+    isAudioMessage: boolean;
 }
 
 export interface MessageResponseDTO {

@@ -29,9 +29,9 @@ export const AchievementView = () => {
 
     const tableDataPoints = allLearners.map((learner, index) => {
         return {
+            Rang: index + 1,
             Spieler: learner.name,
-            Punkte: learner.totalPoints,
-            Rang: ""
+            Punkte: learner.totalPoints
         };
     });
 

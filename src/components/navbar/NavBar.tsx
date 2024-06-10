@@ -5,12 +5,13 @@ import {ExerciseContext} from "../../context/exercisecontext/ExerciseContext";
 import {ConversationContext} from "../../context/conversationcontext/ConversationContext";
 import {ToggleButton} from "../util/togglebutton/ToggleButton";
 import './NavBar.css';
-import {faHome, faUser, faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
+import {faHome, faRightFromBracket, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Tooltip} from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 import {Title} from "../util/title/Title";
 import {StylingContext} from "../../context/stylingcontext/StylingContext";
+import {getLearningLanguageValue} from "../../types/learnerdata/LearningLanguage";
 
 export const NavBar = () => {
     const {resetLearnerContext, learner} = useContext(LearnerContext)!;
@@ -41,6 +42,11 @@ export const NavBar = () => {
                     <Title title={currentHeadline !== null ? currentHeadline : ""}/>
                 </div>
                 <div className="navbar-right">
+                    <span className="learningLanguage" data-tooltip-id="delete_tooltip"
+                          data-tooltip-content={"Du lernst gerade " + getLearningLanguageValue(learner?.learningLanguage) + " . Du kannst die Sprach unter deinem Profil umstellen."}>
+                        {getLearningLanguageValue(learner?.learningLanguage)}
+                    </span>
+                    <Tooltip id={"delete_tooltip"}/>
                     <span className="nav-text">
                          <Link to="/profile" className="nav-link" data-tooltip-id="learner_tooltip"
                                data-tooltip-content="Zum Profil">

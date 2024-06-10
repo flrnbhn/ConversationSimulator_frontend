@@ -1,5 +1,5 @@
 import {useLearner} from "../../hooks/learneradministrationhook/useLearner";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Table} from "../util/table/Table";
 import css from "./LearnProgressView.module.css"
 import {getGradeValue} from "../../types/evaluationdata/Grade";
@@ -7,7 +7,6 @@ import {Chart} from "../util/chart/Chart";
 import {StylingContext} from "../../context/stylingcontext/StylingContext";
 
 export const LearnProgressView = () => {
-
     const {setCurrentHeadline, isLighMode} = useContext(StylingContext)!
 
     const {
@@ -18,7 +17,7 @@ export const LearnProgressView = () => {
         getConversationsFromLearner
     } = useLearner();
 
-    //const exampleData = null ;
+    const [averageGrades, setAverageGrades] = useState<number[]>([]);
 
     useEffect(() => {
         setCurrentHeadline("Lernfortschritt");
@@ -31,14 +30,11 @@ export const LearnProgressView = () => {
 
     const tableData = learnerConversations.map((conversation, index) => {
         const date = new Date(conversation.conversationStartDate);
-
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
-
         const hours = date.getHours().toString().padStart(2, '0');
         const minutes = date.getMinutes().toString().padStart(2, '0');
-
         const formattedDate = `${day}.${month}.${year}`;
         const formattedTime = `${hours}:${minutes}`;
 
@@ -50,11 +46,31 @@ export const LearnProgressView = () => {
         };
     });
 
+    const calcAverages = (grades: number[]) => {
+        const averages: number[] = [];
+        for (let i = 0; i < grades.length; i++) {
+            if (i === 0) {
+                averages.push(grades[i]);
+            } else {
+                let j = i;
+                let addition = 0;
+                while (j >= 0) {
+                    addition += grades[j];
+                    j--;
+                }
+                let average = addition / (i + 1);
+                averages.push(average)
+            }
+        }
+        return averages;
+    }
 
     return (
         <div>
             <div className={css.chartContainer}>
-                <Chart header={"Notenentwicklung"} dataset={tableData.map(dataSet => dataSet.Note).reverse()}
+                <Chart header={"Notenentwicklung"}
+                       dataset={calcAverages(tableData.map(dataSet => Number(dataSet.Note)).reverse())
+                           .map(average => String(average))}
                        labels={tableData.map(dataset => dataset.Datum)}/>
             </div>
             <div className={css.gradeAverage}>
@@ -66,7 +82,6 @@ export const LearnProgressView = () => {
                         <h3>Keine Noten vorhanden</h3>}
                 </div>
             </div>
-
         </div>
     )
 }

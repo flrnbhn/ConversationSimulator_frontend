@@ -1,0 +1,29 @@
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loader_black, .loader_white {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    margin: 60px auto; /* Center the loader */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader_black {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #0B2A65;
+}
+
+.loader_white {
+    border: 8px solid #646464;
+    border-top: 8px solid #0B2A65;
+}

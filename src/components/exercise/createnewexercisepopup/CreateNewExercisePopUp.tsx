@@ -26,7 +26,7 @@ export const CreateNewExercisePopUp: React.FunctionComponent<CreateNewExercisePo
     const [roleUser, setRoleUser] = useState("");
     const [roleSystem, setRoleSystem] = useState("");
     const [szenario, setSzenario] = useState("");
-    const [numberOfMessagesTillFailure, setNumberOfMessagesTillFailure] = useState(0);
+    const [numberOfMessagesTillFailure, setNumberOfMessagesTillFailure] = useState(20);
     const [taskList, setTaskList] = useState<string[]>([""]);
     const [createExercisesDisabled, setCreateExercisesDisabled] = useState(true);
     const {isLighMode} = useContext(StylingContext)!;

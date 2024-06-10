@@ -21,6 +21,7 @@ export const useLLM = () => {
         message: "",
         conversationMember: ConversationMember.NONE,
         conversationID: 0,
+        isAudioMessage: false
     });
     const [allMessagesState, setAllMessagesState] = useState<MessageData[]>([]);
     const LLM_MODEL = "gpt-3.5-turbo-0125";
@@ -33,7 +34,12 @@ export const useLLM = () => {
     function sendMessageToLLM(message: string | null) {
         const updatedMessagesState = updateMessagesState(message);
         const messages = createMessages(updatedMessagesState);
-        setNewRequestState({message: message, conversationMember: ConversationMember.USER, conversationID: 0})
+        setNewRequestState({
+            message: message,
+            conversationMember: ConversationMember.USER,
+            conversationID: 0,
+            isAudioMessage: false
+        })
         callLlmApi(messages, updatedMessagesState);
     }
 

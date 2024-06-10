@@ -7,7 +7,7 @@ interface ConversationContextProps {
     isHighscore: boolean
     setIsHighscore: (isHighscore: boolean) => void;
     highScoreConversation: HighScoreConversationResponseDTO | undefined;
-    setHighScoreConversation: (highScoreConversation: HighScoreConversationResponseDTO) => void;
+    setHighScoreConversation: (highScoreConversation: HighScoreConversationResponseDTO | undefined) => void;
     resetConversationContext: () => void;
 }
 
@@ -16,7 +16,7 @@ const ConversationContext = createContext<ConversationContextProps | null>(null)
 const ConversationProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [currentConversationId, setCurrentConversationId] = useState<number | null>(null);
     const [isHighscore, setIsHighscore] = useState<boolean>(false);
-    const [highScoreConversation, setHighScoreConversation] = useState<HighScoreConversationResponseDTO>();
+    const [highScoreConversation, setHighScoreConversation] = useState<HighScoreConversationResponseDTO | undefined>();
 
     const resetConversationContext = () => {
         setCurrentConversationId(null);

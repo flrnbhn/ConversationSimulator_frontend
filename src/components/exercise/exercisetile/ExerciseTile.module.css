@@ -3,7 +3,7 @@
     margin: 0 auto 20px;
     max-width: 600px;
     width: 100%;
-    height: 460px;
+    height: 420px;
     border-radius: 10px;
 }
 
@@ -30,7 +30,7 @@
     border-radius: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    height: 150px;
+    height: 80px;
     overflow-y: auto;
 
 }
@@ -44,6 +44,33 @@
     background-color: #343434;
 }
 
+.descriptionContainer_black::-webkit-scrollbar, .descriptionContainer_white::-webkit-scrollbar,
+.roleContainer_white::-webkit-scrollbar, .roleContainer_black::-webkit-scrollbar,
+.taskContainer_black::-webkit-scrollbar, .taskContainer_white::-webkit-scrollbar {
+    width: 12px;
+}
+
+
+.descriptionContainer_black::-webkit-scrollbar-track, .descriptionContainer_white::-webkit-scrollbar-track,
+.roleContainer_white::-webkit-scrollbar-track, .roleContainer_black::-webkit-scrollbar-track,
+.taskContainer_black::-webkit-scrollbar-track, .taskContainer_white::-webkit-scrollbar-track {
+    background: #414141;
+    border-radius: 10px;
+}
+
+.descriptionContainer_black::-webkit-scrollbar-thumb, .descriptionContainer_white::-webkit-scrollbar-thumb,
+.roleContainer_white::-webkit-scrollbar-thumb, .roleContainer_black::-webkit-scrollbar-thumb,
+.taskContainer_black::-webkit-scrollbar-thumb, .taskContainer_white::-webkit-scrollbar-thumb {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+
+.descriptionContainer_black::-webkit-scrollbar-thumb:hover, .descriptionContainer_white::-webkit-scrollbar-thumb:hover,
+.roleContainer_white::-webkit-scrollbar-thumb:hover, .roleContainer_black::-webkit-scrollbar-thumb:hover,
+.taskContainer_black::-webkit-scrollbar-thumb:hover, .taskContainer_white::-webkit-scrollbar-thumb:hover {
+    background: #5e5e5e;
+}
+
 .roleContainer_black, .roleContainer_white,
 .taskContainer_black, .taskContainer_white {
     flex: 0 0 calc(50% - 10px);
@@ -54,9 +81,13 @@
     overflow-y: auto;
 }
 
-.css.exerciseTileHeader {
-    padding-top: 15px;
-
+.exerciseTileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Verteilt die Elemente mit maximalem Platz zwischen ihnen */
+    padding: 15px; /* Abstand innerhalb des Containers */
+    position: relative;
+    margin-top: 20px;
 }
 
 .exerciseTileButton {
@@ -65,6 +96,11 @@
 
 }
 
+.exerciseTileHeader h3 {
+    flex-grow: 1; /* Header nimmt den verfügbaren Platz ein */
+    text-align: center; /* Text im Header wird zentriert */
+    margin: 0; /* Entfernt standardmäßige Margin des Headers */
+}
 
 .contentContainer {
     display: flex;
@@ -98,5 +134,23 @@
     margin-top: 30px;
     padding-right: 30px;
     padding-left: 30px;
+}
 
+
+.deleteButton {
+    margin-left: auto;
+    background-color: #a60505;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+}
+
+
+.deleteButton:hover {
+    background-color: #730303;
 }

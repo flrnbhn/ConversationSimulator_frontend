@@ -9,12 +9,12 @@
 
 
 .chatMessagePartner {
-    justify-self: left; /* Links ausrichten für Nachrichten des Partners */
+    justify-self: left;
 
 }
 
 .chatMessageUser {
-    justify-self: right; /* Rechtsausrichtung für Nachrichten des Benutzers */
+    justify-self: right;
 
 }
 
@@ -72,7 +72,7 @@
 
 }
 
-.muteButton {
+.muteButton, .muteButton_played {
     margin-left: auto; /* Push the button to the far right */
     background-color: #000000;
     color: #fff;
@@ -85,13 +85,26 @@
     margin-left: 10px;
 }
 
-.muteButton:hover {
+.muteButton_played {
+    z-index: 1; /* Place the button above the animated shadow */
+    animation: pulse 2s infinite; /* Apply the pulse animation */
+}
+
+.muteButton:hover, .muteButton_played:hover {
     background-color: #333333;
 
 }
 
+.chatHided {
+    color: rgba(255, 255, 255, 0.53);
+    font-size: xxx-large;
+    display: grid;
+    place-items: center;
+    height: 80vh;
+}
+
 .cancelButton {
-    margin-left: auto; /* Push the button to the far right */
+    margin-left: auto;
     background-color: #a60505;
     color: #fff;
     border: none;
@@ -102,7 +115,19 @@
     transition: background-color 0.3s ease;
 }
 
+
 .cancelButton:hover {
     background-color: #730303;
 }
 
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(20, 119, 15, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba(20, 119, 15, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(20, 119, 15, 0);
+    }
+}

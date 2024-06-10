@@ -70,6 +70,14 @@ export const useExercise = () => {
             });
     }
 
+    function deleteExerciseById(exerciseId: number) {
+        axios.delete("/exercise/" + exerciseId)
+            .catch((error) => {
+                console.error("Löschen hat nicht funktioniert", error);
+            })
+        fetchAllExercises();
+    }
+
 
     function createExerciseData(title: string,
                                 szenario: string,
@@ -109,6 +117,7 @@ export const useExercise = () => {
         fetchAllTasksForExercise,
         fetchExerciseById,
         postNewExercise,
-        newCreatedExerciseId
+        newCreatedExerciseId,
+        deleteExerciseById
     }
 }

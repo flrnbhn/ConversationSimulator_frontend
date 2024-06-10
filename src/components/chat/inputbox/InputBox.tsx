@@ -1,6 +1,6 @@
 import React, {Dispatch, FormEvent, MouseEvent, SetStateAction, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMicrophone, faTrash, faVolumeUp, faVolumeXmark, faArrowRight} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faComment, faCommentSlash, faMicrophone} from "@fortawesome/free-solid-svg-icons";
 import {useRecording} from "../../../hooks/conversationhook/useRecording";
 import css from "./InputBox.module.css"
 
@@ -13,6 +13,8 @@ interface InputBoxProps {
     isMuted: boolean;
     transcribeAndSendSpeechInput: (message: string) => void;
     finishConversation: () => void;
+    hideChat: boolean;
+    setHideChat: (hideChat: boolean) => void;
 }
 
 export const InputBox: React.FunctionComponent<InputBoxProps> = ({
@@ -22,7 +24,9 @@ export const InputBox: React.FunctionComponent<InputBoxProps> = ({
                                                                      setIsMuted,
                                                                      isMuted,
                                                                      transcribeAndSendSpeechInput,
-                                                                     finishConversation
+                                                                     finishConversation,
+                                                                     hideChat,
+                                                                     setHideChat
                                                                  }) => {
     const [value, setValue] = useState<string>('');
     const {record, stopRecording} = useRecording();
@@ -75,18 +79,35 @@ export const InputBox: React.FunctionComponent<InputBoxProps> = ({
         }
     };
 
+    const handleHideChat = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        if (hideChat) {
+            setHideChat(false);
+        } else {
+            setHideChat(true);
+        }
+    }
+
     return (
         <div className={css.inputBox}>
-            <input
-                className={css.inputField}
-                type="text"
-                placeholder="Nachricht eingeben..."
-                value={value}
-                onChange={handleMessageChange}
-                onKeyDown={handleKeyDown} // Event-Handler für das Keydown-Ereignis hinzufügen
-            />
-            <button className={css.sendButton} onClick={handleSend} disabled={isDisabled}><FontAwesomeIcon
-                icon={faArrowRight}/></button>
+            <button className={css.hideChatButton} onClick={handleHideChat}>
+                {hideChat ? <FontAwesomeIcon icon={faCommentSlash}/> : <FontAwesomeIcon icon={faComment}/>}
+            </button>
+
+            {hideChat ? "" :
+                <>
+                    <input
+                        className={css.inputField}
+                        type="text"
+                        placeholder="Nachricht eingeben..."
+                        value={value}
+                        onChange={handleMessageChange}
+                        onKeyDown={handleKeyDown} // Event-Handler für das Keydown-Ereignis hinzufügen
+                    />
+                    <button className={css.sendButton} onClick={handleSend} disabled={isDisabled}><FontAwesomeIcon
+                        icon={faArrowRight}/></button>
+                </>
+            }
             <button className={isRecording ? css.speechButton_recorded : css.speechButton_notRecorded}
                     onClick={handleSpeechInput} disabled={isDisabled}><FontAwesomeIcon
                 icon={faMicrophone}/></button>
