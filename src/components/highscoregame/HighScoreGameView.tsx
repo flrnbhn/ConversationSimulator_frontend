@@ -17,7 +17,8 @@ export const HighScoreGameView = () => {
         postNewConversation,
         setIsHighscore,
         deleteConversation,
-        setHighScoreConversation
+        setHighScoreConversation,
+        isHighscore
     } = useConversation();
 
     const enterConversation = (exerciseId: number) => {
@@ -31,19 +32,21 @@ export const HighScoreGameView = () => {
 
     useEffect(() => {
         setCurrentHeadline("Highscore Spiel")
-        postHighscoreConversation();
         setIsHighscore(true);
 
-
-        return () => {
-            setIsHighscore(false);
-            setHighScoreConversation(undefined);
-        };
     }, []);
+
+    useEffect(() => {
+        postHighscoreConversation();
+
+    }, [isHighscore]);
 
     return (
         highScoreConversation === undefined ?
+            <div>
             <LoadingBar/>
+                <div>Einen Moment bitte, das Highscore Spiel wird erstellt.</div>
+            </div>
             :
             <div>
                 <div className={isLighMode ? css.explanationContainer_white : css.explanationContainer_black}>

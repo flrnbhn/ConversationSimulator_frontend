@@ -28,7 +28,8 @@ export const LearnProgressView = () => {
     }, []);
 
 
-    const tableData = learnerConversations.map((conversation, index) => {
+    const tableData = learnerConversations.filter(conversation => getGradeValue(conversation.gradeOfConversation) !== "Keine Note vorhanden").map((conversation, index) => {
+
         const date = new Date(conversation.conversationStartDate);
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -69,7 +70,7 @@ export const LearnProgressView = () => {
         <div>
             <div className={css.chartContainer}>
                 <Chart header={"Notenentwicklung"}
-                       dataset={calcAverages(tableData.map(dataSet => Number(dataSet.Note)).reverse())
+                       dataset={calcAverages(tableData.map(dataSet => Number(dataSet.Note)))
                            .map(average => String(average))}
                        labels={tableData.map(dataset => dataset.Datum)}/>
             </div>
@@ -78,7 +79,8 @@ export const LearnProgressView = () => {
             </div>
             <div>
                 <div className={isLighMode ? css.gradeTable_white : css.gradeTable_black}>
-                    {learnerConversations.length !== 0 ? <Table header={"Vergangene Übungen"} data={tableData}/> :
+                    {learnerConversations.length !== 0 ?
+                        <Table header={"Vergangene Übungen"} data={tableData.reverse()}/> :
                         <h3>Keine Noten vorhanden</h3>}
                 </div>
             </div>

@@ -59,6 +59,10 @@ export const ChatView = () => {
         messagesEndRef.current?.scrollIntoView({behavior: 'smooth'});
     };
 
+    useEffect(() => {
+        console.log("Highscore: ---------------------- " + isHighscore);
+    }, [isHighscore]);
+
 
     useEffect(() => {
         if (mistakeHighscoreDTOs.length !== 0 && isHighscore) {

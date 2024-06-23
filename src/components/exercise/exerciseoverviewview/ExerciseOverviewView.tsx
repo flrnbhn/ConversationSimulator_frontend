@@ -77,7 +77,7 @@ export const ExerciseOverviewView: React.FC = () => {
                 ))}
             </div>
 
-            <div>
+            <div className={css.newExerciseButton}>
                 <PrimaryButton buttonFunction={openExerciseCreation} title={"Neue Übung erstellen"} disabled={false}/>
             </div>
             <Modal

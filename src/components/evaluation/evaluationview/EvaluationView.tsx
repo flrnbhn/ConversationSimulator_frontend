@@ -50,7 +50,10 @@ export const EvaluationView = () => {
     return (
         evaluationResponseDTO === undefined || evaluationResponseDTO === null
             ?
-            <LoadingBar/>
+            <div>
+                <LoadingBar/>
+                <div>Einen Moment bitte, die Übungsauswertung wird erstellt.</div>
+            </div>
             :
             <div className={css.evaluationContainer}>
                 <div>
@@ -71,7 +74,7 @@ export const EvaluationView = () => {
                     ?
                     <div className={css.evaluationCountExplanation}>{evaluationResponseDTO.translationCount > 0
                         ?
-                        "Du hast die Übersetzungsfunktion " + evaluationResponseDTO.translationCount + "x genutzt. Um fair zu bleiben wirkt sich dies leicht auf deine Note und deine Punkte aus"
+                        "Du hast die Übersetzungsfunktion " + evaluationResponseDTO.translationCount + "x genutzt. Um fair zu bleiben wirkt sich dies bei häufiger Nutzung auf deine Note und deine Punkte aus"
                         : ""}</div>
                     :
                     ""}

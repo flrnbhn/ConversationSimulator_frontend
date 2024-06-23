@@ -290,6 +290,7 @@ export const useConversation = () => {
                 return response.data;
             })
             .then(data => {
+
                 if (isHighscore) {
                     setCurrentConversationId(data.conversationId)
                     setConversationStatus(ConversationStatus.IN_PROCESS);

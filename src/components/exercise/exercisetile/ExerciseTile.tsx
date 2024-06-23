@@ -74,11 +74,15 @@ export const ExerciseTile: React.FunctionComponent<ExerciseTileProps> = ({
 
                     <div className={isLighMode ? css.taskContainer_white : css.taskContainer_black}>
                         <div className={isLighMode ? css.contentHeader_white : css.contentHeader_black}>Aufgaben</div>
-                        {exerciseData.taskResponseDTO.map((taskDescription, index) => (
-                            <div key={index}
-                                 className={css.taskDescription}>{index + 1}. {taskDescription.description}</div>
-                        ))}
+                        <ol className={css.taskList}>
+                            {exerciseData.taskResponseDTO.map((taskDescription, index) => (
+                                <li key={index} className={css.taskDescription}>
+                                    {taskDescription.description}
+                                </li>
+                            ))}
+                        </ol>
                     </div>
+
                 </div>
 
                 <div className={css.exerciseTileButton}>

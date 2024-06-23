@@ -35,12 +35,13 @@ export const AchievementView = () => {
         };
     });
 
-    const tableDataHighScore = learnerHighscores.map((highscore, index) => {
+    const tableDataHighScore = learnerHighscores.filter(highscore => highscore.anz > 0).map((highscore, index) => {
         return {
             Spieler: highscore.name,
             Score: highscore.anz
         };
-    });
+    }).sort((a, b) => b.Score - a.Score);
+
 
     return (
         <div>
@@ -56,7 +57,7 @@ export const AchievementView = () => {
                 </div>
                 <div className={isLighMode ? css.rankTable_white : css.rankTable_black}>
                     {learnerHighscores.length !== 0 ?
-                        <Table header={"Die höchsten Highscores"} data={tableDataHighScore}
+                        <Table header={"Highscore-Tabelle"} data={tableDataHighScore}
                                marker={learner?.name !== undefined ? learner?.name : ""}
                                markedColumn={"Spieler"}/> :
                         <h3>Keine Scores vorhanden</h3>}
