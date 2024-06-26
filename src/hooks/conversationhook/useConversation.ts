@@ -52,6 +52,9 @@ export const useConversation = () => {
     const [audioPlayed, setAudioPlayed] = useState<boolean>(false);
     const [audioState, setAudioState] = useState<HTMLAudioElement | null>(null);
     const [isMuted, setIsMuted] = useState<boolean>(false);
+    const [translationIsLoading, setTranslationIsLoading] = useState(false);
+    const [isWaitingForMessage, setIsWaitingForMessage] = useState(false);
+
 
     useEffect(() => {
         if (location.pathname === "/exercises" || location.pathname === "/highscore") {
@@ -114,6 +117,7 @@ export const useConversation = () => {
 
     function sendNewMessage(message: string | null, isAudioMessage: boolean) {
         setAudioPlayed(true);
+        setIsWaitingForMessage(true)
         const newConversationRequestMessage: MessageRequestDTO = {
             message: message,
             conversationMember: ConversationMember.USER,
@@ -159,13 +163,17 @@ export const useConversation = () => {
                     setAudioPlayed(false);
 
                 }
+                setIsWaitingForMessage(false);
             })
             .catch(error => {
+                setIsWaitingForMessage(false);
                 console.error('Error fetching data: ', error);
             });
     }
 
     function receiveFirstMessage() {
+        setIsWaitingForMessage(true);
+
         axios.get<MessageResponseDTO>('conversation/init/' + currentConversationId)
             .then(response => {
                 return response.data;
@@ -183,6 +191,7 @@ export const useConversation = () => {
                 if (!isMuted) {
                     playAudio(data.synthesizedMessage);
                 }
+                setIsWaitingForMessage(false);
             })
             .catch(error => {
                 console.error('Error fetching data: ', error);
@@ -329,6 +338,7 @@ export const useConversation = () => {
     }
 
     function translateMessage(message: string, index: number) {
+        setTranslationIsLoading(true);
         axios.post<string>("/conversation/translate/" + currentConversationId, message)
             .then(response => response.data)
             .then(translationString => {
@@ -337,9 +347,12 @@ export const useConversation = () => {
                     newState[index] = {...newState[index], translation: translationString};
                     return newState;
                 });
+                setTranslationIsLoading(false);
             })
             .catch(error => {
                 console.error('Error fetching data: ', error);
+                setTranslationIsLoading(false);
+
             })
     }
 
@@ -368,6 +381,8 @@ export const useConversation = () => {
         isMuted,
         transcribeAndSendSpeechInput,
         translateMessage,
-        setHighScoreConversation
+        setHighScoreConversation,
+        translationIsLoading,
+        isWaitingForMessage
     }
 }

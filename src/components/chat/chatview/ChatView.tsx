@@ -47,17 +47,27 @@ export const ChatView = () => {
         setIsMuted,
         isMuted,
         transcribeAndSendSpeechInput,
-        translateMessage
+        translateMessage,
+        translationIsLoading,
+        isWaitingForMessage
     } = useConversation();
     const [conversationCreated, setConversationCreated] = useState(false);
     const {fetchAllTasksForExercise, allTasksForExercise, fetchExerciseById,} = useExercise();
     const {postConversationIdToGetLanguageCheckForHighscoreGame, mistakeHighscoreDTOs} = useEvaluation();
     const [hideChat, setHideChat] = useState<boolean>(false);
+    const emptyMessageData: MessageData = {
+        conversationID: null,
+        message: "",
+        conversationMember: ConversationMember.PARTNER,
+        translation: null
+    };
 
+// index und translationisclicked array mitgeben
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({behavior: 'smooth'});
     };
+
 
     useEffect(() => {
         console.log("Highscore: ---------------------- " + isHighscore);
@@ -76,7 +86,7 @@ export const ChatView = () => {
         scrollToBottom();
     }, [allMessagesState]);
 
-    //at initialization 
+
     useEffect(() => {
         if (!conversationCreated && currentConversationId != null) {
             setConversationCreated(true);
@@ -168,6 +178,9 @@ export const ChatView = () => {
                                         role={messageData.conversationMember === ConversationMember.PARTNER ? highScoreConversation?.roleSystem : highScoreConversation?.roleUser}
                                         translateMessage={translateMessage}
                                         index={index}
+                                        translationIsLoading={translationIsLoading}
+                                        isWaitingForMessage={false}
+                                        conversationStatus={conversationStatus}
                                     />
                                 ) : (
                                     <ChatMessage
@@ -175,10 +188,25 @@ export const ChatView = () => {
                                         role={messageData.conversationMember === ConversationMember.PARTNER ? currentExercise?.roleSystem : currentExercise?.roleUser}
                                         translateMessage={translateMessage}
                                         index={index}
+                                        translationIsLoading={translationIsLoading}
+                                        isWaitingForMessage={false}
+                                        conversationStatus={conversationStatus}
                                     />
                                 )}
                             </div>
                         ))}
+                        {isWaitingForMessage ? (
+                            <ChatMessage
+                                messageData={emptyMessageData}
+                                role={currentExercise?.roleSystem}
+                                translateMessage={translateMessage}
+                                index={-1}
+                                translationIsLoading={translationIsLoading}
+                                isWaitingForMessage={true}
+                                conversationStatus={conversationStatus}
+                            />
+                        ) : null}
+
                         <div ref={messagesEndRef}/>
                     </div>
                 }
@@ -189,6 +217,7 @@ export const ChatView = () => {
                                  allTaskDescriptions={allTasksForExercise}/>
                     }
                 </div>
+
 
                 <div className={css.chatBox}>
                     <InputBox setMessage={setMessageString} appendMessage={appendMessage}
@@ -204,5 +233,6 @@ export const ChatView = () => {
                 </div>
             </div>
         </>
-    );
+    )
+        ;
 }

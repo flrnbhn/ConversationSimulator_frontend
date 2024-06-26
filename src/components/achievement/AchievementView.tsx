@@ -29,7 +29,7 @@ export const AchievementView = () => {
 
     const tableDataPoints = allLearners.map((learner, index) => {
         return {
-            Rang: index + 1,
+            Rang: allLearners.length - index,
             Spieler: learner.name,
             Punkte: learner.totalPoints
         };
@@ -37,10 +37,15 @@ export const AchievementView = () => {
 
     const tableDataHighScore = learnerHighscores.filter(highscore => highscore.anz > 0).map((highscore, index) => {
         return {
+            Rang: 1,
             Spieler: highscore.name,
             Score: highscore.anz
         };
-    }).sort((a, b) => b.Score - a.Score);
+    }).sort((a, b) => b.Score - a.Score)
+        .map((highscore, index) => {
+            highscore.Rang = index + 1;
+            return highscore;
+        });
 
 
     return (

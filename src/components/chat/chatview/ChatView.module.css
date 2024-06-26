@@ -65,15 +65,16 @@
 }
 
 .chatHeader {
-    position: absolute; /* Position the header absolutely */
+    position: absolute;
     left: 50%;
-    transform: translateX(-50%); /* Center the header */
+    transform: translateX(-50%);
     font-size: x-large;
+    color: white;
 
 }
 
 .muteButton, .muteButton_played {
-    margin-left: auto; /* Push the button to the far right */
+    margin-left: auto;
     background-color: #000000;
     color: #fff;
     border: none;
@@ -86,8 +87,8 @@
 }
 
 .muteButton_played {
-    z-index: 1; /* Place the button above the animated shadow */
-    animation: pulse 2s infinite; /* Apply the pulse animation */
+    z-index: 1;
+    animation: pulse 2s infinite;
 }
 
 .muteButton:hover, .muteButton_played:hover {

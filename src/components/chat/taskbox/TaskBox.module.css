@@ -1,12 +1,14 @@
 .taskBoxContainer {
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 8px;
-    width: 10%;
+    width: 19%;
     height: 18vh;
     overflow-y: auto;
     display: flex; /* Flex-Layout verwenden */
     flex-direction: column;
+
 }
+
 
 .taskBoxContainer::-webkit-scrollbar {
     width: 12px;
@@ -28,10 +30,19 @@
 }
 
 
-.taskDescription {
+.taskDescription_black {
     margin-bottom: 5px;
     color: white;
     display: flex;
+    padding-bottom: 10px;
+}
+
+
+.taskDescription_white {
+    margin-bottom: 5px;
+    color: #000000;
+    display: flex;
+
 
 }
 

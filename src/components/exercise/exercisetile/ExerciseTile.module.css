@@ -1,5 +1,5 @@
 .exerciseTileContainer_black, .exerciseTileContainer_white {
-    padding: 0px;
+    padding: 0;
     margin: 0 auto 20px;
     max-width: 600px;
     width: 100%;
@@ -43,12 +43,12 @@
 .taskDescription {
     text-align: left;
     padding: 5px 0;
-    border-bottom: 1px solid #5d5d5d; /* Fügt einen Trennstrich zwischen den Elementen hinzu */
+    border-bottom: 1px solid #5d5d5d;
 
 }
 
 .taskDescription:last-child {
-    border-bottom: none; /* Entfernt den Trennstrich beim letzten Element */
+    border-bottom: none;
 }
 
 

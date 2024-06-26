@@ -120,12 +120,12 @@ export const CreateNewExercisePopUp: React.FunctionComponent<CreateNewExercisePo
                             cols={35}/>
                     </div>
                     <div className={css.inputContainer}>
-                        <label>In wie viel Nachrichten meisterst du die Übung?</label>
+                        <label>In wie vielen Nachrichten meisterst du die Übung?</label>
                         <input className={css.inputField} value={numberOfMessagesTillFailure}
                                onChange={(event) => inputStateChanged(event, setNumberOfMessagesTillFailure)}/>
                     </div>
                     <div className={css.inputContainer}>
-                        <label>Füge Aufgaben hinzu.</label>
+                        <label>Füge Aufgaben zum Gesprächsverlauf hinzu.</label>
                         {taskList.map((value, index) => (
                             <div className={css.taskInputFieldContainer} key={index}>
                                 <input className={css.taskInputField} value={taskList[index]}
