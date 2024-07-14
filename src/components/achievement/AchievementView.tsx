@@ -4,6 +4,10 @@ import css from "./AchievementView.module.css";
 import {Table} from "../util/table/Table";
 import {StylingContext} from "../../context/stylingcontext/StylingContext";
 
+
+/**
+ * Component to visualize rankings
+ */
 export const AchievementView = () => {
 
     const {setCurrentHeadline, isLighMode} = useContext(StylingContext)!
@@ -35,7 +39,7 @@ export const AchievementView = () => {
         };
     });
 
-    const tableDataHighScore = learnerHighscores.filter(highscore => highscore.anz > 0).map((highscore, index) => {
+    const tableDataHighScore = learnerHighscores.filter(highscore => highscore.anz >= 0).map((highscore, index) => {
         return {
             Rang: 1,
             Spieler: highscore.name,

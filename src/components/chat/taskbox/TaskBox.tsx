@@ -11,6 +11,9 @@ interface TaskBoxProps {
     allTaskDescriptions: TaskDescriptionData[];
 }
 
+/**
+ * Box that shows finished tasks
+ */
 export const TaskBox: React.FunctionComponent<TaskBoxProps> = ({completedTaskDescriptions, allTaskDescriptions}) => {
     const isChecked = (description: string) => completedTaskDescriptions.some(task => task.description === description);
     const {isLighMode} = useContext(StylingContext)!;

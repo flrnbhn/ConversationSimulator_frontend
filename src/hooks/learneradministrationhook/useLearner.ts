@@ -8,6 +8,9 @@ import {ConversationResponseDTO} from "../../types/conversationdata/Conversation
 import {HighScoreLearnersResponseDTO} from "../../types/learnerdata/HighScoreLearnersResponseDTO";
 import {LearningLanguage, LearningLanguageDTO} from "../../types/learnerdata/LearningLanguage";
 
+/**
+ * Custom-Hook that interacts with user module from the backend
+ */
 export const useLearner = () => {
 
     const {learnerId, setLearnerId, learner, setLearner} = useContext(LearnerContext)!;
@@ -33,8 +36,9 @@ export const useLearner = () => {
                 setLearnerId(data);
             })
             .catch(error => {
-                console.log("Registrierung hat nicht funktioniert:" + error);
                 setLearnerId(-1);
+                console.error("Registration failed:" + error);
+
             })
     }
 
@@ -48,7 +52,7 @@ export const useLearner = () => {
                 setLearnerId(data);
             })
             .catch(error => {
-                console.log("Login hat nicht funktioniert:" + error);
+                console.error("Login failed:" + error);
                 setLearnerId(-1);
             })
     }
@@ -60,7 +64,7 @@ export const useLearner = () => {
                 setLearner(data);
             })
             .catch(error => {
-                console.log("Fetch hat nicht funktioniert: " + error);
+                console.error("Error fetching data: " + error);
             })
     }
 
@@ -71,7 +75,7 @@ export const useLearner = () => {
                 setAllLearners(data);
             })
             .catch(error => {
-                console.log("Fetch hat nicht funktioniert: " + error);
+                console.error("Error fetching data: " + error);
             })
     }
 
@@ -79,11 +83,10 @@ export const useLearner = () => {
         axios.get<ConversationResponseDTO[]>("/learner/conversations/" + learnerId)
             .then(res => res.data)
             .then(data => {
-                console.log(data);
                 setLearnerConversations(data);
             })
             .catch(error => {
-                console.log("Fetch hat nicht funktioniert: " + error);
+                console.error("Error fetching data: " + error);
             })
     }
 
@@ -95,7 +98,7 @@ export const useLearner = () => {
 
             })
             .catch(error => {
-                console.log("Fetch hat nicht funktioniert: " + error);
+                console.error("Error fetching data: " + error);
             })
     }
 
@@ -103,7 +106,7 @@ export const useLearner = () => {
         const learningLanguageDTO: LearningLanguageDTO = {learningLanguage: learningLanguage};
         axios.post("learner/language/" + learnerId, learningLanguageDTO)
             .catch(error => {
-                console.log("Post hat nicht funktioniert " + error);
+                console.error("Error fetching data: " + error);
             })
     }
 

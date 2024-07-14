@@ -7,6 +7,9 @@ interface MistakeTileProps {
     mistake: MistakeResponseDTO;
 }
 
+/**
+ * Component represents one mistake
+ */
 export const MistakeTile: React.FunctionComponent<MistakeTileProps> = ({mistake}) => {
     const {sentence, offset, length} = mistake;
     const beforeError = sentence.slice(0, offset);

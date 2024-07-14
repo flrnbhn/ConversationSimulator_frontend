@@ -12,7 +12,9 @@ export interface HomeTileProps {
     explanationString: string;
 }
 
-
+/**
+ * Explains and enables access to one functionality
+ */
 export const HomeTile: React.FunctionComponent<HomeTileProps> = ({
                                                                      navPath,
                                                                      displayString,

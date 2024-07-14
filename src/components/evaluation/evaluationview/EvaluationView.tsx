@@ -11,6 +11,9 @@ import {useConversation} from "../../../hooks/conversationhook/useConversation";
 import {ConversationStatus} from "../../../types/conersationstatus/ConversationStatus";
 
 
+/**
+ * Component shows evaluation of an exercise or a highscore game
+ */
 export const EvaluationView = () => {
 
     const {postConversationIdToGetLanguageCheck, evaluationResponseDTO} = useEvaluation();
@@ -18,12 +21,6 @@ export const EvaluationView = () => {
     const navigate = useNavigate();
     const {setCurrentHeadline, isLighMode} = useContext(StylingContext)!
     const {isHighscore, allMessagesState} = useConversation();
-
-
-    useEffect(() => {
-        console.log(conversationStatus);
-    }, [conversationStatus]);
-
 
     const goBackToExerciseOverview = () => {
         navigate('/exercises');

@@ -23,7 +23,7 @@
     margin: 0 auto;
     word-wrap: break-word;
     border-radius: 10px;
-    align-self: center; /* Button am unteren Rand der Kachel positionieren */
+    align-self: center;
     height: 110px;
 }
 
@@ -57,7 +57,7 @@
 .tileHeaderLine {
     width: 99.8%;
     border-color: rgba(10, 10, 10, 0.65);
-    top: 50%; /* Positionierung auf der vertikalen Mitte */
-    left: 0; /* Ausrichtung ganz links */
+    top: 50%;
+    left: 0;
 
 }

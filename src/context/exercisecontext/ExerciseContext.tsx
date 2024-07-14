@@ -2,6 +2,10 @@ import React, {createContext, useState} from "react";
 import {TaskDescriptionData} from "../../types/taskdescriptionData/TaskDescriptionData";
 import {ExerciseData} from "../../types/exercisedata/ExerciseData";
 
+
+/**
+ * Context for exercise data that must be made available globally in the application.
+ */
 interface ExerciseContextProps {
     currentExerciseId: number | null;
     setCurrentExerciseId: (id: number | null) => void;

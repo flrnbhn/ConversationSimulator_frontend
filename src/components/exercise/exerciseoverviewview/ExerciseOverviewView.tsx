@@ -12,6 +12,9 @@ import {ConversationStatus} from "../../../types/conersationstatus/ConversationS
 
 Modal.setAppElement('#root');
 
+/**
+ * Component to get access to all exercises
+ */
 export const ExerciseOverviewView: React.FC = () => {
     const {
         fetchAllExercises,
@@ -23,7 +26,6 @@ export const ExerciseOverviewView: React.FC = () => {
     } = useExercise();
     const {
         postNewConversation,
-        currentConversationId,
         setIsHighscore,
         setHighScoreConversation,
         setConversationStatus
@@ -47,10 +49,6 @@ export const ExerciseOverviewView: React.FC = () => {
         }
     }, [newCreatedExerciseId]);
 
-
-    useEffect(() => {
-        console.log(allExercisesState);
-    }, [allExercisesState]);
 
     const enterConversation = (exerciseId: number) => {
         postNewConversation(exerciseId);

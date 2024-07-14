@@ -10,6 +10,9 @@ interface ConversationFinishedPopUpProps {
     conversationStatus: ConversationStatus;
 }
 
+/**
+ * PopUp to be displayed when an exercise has been completed
+ */
 export const ConversationFinishedPopUp: React.FunctionComponent<ConversationFinishedPopUpProps> = ({conversationStatus}) => {
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -19,7 +22,6 @@ export const ConversationFinishedPopUp: React.FunctionComponent<ConversationFini
         if (conversationCompleted) {
             openModal();
         }
-        console.log("ConversationStatus -> " + conversationStatus)
     }, [conversationStatus]);
 
     const openModal = () => {

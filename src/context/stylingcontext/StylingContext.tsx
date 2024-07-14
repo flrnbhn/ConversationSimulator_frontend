@@ -1,6 +1,8 @@
 import React, {createContext, useState} from "react";
-import {HighScoreConversationResponseDTO} from "../../types/conversationdata/HighScoreConversationResponseDTO";
 
+/**
+ * Context for styling information that must be made available globally in the application.
+ */
 interface StylingContextProps {
     currentHeadline: string | null;
     setCurrentHeadline: (headline: string | null) => void;

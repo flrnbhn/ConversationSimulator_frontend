@@ -24,9 +24,9 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    position: absolute; /* Damit right funktioniert */
-    top: 10px; /* Anpassen je nach gewünschtem Abstand von oben */
-    right: 10px; /* Anpassen je nach gewünschtem Abstand von rechts */
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .szenarioHeader {

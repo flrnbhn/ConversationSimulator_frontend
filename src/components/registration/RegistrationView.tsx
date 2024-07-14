@@ -41,9 +41,7 @@ export const RegistrationView = () => {
     }
 
     const learningLanguageStateChanged = (event: ChangeEvent<HTMLSelectElement>) => {
-        console.log(event.target.value)
         setLearningLanguageState(event.target.value);
-
     }
 
     const registrate = () => {

@@ -1,6 +1,9 @@
 import React, {createContext, useState} from "react";
 import {LearnerResponseDTO} from "../../types/learnerdata/LearnerResponseDTO";
 
+/**
+ * Context for user data that must be made available globally in the application.
+ */
 interface LearnerContextProps {
     learnerId: number | null;
     setLearnerId: (id: number | null) => void;

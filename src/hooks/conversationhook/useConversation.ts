@@ -17,7 +17,9 @@ import {useLocation} from "react-router";
 import {LearnerContext} from "../../context/learnercontext/LearnerContext";
 import {HighScoreConversationResponseDTO} from "../../types/conversationdata/HighScoreConversationResponseDTO";
 
-
+/**
+ * Custom-Hook that interacts with conversation module from the backend
+ */
 export const useConversation = () => {
 
     const [newConversationResponseState, setNewConversationResponseState] = useState<MessageResponseDTO>({
@@ -35,7 +37,6 @@ export const useConversation = () => {
     let currentConversationIdNumber: number | null = null;
     const location = useLocation();
     const [allMessagesState, setAllMessagesState] = useState<MessageData[]>([]);
-    //const [currentConversationId, setCurrentConversationId] = useState<number | null>(currentConversationIdNumber);
     const {
         currentConversationId,
         setCurrentConversationId,
@@ -66,7 +67,6 @@ export const useConversation = () => {
                 conversationID: null,
                 synthesizedMessage: null,
             });
-            console.log(location.pathname)
             setCurrentConversationId(null);
         }
         if (location.pathname === "/home") {
@@ -83,18 +83,6 @@ export const useConversation = () => {
         }
     }, [isMuted]);
 
-
-    useEffect(() => {
-        console.log(allMessagesState);
-        console.log("currentConversationId: ", currentConversationId);
-        console.log("currentConversationIdNumber: ", currentConversationIdNumber);
-    }, [allMessagesState]);
-
-    useEffect(() => {
-        console.log("currentConversationId: ", currentConversationId);
-        console.log("currentConversationIdNumber: ", currentConversationIdNumber);
-
-    }, [currentConversationId]);
 
     useEffect(() => {
         if (newConversationResponseState !== null) {
@@ -180,7 +168,6 @@ export const useConversation = () => {
                 return response.data;
             })
             .then(data => {
-                const updatedMessagesWithResponse = [data];
                 const messageData: MessageData[] = [{
                     conversationID: data.conversationID,
                     message: data.message,
@@ -201,7 +188,6 @@ export const useConversation = () => {
 
     function playAudio(synthesizedMessage: string | null) {
         if (synthesizedMessage !== null) {
-            console.log("start")
             const audioBytes = new Uint8Array(atob(synthesizedMessage).split("").map(char => char.charCodeAt(0)));
             const audioBlob = new Blob([audioBytes], {type: 'audio/mp3'});
             const audioUrl = URL.createObjectURL(audioBlob);
@@ -209,12 +195,10 @@ export const useConversation = () => {
             setAudioState(audio);
             audio.addEventListener('play', () => {
                 setAudioPlayed(true);
-                console.log("Audio started playing");
             });
 
             audio.addEventListener('ended', () => {
                 setAudioPlayed(false);
-                console.log("Audio finished playing");
                 if (!isHighscore && !isMuted) {
                     getEvaluatedTasks();
                 }
@@ -238,7 +222,6 @@ export const useConversation = () => {
                 return response.data;
             })
             .then(data => {
-                console.log('Conversation creation successful, conversationID:', data);
                 currentConversationIdNumber = data;
                 setCurrentConversationId(data)
                 setConversationStatus(ConversationStatus.IN_PROCESS);
@@ -253,7 +236,6 @@ export const useConversation = () => {
         axios.get<TaskDescriptionData[]>('conversation/finishedTasks/' + currentConversationId)
             .then(response => response.data)
             .then(data => {
-                console.log(data);
                 setCompletedTaskDescriptions(data);
                 checkIfAllTasksCompleted(data);
             })
@@ -276,7 +258,6 @@ export const useConversation = () => {
         if (allTasksForExercise.every((element, index) => element.description === completedDescriptions[index].description)) {
             setConversationStatus(ConversationStatus.PASSED);
             postNewConversationStatus(ConversationStatus.PASSED, currentConversationId);
-            console.log("Tasks sind hiermit fertiggestellt!!!");
             return;
         }
     }
@@ -317,7 +298,6 @@ export const useConversation = () => {
         axios.delete("/conversation/" + currentConversationId)
             .then(response => response.data)
             .then(data => {
-                console.log(data)
             })
             .catch(error => {
                 console.error('Error deleting data: ', error);

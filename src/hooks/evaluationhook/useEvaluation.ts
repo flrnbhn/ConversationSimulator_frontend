@@ -4,6 +4,9 @@ import axios from "axios";
 import {EvaluationResponseDTO} from "../../types/evaluationdata/EvaluationResponseDTO";
 import {MistakeResponseDTO} from "../../types/evaluationdata/mistakedata/MistakeResponseDTO";
 
+/**
+ * Custom-Hook that interacts with evaluation module from the backend
+ */
 export const useEvaluation = () => {
 
     const {currentConversationId} = useContext(ConversationContext)!;
@@ -15,7 +18,6 @@ export const useEvaluation = () => {
         axios.post<EvaluationResponseDTO>("/evaluation/" + currentConversationId)
             .then(res => res.data)
             .then(data => {
-                console.log(data);
                 setEvaluationResponseDTO(data);
             })
             .catch(error => {
@@ -27,7 +29,6 @@ export const useEvaluation = () => {
         axios.post<MistakeResponseDTO[]>("/evaluation/highscore/" + currentConversationId)
             .then(res => res.data)
             .then(data => {
-                console.log(data);
                 setMistakeHighscoreDTOs(data);
             })
             .catch(error => {

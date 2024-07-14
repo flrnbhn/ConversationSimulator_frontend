@@ -1,11 +1,15 @@
 import {useLearner} from "../../hooks/learneradministrationhook/useLearner";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {Table} from "../util/table/Table";
 import css from "./LearnProgressView.module.css"
 import {getGradeValue} from "../../types/evaluationdata/Grade";
 import {Chart} from "../util/chart/Chart";
 import {StylingContext} from "../../context/stylingcontext/StylingContext";
 
+
+/**
+ * Component shows Grade-Visualization
+ */
 export const LearnProgressView = () => {
     const {setCurrentHeadline, isLighMode} = useContext(StylingContext)!
 
@@ -16,8 +20,6 @@ export const LearnProgressView = () => {
         learnerConversations,
         getConversationsFromLearner
     } = useLearner();
-
-    const [averageGrades, setAverageGrades] = useState<number[]>([]);
 
     useEffect(() => {
         setCurrentHeadline("Lernfortschritt");
@@ -80,7 +82,7 @@ export const LearnProgressView = () => {
             </div>
             <div>
                 <div className={isLighMode ? css.gradeTable_white : css.gradeTable_black}>
-                    {learnerConversations.length !== 0 ?
+                    {learnerConversations.length > 0 ?
                         <Table header={"Vergangene Übungen"} data={tableData.reverse()}/> :
                         <h3>Keine Noten von abgeschlossenen Übungen vorhanden</h3>}
                 </div>

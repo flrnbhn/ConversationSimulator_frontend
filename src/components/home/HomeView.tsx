@@ -4,6 +4,10 @@ import {StylingContext} from "../../context/stylingcontext/StylingContext";
 import {HomeTile} from "./HomeTile";
 import css from "./HomeView.module.css"
 
+/**
+ * Component represent home page
+ * @constructor
+ */
 export const HomeView = () => {
     const navigate = useNavigate();
     const {setCurrentHeadline} = useContext(StylingContext)!

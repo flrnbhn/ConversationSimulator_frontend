@@ -13,6 +13,9 @@ interface ExerciseTileProps {
     deleteExerciseById: (exerciseId: number) => void;
 }
 
+/**
+ * component represent one exercise.
+ */
 export const ExerciseTile: React.FunctionComponent<ExerciseTileProps> = ({
                                                                              exerciseData,
                                                                              buttonFunction,

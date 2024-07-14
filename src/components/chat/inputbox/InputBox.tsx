@@ -19,6 +19,9 @@ interface InputBoxProps {
     openInfoModal: () => void;
 }
 
+/**
+ * Box that provides all interaction variants with the system when chatting
+ */
 export const InputBox: React.FunctionComponent<InputBoxProps> = ({
                                                                      setMessage,
                                                                      appendMessage,

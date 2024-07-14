@@ -1,7 +1,6 @@
 import React from "react";
 import {Navigate, Route, Routes} from "react-router";
 import {Chat} from "../../pages/chat/Chat";
-import {Test} from "../../pages/Test/Test";
 import {ExerciseOverview} from "../../pages/exercise/ExerciseOverview";
 import {Evaluation} from "../../pages/evaluation/Evaluation";
 import {Login} from "../../pages/login/Login";
@@ -23,14 +22,6 @@ export const Main: React.FC = () => {
                 element={
                     <ProtectedRoute>
                         <Chat/>
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/test"
-                element={
-                    <ProtectedRoute>
-                        <Test/>
                     </ProtectedRoute>
                 }
             />

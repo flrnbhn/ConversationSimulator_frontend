@@ -101,8 +101,8 @@
 .exerciseTileHeader {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Verteilt die Elemente mit maximalem Platz zwischen ihnen */
-    padding: 15px; /* Abstand innerhalb des Containers */
+    justify-content: space-between;
+    padding: 15px;
     position: relative;
     margin-top: 20px;
 }
@@ -114,9 +114,9 @@
 }
 
 .exerciseTileHeader h3 {
-    flex-grow: 1; /* Header nimmt den verfügbaren Platz ein */
-    text-align: center; /* Text im Header wird zentriert */
-    margin: 0; /* Entfernt standardmäßige Margin des Headers */
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
 }
 
 .contentContainer {

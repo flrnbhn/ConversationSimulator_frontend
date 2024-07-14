@@ -12,6 +12,9 @@ interface ConversationContextInfoBoxProps {
     roleSystem: string | undefined;
 }
 
+/**
+ * PopUp to see context information while doing conversations
+ */
 export const ConversationContextInfoBox: React.FunctionComponent<ConversationContextInfoBoxProps> = ({
                                                                                                          closeModal,
                                                                                                          szenario,

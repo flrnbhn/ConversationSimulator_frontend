@@ -1,6 +1,5 @@
-import React, {useContext} from "react";
+import React from "react";
 import css from "./Table.module.css"
-import {StylingContext} from "../../../context/stylingcontext/StylingContext";
 
 interface TableProps {
     header: string,
@@ -11,9 +10,10 @@ interface TableProps {
 }
 
 export const Table: React.FunctionComponent<TableProps> = ({header, data, marker, markedColumn}) => {
+    if (!data || data.length === 0) {
+        return null;
+    }
     const headers = Object.keys(data[0]);
-    const {isLighMode} = useContext(StylingContext)!;
-
 
     return (
         <div className={css.container}>

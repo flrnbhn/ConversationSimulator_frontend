@@ -19,6 +19,9 @@ import {ConversationContextInfoBox} from "../inputbox/ConversationContextInfoBox
 
 Modal.setAppElement('#root');
 
+/**
+ * components for conducting conversations (exercises and highscore)
+ */
 export const ChatView = () => {
     const [message, setMessage] = useState<MessageData>({
         message: "",
@@ -32,14 +35,12 @@ export const ChatView = () => {
     const {
         sendNewMessage,
         newConversationResponseState,
-        postNewConversation,
         currentConversationId,
         receiveFirstMessage,
         completedTaskDescriptions,
         conversationStatus,
         currentExercise,
         isHighscore,
-        setIsHighscore,
         highScoreConversation,
         setConversationStatus,
         postNewConversationStatus,
@@ -71,14 +72,8 @@ export const ChatView = () => {
 
 
     useEffect(() => {
-        console.log("Highscore: ---------------------- " + isHighscore);
-    }, [isHighscore]);
-
-
-    useEffect(() => {
         if (mistakeHighscoreDTOs.length !== 0 && isHighscore) {
             finishConversation();
-            //setIsHighscore(false);
         }
     }, [mistakeHighscoreDTOs]);
 

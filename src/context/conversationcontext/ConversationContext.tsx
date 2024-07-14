@@ -2,6 +2,10 @@ import React, {createContext, useState} from "react";
 import {HighScoreConversationResponseDTO} from "../../types/conversationdata/HighScoreConversationResponseDTO";
 import {ConversationStatus} from "../../types/conersationstatus/ConversationStatus";
 
+/**
+ * Context for conversation data that must be made available globally in the application.
+ */
+
 interface ConversationContextProps {
     currentConversationId: number | null;
     setCurrentConversationId: (id: number | null) => void;

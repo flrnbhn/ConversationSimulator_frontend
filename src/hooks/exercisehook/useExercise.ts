@@ -4,6 +4,9 @@ import {useContext, useState} from "react";
 import {ExerciseContext} from "../../context/exercisecontext/ExerciseContext";
 import {TaskDescriptionData} from "../../types/taskdescriptionData/TaskDescriptionData";
 
+/**
+ * Custom-Hook that interacts with exercise module from the backend
+ */
 export const useExercise = () => {
 
     const {allExercisesState, setAllExercisesState} = useContext(ExerciseContext)!;
@@ -23,7 +26,7 @@ export const useExercise = () => {
                 setAllExercisesState(data);
             })
             .catch((error) => {
-                console.error('Fehler beim Abrufen der Übungen:', error);
+                console.error('Error fetching exercises: ', error);
             });
     }
 
@@ -31,11 +34,10 @@ export const useExercise = () => {
         axios.get<TaskDescriptionData[]>("/exercise/tasks/" + currentExerciseId)
             .then(res => res.data)
             .then((data: TaskDescriptionData[]) => {
-                console.log(data);
                 setAllTasksForExercise(data);
             })
             .catch((error) => {
-                console.error('Fehler beim Abrufen der Übungen:', error);
+                console.error('Error fetching task for exercise: ', error);
             });
     }
 
@@ -43,11 +45,10 @@ export const useExercise = () => {
         axios.get<ExerciseData>("/exercise/" + currentExerciseId)
             .then(res => res.data)
             .then((data: ExerciseData) => {
-                console.log(data);
                 setCurrentExercise(data);
             })
             .catch((error) => {
-                console.error('Fehler beim Abrufen der Übungen:', error);
+                console.error('Error fetching exercise: ', error);
             });
     }
 
@@ -62,18 +63,17 @@ export const useExercise = () => {
         axios.post<number>("/exercise", exerciseRequestData)
             .then(res => res.data)
             .then((data: number) => {
-                console.log("id der neu angelegten Übung: " + data)
                 setNewCreatedExerciseId(data);
             })
             .catch((error) => {
-                console.error('Fehler beim erstellen der Übungen:', error);
+                console.error('Errors creating the exercises: ', error);
             });
     }
 
     function deleteExerciseById(exerciseId: number) {
         axios.delete("/exercise/" + exerciseId)
             .catch((error) => {
-                console.error("Löschen hat nicht funktioniert", error);
+                console.error("error deleting exercise: ", error);
             })
         fetchAllExercises();
     }

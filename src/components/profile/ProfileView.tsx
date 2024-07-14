@@ -1,7 +1,7 @@
 import {useLearner} from "../../hooks/learneradministrationhook/useLearner";
 import {
-    getLearningLanguageEnum, getLearningLanguageEnumByStringValue, getLearningLanguageStringValueByEnum,
-    getLearningLanguageValue,
+    getLearningLanguageEnumByStringValue,
+    getLearningLanguageStringValueByEnum,
     LearningLanguage
 } from "../../types/learnerdata/LearningLanguage";
 import React, {ChangeEvent, useContext, useEffect, useState} from "react";
@@ -17,7 +17,6 @@ export const ProfileView = () => {
 
 
     const learningLanguageStateChanged = (event: ChangeEvent<HTMLSelectElement>) => {
-        console.log(event.target.value);
         const newLearningLanguage = getLearningLanguageEnumByStringValue(event.target.value);
         setLearningLanguageState(event.target.value);
         changeLearningLanguage(newLearningLanguage);

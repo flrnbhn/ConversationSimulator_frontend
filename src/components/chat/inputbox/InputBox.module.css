@@ -34,10 +34,10 @@
 
 .infoConversationButton {
     background-color: #0B2A65;
-    position: absolute; /* Absolute Positionierung */
-    top: 50%; /* Zentriert den Button vertikal */
-    left: 0.5%; /* Positioniert den Button am linken Rand */
-    transform: translateY(-50%); /* Korrigiert die vertikale Positionierung */
+    position: absolute;
+    top: 50%;
+    left: 0.5%;
+    transform: translateY(-50%);
 
 }
 

@@ -9,8 +9,6 @@ export enum Grade {
 }
 
 export const getGradeValue = (grade: Grade | undefined): string => {
-    console.log("moin")
-    console.log(grade)
     switch (grade) {
         case Grade.ONE:
             return "1.0";
@@ -32,8 +30,6 @@ export const getGradeValue = (grade: Grade | undefined): string => {
 };
 
 export const getGradeValueNumber = (grade: Grade | undefined): number | null => {
-    console.log("moin")
-    console.log(grade)
     switch (grade) {
         case Grade.ONE:
             return 1.0;

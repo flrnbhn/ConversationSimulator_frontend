@@ -20,6 +20,10 @@ interface ChatMessageProps {
     infoModalIsOpen: boolean
 }
 
+/**
+ * Component represents one chat message.
+ * @constructor
+ */
 export const ChatMessage: React.FunctionComponent<ChatMessageProps> = ({
                                                                            messageData,
                                                                            role,
@@ -38,7 +42,6 @@ export const ChatMessage: React.FunctionComponent<ChatMessageProps> = ({
 
     useEffect(() => {
         if (messageData.translation !== null) {
-            console.log("MessageData:" + messageData.translation);
             setIsTranslationVisible(true);
         }
     }, [messageData.translation]);

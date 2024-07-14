@@ -1,7 +1,7 @@
 .homeTileContainer {
     display: flex;
-    flex-wrap: wrap; /* Erlaubt, dass die HomeTiles bei Bedarf auf die nächste Zeile umgebrochen werden */
-    justify-content: space-between; /* Platziert die HomeTiles mit gleichmäßigem Abstand nebeneinander */
+    flex-wrap: wrap;
+    justify-content: space-between;
     margin-top: 20px;
     margin-left: 40px;
     margin-right: 40px;
@@ -9,6 +9,6 @@
 }
 
 .homeTileContainer > div {
-    flex-basis: calc(50% - 10px); /* Setzt die Breite der HomeTiles auf 50% des verfügbaren Platzes mit einem Abstand von 10px zwischen ihnen */
-    margin-bottom: 20px; /* Setzt den Abstand zwischen den HomeTiles */
+    flex-basis: calc(50% - 10px);
+    margin-bottom: 20px;
 }

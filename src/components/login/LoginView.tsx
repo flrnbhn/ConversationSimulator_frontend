@@ -33,7 +33,6 @@ export const LoginView = () => {
 
     const login = () => {
         postLogin(nameState);
-        getLearnerById();
         setLoginTried(true);
     }
     return (

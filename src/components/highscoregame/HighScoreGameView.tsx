@@ -7,6 +7,9 @@ import css from "./HighScoreGameView.module.css"
 import {LoadingBar} from "../util/loadingbar/LoadingBar";
 import {ConversationStatus} from "../../types/conersationstatus/ConversationStatus";
 
+/**
+ * Component shows context information for Highscore-Game
+ */
 export const HighScoreGameView = () => {
     const navigate = useNavigate();
     const {setCurrentHeadline} = useContext(StylingContext)!
@@ -15,10 +18,8 @@ export const HighScoreGameView = () => {
     const {
         highScoreConversation,
         postHighscoreConversation,
-        postNewConversation,
         setIsHighscore,
         deleteConversation,
-        setHighScoreConversation,
         isHighscore,
         setConversationStatus
     } = useConversation();

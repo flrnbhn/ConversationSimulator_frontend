@@ -18,6 +18,9 @@ interface CreateNewExercisePopUpProps {
     closeModal: () => void;
 }
 
+/**
+ * PopUp to creating a new Exercise
+ */
 export const CreateNewExercisePopUp: React.FunctionComponent<CreateNewExercisePopUpProps> = ({
                                                                                                  postNewExercise,
                                                                                                  closeModal
@@ -67,13 +70,6 @@ export const CreateNewExercisePopUp: React.FunctionComponent<CreateNewExercisePo
     }
 
     const createExercise = () => {
-        console.log("titel: " + titel);
-        console.log("roleUser: " + roleUser);
-        console.log("roleSystem: " + roleSystem);
-        console.log("szenario: " + szenario);
-        console.log("numberOfMessagesTillFailure: " + numberOfMessagesTillFailure);
-        console.log("taskList: " + taskList);
-
         postNewExercise(titel, szenario, "", roleUser, roleSystem, numberOfMessagesTillFailure, taskList);
         closeModal();
     }
