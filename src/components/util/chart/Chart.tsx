@@ -1,16 +1,16 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2';
 import {
-    Chart as ChartJS,
     CategoryScale,
+    Chart as ChartJS,
+    Legend,
     LinearScale,
-    PointElement,
     LineElement,
+    PointElement,
     Title,
     Tooltip,
-    Legend,
 } from 'chart.js';
-import css from "./Chart.module.css"
+import css from "./Chart.module.css";
 
 export interface ChartProps {
     header: string;
@@ -41,10 +41,22 @@ export const Chart: React.FC<ChartProps> = ({header, dataset, labels}) => {
             },
         ],
     };
+
+    const options = {
+        scales: {
+            y: {
+                reverse: true, // Diese Eigenschaft dreht die y-Achse um
+                min: '1',
+                max: '6'
+            },
+        },
+    };
+
     return (
         <div className={css.chartContainer}>
-            <Line data={data}/>
+            <div className={css.chartWrapper}>
+                <Line data={data} options={options}/>
+            </div>
         </div>
-
-    )
-}
+    );
+};

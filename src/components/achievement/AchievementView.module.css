@@ -6,7 +6,7 @@
 .rankTable_white, .rankTable_black {
     display: flex;
     justify-content: center;
-    max-width: 300px;
+    max-width: 700px;
     margin: 25px auto 20px;
     border-radius: 10px;
     padding: 0px 0px 20px;
@@ -20,6 +20,5 @@
 
 .rankTable_white {
     background-color: #a4a4a4;
-    color: white;
 
 }

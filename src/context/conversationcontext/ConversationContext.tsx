@@ -1,5 +1,6 @@
 import React, {createContext, useState} from "react";
 import {HighScoreConversationResponseDTO} from "../../types/conversationdata/HighScoreConversationResponseDTO";
+import {ConversationStatus} from "../../types/conersationstatus/ConversationStatus";
 
 interface ConversationContextProps {
     currentConversationId: number | null;
@@ -9,6 +10,8 @@ interface ConversationContextProps {
     highScoreConversation: HighScoreConversationResponseDTO | undefined;
     setHighScoreConversation: (highScoreConversation: HighScoreConversationResponseDTO | undefined) => void;
     resetConversationContext: () => void;
+    conversationStatus: ConversationStatus;
+    setConversationStatus: (conversationStatus: ConversationStatus) => void;
 }
 
 const ConversationContext = createContext<ConversationContextProps | null>(null);
@@ -17,6 +20,7 @@ const ConversationProvider: React.FC<{ children: React.ReactNode }> = ({children
     const [currentConversationId, setCurrentConversationId] = useState<number | null>(null);
     const [isHighscore, setIsHighscore] = useState<boolean>(false);
     const [highScoreConversation, setHighScoreConversation] = useState<HighScoreConversationResponseDTO | undefined>();
+    const [conversationStatus, setConversationStatus] = useState<ConversationStatus>(ConversationStatus.NOT_STARTED);
 
     const resetConversationContext = () => {
         setCurrentConversationId(null);
@@ -38,7 +42,9 @@ const ConversationProvider: React.FC<{ children: React.ReactNode }> = ({children
             setIsHighscore,
             highScoreConversation,
             setHighScoreConversation,
-            resetConversationContext
+            resetConversationContext,
+            conversationStatus,
+            setConversationStatus
         }}>
             {children}
         </ConversationContext.Provider>

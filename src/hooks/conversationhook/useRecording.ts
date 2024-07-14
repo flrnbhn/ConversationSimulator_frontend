@@ -32,7 +32,7 @@ export const useRecording = () => {
                         }
                     };
 
-                    // Clear the `chunks` buffer so that you can record again.
+
                     chunks = [];
                 };
 

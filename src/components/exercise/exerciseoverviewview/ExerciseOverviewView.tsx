@@ -8,6 +8,7 @@ import {CreateNewExercisePopUp} from "../createnewexercisepopup/CreateNewExercis
 import Modal from "react-modal";
 import css from "./ExerciseOverviewView.module.css";
 import {StylingContext} from "../../../context/stylingcontext/StylingContext";
+import {ConversationStatus} from "../../../types/conersationstatus/ConversationStatus";
 
 Modal.setAppElement('#root');
 
@@ -20,13 +21,20 @@ export const ExerciseOverviewView: React.FC = () => {
         newCreatedExerciseId,
         deleteExerciseById
     } = useExercise();
-    const {postNewConversation, currentConversationId, setIsHighscore, setHighScoreConversation} = useConversation();
+    const {
+        postNewConversation,
+        currentConversationId,
+        setIsHighscore,
+        setHighScoreConversation,
+        setConversationStatus
+    } = useConversation();
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const {setCurrentHeadline} = useContext(StylingContext)!
 
     useEffect(() => {
+        setConversationStatus(ConversationStatus.NOT_STARTED)
         setCurrentHeadline("Übungsübersicht")
         fetchAllExercises();
         setIsHighscore(false);
@@ -83,7 +91,7 @@ export const ExerciseOverviewView: React.FC = () => {
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
-                contentLabel="Aufgabe abgeschlossen"
+                contentLabel="Neue Übung erstellen"
                 className={css.popUp}
                 overlayClassName={css.overlay}
             >

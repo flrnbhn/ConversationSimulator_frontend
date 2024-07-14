@@ -1,8 +1,9 @@
 import React, {Dispatch, FormEvent, MouseEvent, SetStateAction, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faComment, faCommentSlash, faMicrophone} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faComment, faCommentSlash, faInfo, faMicrophone} from "@fortawesome/free-solid-svg-icons";
 import {useRecording} from "../../../hooks/conversationhook/useRecording";
 import css from "./InputBox.module.css"
+import {Tooltip} from 'react-tooltip'
 
 
 interface InputBoxProps {
@@ -15,6 +16,7 @@ interface InputBoxProps {
     finishConversation: () => void;
     hideChat: boolean;
     setHideChat: (hideChat: boolean) => void;
+    openInfoModal: () => void;
 }
 
 export const InputBox: React.FunctionComponent<InputBoxProps> = ({
@@ -26,7 +28,8 @@ export const InputBox: React.FunctionComponent<InputBoxProps> = ({
                                                                      transcribeAndSendSpeechInput,
                                                                      finishConversation,
                                                                      hideChat,
-                                                                     setHideChat
+                                                                     setHideChat,
+                                                                     openInfoModal
                                                                  }) => {
     const [value, setValue] = useState<string>('');
     const {record, stopRecording} = useRecording();
@@ -88,11 +91,29 @@ export const InputBox: React.FunctionComponent<InputBoxProps> = ({
         }
     }
 
+    const handleInfoForConversation = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        openInfoModal();
+    }
+
     return (
         <div className={css.inputBox}>
-            <button className={css.hideChatButton} onClick={handleHideChat}>
-                {hideChat ? <FontAwesomeIcon icon={faCommentSlash}/> : <FontAwesomeIcon icon={faComment}/>}
+            <button className={css.infoConversationButton} onClick={handleInfoForConversation}>
+                <FontAwesomeIcon icon={faInfo}
+                                 data-tooltip-id="info_tooltip"
+                                 data-tooltip-content="Lasse dir Informationen über die Konversation anzeigen"
+                />
             </button>
+            <Tooltip id="info_tooltip"/>
+            <button className={css.hideChatButton} onClick={handleHideChat}>
+                {hideChat ? <FontAwesomeIcon icon={faCommentSlash}
+                                             data-tooltip-id="hideChat_tooltip"
+                                             data-tooltip-content="Chat ausblenden"/> :
+                    <FontAwesomeIcon icon={faComment}
+                                     data-tooltip-id="hideChat_tooltip"
+                                     data-tooltip-content="Chat ausblenden"/>}
+            </button>
+            <Tooltip id="hideChat_tooltip"/>
 
             {hideChat ? "" :
                 <>
@@ -105,12 +126,20 @@ export const InputBox: React.FunctionComponent<InputBoxProps> = ({
                         onKeyDown={handleKeyDown} // Event-Handler für das Keydown-Ereignis hinzufügen
                     />
                     <button className={css.sendButton} onClick={handleSend} disabled={isDisabled}><FontAwesomeIcon
-                        icon={faArrowRight}/></button>
+                        icon={faArrowRight}
+                        data-tooltip-id="sendMessage_tooltip"
+                        data-tooltip-content="Nachricht absenden"
+                    /></button>
+                    <Tooltip id="sendMessage_tooltip"/>
                 </>
             }
             <button className={isRecording ? css.speechButton_recorded : css.speechButton_notRecorded}
                     onClick={handleSpeechInput} disabled={isDisabled}><FontAwesomeIcon
-                icon={faMicrophone}/></button>
+                icon={faMicrophone}
+                data-tooltip-id="speechMessage_tooltip"
+                data-tooltip-content="Sprachnachricht aufnehmen"/></button>
+            <Tooltip id="speechMessage_tooltip"/>
+
         </div>
     );
 }

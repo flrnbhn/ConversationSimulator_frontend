@@ -7,4 +7,5 @@ export interface EvaluationResponseDTO {
     points: number;
     evaluation: string;
     translationCount: number;
+    numberOfMessages: number;
 }

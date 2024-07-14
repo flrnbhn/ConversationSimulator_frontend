@@ -121,6 +121,16 @@
     background-color: #730303;
 }
 
+.popUpInfo {
+    background-color: rgb(0, 0, 0);
+
+}
+
+.overlayInfo {
+    background-color: #282828;
+
+}
+
 @keyframes pulse {
     0% {
         box-shadow: 0 0 0 0 rgba(20, 119, 15, 0.7);

@@ -10,10 +10,12 @@ export const LoginView = () => {
     const navigate = useNavigate();
     const [nameState, setNameState] = useState<string>("");
     const [errorString, setErrorString] = useState<string>("");
+    const [loginTried, setLoginTried] = useState(false);
 
     useEffect(() => {
-        if (learnerId === -1) {
+        if (learnerId === -1 && loginTried) {
             setErrorString("Der angegebene User existiert nicht.")
+            setLoginTried(false);
         }
         if (learnerId !== -1 && learnerId !== null) {
             navigate('/home');
@@ -32,7 +34,7 @@ export const LoginView = () => {
     const login = () => {
         postLogin(nameState);
         getLearnerById();
-
+        setLoginTried(true);
     }
     return (
         <div className={css.formContainer}>

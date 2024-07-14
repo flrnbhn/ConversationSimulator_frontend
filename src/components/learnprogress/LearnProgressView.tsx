@@ -43,7 +43,7 @@ export const LearnProgressView = () => {
             Datum: formattedDate,
             Uhrzeit: formattedTime,
             Übung: conversation.exerciseResponseDTO.title,
-            Note: getGradeValue(conversation.gradeOfConversation)
+            Note: getGradeValue(conversation.gradeOfConversation),
         };
     });
 
@@ -69,10 +69,11 @@ export const LearnProgressView = () => {
     return (
         <div>
             <div className={css.chartContainer}>
-                <Chart header={"Notenentwicklung"}
+                {learnerConversations.length !== 0 &&
+                    <Chart header={"Entwicklung des Notendurchschnitts"}
                        dataset={calcAverages(tableData.map(dataSet => Number(dataSet.Note)))
                            .map(average => String(average))}
-                       labels={tableData.map(dataset => dataset.Datum)}/>
+                           labels={tableData.map(dataset => dataset.Datum)}/>}
             </div>
             <div className={css.gradeAverage}>
                 Aktueller Notendurchschnitt: {learner?.gradeAverage}
@@ -81,7 +82,7 @@ export const LearnProgressView = () => {
                 <div className={isLighMode ? css.gradeTable_white : css.gradeTable_black}>
                     {learnerConversations.length !== 0 ?
                         <Table header={"Vergangene Übungen"} data={tableData.reverse()}/> :
-                        <h3>Keine Noten vorhanden</h3>}
+                        <h3>Keine Noten von abgeschlossenen Übungen vorhanden</h3>}
                 </div>
             </div>
         </div>

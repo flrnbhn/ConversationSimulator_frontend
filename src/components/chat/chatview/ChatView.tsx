@@ -15,6 +15,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faVolumeUp, faVolumeXmark, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {ToggleButton} from "../../util/togglebutton/ToggleButton";
 import {Tooltip} from "react-tooltip";
+import {ConversationContextInfoBox} from "../inputbox/ConversationContextInfoBox";
 
 Modal.setAppElement('#root');
 
@@ -61,8 +62,8 @@ export const ChatView = () => {
         conversationMember: ConversationMember.PARTNER,
         translation: null
     };
+    const [infoModalIsOpen, setInfoModalIsOpen] = useState(false);
 
-// index und translationisclicked array mitgeben
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({behavior: 'smooth'});
@@ -150,6 +151,14 @@ export const ChatView = () => {
         }
     }
 
+    const closeInfoModal = () => {
+        setInfoModalIsOpen(false);
+    };
+
+    const openInfoModal = () => {
+        setInfoModalIsOpen(true);
+    };
+
     return (
         <>
             <div>
@@ -181,6 +190,7 @@ export const ChatView = () => {
                                         translationIsLoading={translationIsLoading}
                                         isWaitingForMessage={false}
                                         conversationStatus={conversationStatus}
+                                        infoModalIsOpen={infoModalIsOpen}
                                     />
                                 ) : (
                                     <ChatMessage
@@ -191,6 +201,7 @@ export const ChatView = () => {
                                         translationIsLoading={translationIsLoading}
                                         isWaitingForMessage={false}
                                         conversationStatus={conversationStatus}
+                                        infoModalIsOpen={infoModalIsOpen}
                                     />
                                 )}
                             </div>
@@ -204,6 +215,8 @@ export const ChatView = () => {
                                 translationIsLoading={translationIsLoading}
                                 isWaitingForMessage={true}
                                 conversationStatus={conversationStatus}
+                                infoModalIsOpen={infoModalIsOpen}
+
                             />
                         ) : null}
 
@@ -226,13 +239,30 @@ export const ChatView = () => {
                               transcribeAndSendSpeechInput={transcribeAndSendSpeechInput}
                               finishConversation={finishConversation}
                               hideChat={hideChat}
-                              setHideChat={setHideChat}/>
+                              setHideChat={setHideChat}
+                              openInfoModal={openInfoModal}/>
                 </div>
+                <Modal
+                    isOpen={infoModalIsOpen}
+                    onRequestClose={closeInfoModal}
+                    contentLabel="Information zur Konversation erhalten"
+                    className={css.popUpInfo}
+                >
+                    {!isHighscore ?
+                        <ConversationContextInfoBox closeModal={closeInfoModal} szenario={currentExercise?.szenario}
+                                                    roleSystem={currentExercise?.roleSystem}
+                                                    roleUser={currentExercise?.roleUser}/>
+                        :
+                        <ConversationContextInfoBox closeModal={closeInfoModal}
+                                                    szenario={highScoreConversation?.szenario}
+                                                    roleSystem={highScoreConversation?.roleSystem}
+                                                    roleUser={highScoreConversation?.roleUser}/>
+                    }
+                </Modal>
                 <div>
                     <ConversationFinishedPopUp conversationStatus={conversationStatus}/>
                 </div>
             </div>
         </>
-    )
-        ;
+    );
 }

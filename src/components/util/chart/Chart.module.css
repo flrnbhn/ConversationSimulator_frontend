@@ -1,3 +1,6 @@
 .chartContainer {
+    position: relative; /* Position relativ setzen */
     margin: 0 auto;
+    width: 40%; /* Beispiel: 80% der übergeordneten Breite */
+    min-width: 500px; /* Mindestbreite festlegen */
 }

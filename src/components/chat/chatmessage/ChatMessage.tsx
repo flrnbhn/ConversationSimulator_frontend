@@ -17,6 +17,7 @@ interface ChatMessageProps {
     translationIsLoading: boolean;
     isWaitingForMessage: boolean;
     conversationStatus: ConversationStatus
+    infoModalIsOpen: boolean
 }
 
 export const ChatMessage: React.FunctionComponent<ChatMessageProps> = ({
@@ -27,6 +28,7 @@ export const ChatMessage: React.FunctionComponent<ChatMessageProps> = ({
                                                                            translationIsLoading,
                                                                            isWaitingForMessage,
                                                                            conversationStatus,
+                                                                           infoModalIsOpen
                                                                        }) => {
     const [{conversationMember, message}] = useState<MessageData>(messageData);
 
@@ -69,7 +71,7 @@ export const ChatMessage: React.FunctionComponent<ChatMessageProps> = ({
                     <p className={css.chatMessage}>
                         <strong>{role}:</strong> {message}
                         <span
-                            className={conversationStatus === ConversationStatus.FAILED || conversationStatus === ConversationStatus.PASSED ? css.translateButtonContainer_nonClickable : css.translateButtonContainer_clickable}>
+                            className={conversationStatus === ConversationStatus.FAILED || conversationStatus === ConversationStatus.PASSED || infoModalIsOpen ? css.translateButtonContainer_nonClickable : css.translateButtonContainer_clickable}>
                 {messageData.conversationMember === ConversationMember.PARTNER && messageData.translation === null ? (
                     <>
                         {!translationIsLoading || !isTranslationClicked ? (

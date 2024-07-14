@@ -42,12 +42,13 @@ export const useConversation = () => {
         isHighscore,
         setIsHighscore,
         highScoreConversation,
-        setHighScoreConversation
+        setHighScoreConversation,
+        conversationStatus,
+        setConversationStatus
     } = useContext(ConversationContext)!;
     const [completedTaskDescriptions, setCompletedTaskDescriptions] = useState<TaskDescriptionData[]>([]);
     const {allTasksForExercise} = useContext(ExerciseContext)!;
     const {currentExercise} = useContext(ExerciseContext)!;
-    const [conversationStatus, setConversationStatus] = useState<ConversationStatus>(ConversationStatus.NOT_STARTED);
     const {learnerId} = useContext(LearnerContext)!;
     const [audioPlayed, setAudioPlayed] = useState<boolean>(false);
     const [audioState, setAudioState] = useState<HTMLAudioElement | null>(null);

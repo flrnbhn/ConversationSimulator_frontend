@@ -25,9 +25,20 @@
 
 }
 
-.points {
+.points, .score {
     color: #029602;
 }
+
+.points_red, .score_red {
+    color: #a90202;
+
+}
+
+.score, .score_red {
+    font-size: 30px;
+}
+
+
 
 .seperator {
     border-color: rgba(10, 10, 10, 0.65);

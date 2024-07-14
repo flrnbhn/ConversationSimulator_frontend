@@ -5,6 +5,7 @@ import {useNavigate} from "react-router";
 import {StylingContext} from "../../context/stylingcontext/StylingContext";
 import css from "./HighScoreGameView.module.css"
 import {LoadingBar} from "../util/loadingbar/LoadingBar";
+import {ConversationStatus} from "../../types/conersationstatus/ConversationStatus";
 
 export const HighScoreGameView = () => {
     const navigate = useNavigate();
@@ -18,7 +19,8 @@ export const HighScoreGameView = () => {
         setIsHighscore,
         deleteConversation,
         setHighScoreConversation,
-        isHighscore
+        isHighscore,
+        setConversationStatus
     } = useConversation();
 
     const enterConversation = (exerciseId: number) => {
@@ -33,7 +35,7 @@ export const HighScoreGameView = () => {
     useEffect(() => {
         setCurrentHeadline("Highscore Spiel")
         setIsHighscore(true);
-
+        setConversationStatus(ConversationStatus.NOT_STARTED)
     }, []);
 
     useEffect(() => {

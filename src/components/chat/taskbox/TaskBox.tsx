@@ -16,7 +16,7 @@ export const TaskBox: React.FunctionComponent<TaskBoxProps> = ({completedTaskDes
     const {isLighMode} = useContext(StylingContext)!;
 
     return (
-        <div className={css.taskBoxContainer}>
+        <div className={css.taskBoxContainer}> {}
             <table className={css.taskTable}>
                 {allTaskDescriptions.map((taskDescription, index) => (
                     <tr>

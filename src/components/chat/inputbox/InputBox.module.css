@@ -32,6 +32,15 @@
 
 }
 
+.infoConversationButton {
+    background-color: #0B2A65;
+    position: absolute; /* Absolute Positionierung */
+    top: 50%; /* Zentriert den Button vertikal */
+    left: 0.5%; /* Positioniert den Button am linken Rand */
+    transform: translateY(-50%); /* Korrigiert die vertikale Positionierung */
+
+}
+
 
 .speechButton_recorded:hover {
     background-color: #0c4d0a;
@@ -70,7 +79,7 @@
 
 }
 
-.sendButton, .speechButton_recorded, .speechButton_notRecorded, .hideChatButton {
+.sendButton, .speechButton_recorded, .speechButton_notRecorded, .hideChatButton, .infoConversationButton {
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -80,7 +89,7 @@
     transition: background-color 0.3s ease;
 }
 
-.sendButton:hover, .speechButton_notRecorded:hover, .hideChatButton:hover {
+.sendButton:hover, .speechButton_notRecorded:hover, .hideChatButton:hover, .infoConversationButton:hover {
     background-color: #0F3A7A;
 }
 
